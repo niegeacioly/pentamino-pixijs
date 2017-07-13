@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hello World</title>
+  <script src="../bin/pixi.min.js"></script>
+</head>
+<body>
+  <style>* {padding: 0; margin: 0}</style>
+  <script type="text/javascript">
+  
+    var stage = new PIXI.Container(),
+      renderer = PIXI.autoDetectRenderer(256, 256);
+    document.body.appendChild(renderer.view);
+
+    //Use Pixi's built-in `loader` object to load an image
+    PIXI.loader.add("images/cat.png").load(setup);
+
+    var cat;
+
+    //This `setup` function will run when the image has loaded
+    function setup() {
+
+      //Create the `cat` sprite from the texture
+      cat = new PIXI.Sprite(
+        PIXI.loader.resources["images/cat.png"].texture
+      );
+
+      cat.position.set(96, 96);
+      
+      cat.scale.set(0.5, 0.5);
+
+      cat.rotation = 0.5;
+      cat.anchor.set(0.5, 0.5);
+
+      cat.vx = 0;
+      cat.vy = 0;
+
+      //Add the cat to the stage
+      stage.addChild(cat);
+      
+      // //Render the stage   
+      // renderer.render(stage);
+      gameLoop();
+    }
+
+    var state = play;
+
+    function gameLoop(){
+
+      //Loop this function 60 times per second
+      requestAnimationFrame(gameLoop);
+
+      //Update the cat's velocity
+      cat.vx = 1;
+      cat.vy = 1;
+
+      //Apply the velocity values to the cat's 
+      //position to make it move
+      cat.x += cat.vx;
+      cat.y += cat.vy;
+
+      //Render the stage
+      renderer.render(stage);
+    }
+  </script>
+</body>
+</html>

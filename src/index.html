@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hello World</title>
+  <script src="../../bin/pixi.min.js"></script>
+</head>
+<body>
+  <style>* {padding: 0; margin: 0}</style>
+  <script type="text/javascript">
+    var type = "WebGL"
+    if(!PIXI.utils.isWebGLSupported()){
+      type = "canvas"
+    }
+
+    PIXI.utils.sayHello(type)
+
+    //Create the renderer
+    var renderer = PIXI.autoDetectRenderer(256, 256,
+          {antialias: false, transparent: false, resolution: 1}
+    );
+
+    renderer = new PIXI.CanvasRenderer(256, 256);
+
+    renderer = new PIXI.WebGLRenderer(256, 256);
+    renderer.view.style.border = "1px dashed black";
+    renderer.backgroundColor = 0x061639;
+    renderer.autoResize = true;
+    renderer.resize(512, 512);
+    renderer.view.style.position = "absolute";
+    renderer.view.style.display = "block";
+    renderer.autoResize = true;
+    renderer.resize(window.innerWidth, window.innerHeight);
+    
+    //Add the canvas to the HTML document
+    document.body.appendChild(renderer.view);
+
+    //Create a container object called the 'stage'
+    var stage = new PIXI.Container();
+
+    //Tell the 'renderer' to 'render' the 'stage'
+    renderer.render(stage);
+
+    var texture = PIXI.utils.TextureCache["images/dogs.jpg"];
+    var sprite = new PIXI.Sprite(texture);
+    PIXI.loader.add("images/dogs.jpg").load(setup);
+
+    function setup() {
+         var sprite = new PIXI.Sprite(
+            PIXI.loader.resources["images/dogs.jpg"].texture
+        );
+    }
+
+  </script>
+</body>
+</html>
