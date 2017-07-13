@@ -22,18 +22,18 @@
         document.body.appendChild(renderer.view);
 
         loader
-        .add("images/cat.png")
-        .load(setup);
+            .add("images/square.png")
+            .load(setup);
         
         var cat;
 
         function setup() {
 
             //Create the `cat` sprite 
-            cat = new Sprite(resources["images/cat.png"].texture);
-            cat.y = 96; 
-            cat.vx = 50;
-            cat.vy = 50;
+            cat = new Sprite(resources["images/square.png"].texture);
+            cat.y = 0; 
+            cat.vx = 0;
+            cat.vy = 0;
             cat.interactive = true;
 
             // setup events
@@ -45,7 +45,8 @@
                 .on('touchend', onDragEnd)
                 .on('touchendoutside', onDragEnd)
                 .on('mousemove', onDragMove)
-                .on('touchmove', onDragMove);
+                .on('touchmove', onDragMove)
+                .on('click',onClick);
                 
             stage.addChild(cat);
         }
@@ -78,6 +79,11 @@
                 this.position.x = newPosition.x;
                 this.position.y = newPosition.y;
             }
+        }
+
+        function onClick()
+        {
+            cat.rotation = cat.rotation + 1.0;
         }
 
         // run the render loop
