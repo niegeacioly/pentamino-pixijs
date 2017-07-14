@@ -17,12 +17,19 @@
             Sprite = PIXI.Sprite;
 
         var stage = new Container(), renderer = autoDetectRenderer(800, 600, { antialias: true });
+        renderer.view.style.border = "1px dashed black";
+        renderer.backgroundColor = 0xD2CEEE;
+        renderer.autoResize = true;
+        renderer.resize(512, 512);
+        renderer.view.style.position = "absolute";
+        renderer.view.style.display = "block";
+        renderer.autoResize = true;
         stage.interactive = true;
 
         document.body.appendChild(renderer.view);
 
         loader
-            .add("images/square.png")
+            .add("images/block.png")
             .load(setup);
         
         var cat;
@@ -30,7 +37,7 @@
         function setup() {
 
             //Create the `cat` sprite 
-            cat = new Sprite(resources["images/square.png"].texture);
+            cat = new Sprite(resources["images/block.png"].texture);
             cat.y = 0; 
             cat.vx = 0;
             cat.vy = 0;
