@@ -32,29 +32,43 @@
             .add("images/block.png")
             .load(setup);
         
-        var cat;
-
         function setup() {
 
-            //Create the `cat` sprite 
-            cat = new Sprite(resources["images/block.png"].texture);
-            cat.y = 0; 
-            cat.vx = 0;
-            cat.vy = 0;
-            cat.interactive = true;
+            //Create the `cat` sprite
+            var block1 = new Sprite(resources["images/block.png"].texture);
+            block1.y = 0; 
+            block1.vx = 0;
+            block1.vy = 0;
+            block1.interactive = true;
 
-            // setup events
-            cat.on('mousedown', onDragStart)
-                .on('touchstart', onDragStart)
-                .on('mouseup', onDragEnd)
-                .on('mouseupoutside', onDragEnd)
-                .on('touchend', onDragEnd)
-                .on('touchendoutside', onDragEnd)
-                .on('mousemove', onDragMove)
-                .on('touchmove', onDragMove)
-                .on('click',onClick);
-                
-            stage.addChild(cat);
+            var block2 = new Sprite(resources["images/block.png"].texture);
+            block2.y = 0;
+            block2.x = block1.height;
+            block2.interactive = true;
+
+            var block3 = new Sprite(resources["images/block.png"].texture);
+            block3.y = block2.height;
+            block3.x = 0;
+            block3.interactive = true;
+
+            var block4 = new Sprite(resources["images/block.png"].texture);
+            block4.y = block3.height;
+            block4.x = block3.width;
+            block4.interactive = true;
+
+            var block5 = new Sprite(resources["images/block.png"].texture);
+            block5.y = block4.height + block4.height;
+            block5.x = 0;
+            block5.interactive = true;
+
+            stage.addChild(block1);
+            stage.addChild(block2);
+            stage.addChild(block3);
+            stage.addChild(block4);
+            stage.addChild(block5);
+            stage.interactive = true;
+
+            createDragAndDropFor(stage);
         }
 
         function onDragStart(event)
@@ -85,6 +99,24 @@
                 this.position.x = newPosition.x;
                 this.position.y = newPosition.y;
             }
+        }
+
+        function createDragAndDropAndClickFor(target){  
+            target.interactive = true;
+            target.on("mousedown", function(e){s
+                drag = target;
+            });
+            target.on("mouseup", function(e){
+                drag = false;
+            });
+            target.on("mousemove", function(e){
+                if(drag){
+                    drag.position.x += e.data.originalEvent.movementX;
+                    drag.position.y += e.data.originalEvent.movementY;
+                }
+            });
+            target.on("click", function(e){
+            });
         }
 
         function onClick()
