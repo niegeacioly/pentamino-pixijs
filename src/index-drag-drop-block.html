@@ -12,94 +12,130 @@
       //Aliases
         var Container = PIXI.Container,
             autoDetectRenderer = PIXI.autoDetectRenderer,
-            loader = PIXI.loader,
+            loaderP = PIXI.loader, 
+            loaderT = PIXI.loader, 
             resources = PIXI.loader.resources,
             Sprite = PIXI.Sprite;
 
-        var stage = new Container(), renderer = autoDetectRenderer(800, 600, { antialias: true });
-        renderer.view.style.border = "1px dashed black";
-        renderer.backgroundColor = 0xD2CEEE;
+        var stage = new Container(), renderer = autoDetectRenderer(800, 600, { antialias: true }, true);
         renderer.autoResize = true;
-        renderer.resize(512, 512);
-        renderer.view.style.position = "absolute";
-        renderer.view.style.display = "block";
-        renderer.autoResize = true;
-        stage.interactive = true;
 
         document.body.appendChild(renderer.view);
 
-        loader
+        loaderP
             .add("images/block.png")
-            .load(setup);
-        
-        function setup() {
+            .load(setupLetterP)
+            .load(setupLetterT);
 
-            //Create the `cat` sprite
-            var block1 = new Sprite(resources["images/block.png"].texture);
+        var drag = false; 
+        
+        function setupLetterP() {
+
+            //Create the sprites
+            gameSceneP = new Container();
+            stage.addChild(gameSceneP);
+            resource = resources["images/block.png"].texture;
+            var block1 = new Sprite(resource);
             block1.y = 0; 
             block1.vx = 0;
             block1.vy = 0;
-            block1.interactive = true;
 
-            var block2 = new Sprite(resources["images/block.png"].texture);
+            var block2 = new Sprite(resource);
             block2.y = 0;
             block2.x = block1.height;
-            block2.interactive = true;
 
-            var block3 = new Sprite(resources["images/block.png"].texture);
+            var block3 = new Sprite(resource);
             block3.y = block2.height;
             block3.x = 0;
-            block3.interactive = true;
 
-            var block4 = new Sprite(resources["images/block.png"].texture);
+            var block4 = new Sprite(resource);
             block4.y = block3.height;
             block4.x = block3.width;
-            block4.interactive = true;
 
-            var block5 = new Sprite(resources["images/block.png"].texture);
+            var block5 = new Sprite(resource);
             block5.y = block4.height + block4.height;
             block5.x = 0;
-            block5.interactive = true;
 
-            stage.addChild(block1);
-            stage.addChild(block2);
-            stage.addChild(block3);
-            stage.addChild(block4);
-            stage.addChild(block5);
-            stage.interactive = true;
+            gameSceneP.addChild(block1);
+            gameSceneP.addChild(block2);
+            gameSceneP.addChild(block3);
+            gameSceneP.addChild(block4);
+            gameSceneP.addChild(block5);
+            gameSceneP.interactive = true;
 
-            createDragAndDropAndClickFor(stage);
+            var drag = false; 
+            createDragAndDropAndClickFor(gameSceneP);
         }
 
-        function onDragStart(event)
-        {
-            // store a reference to the data
-            // the reason for this is because of multitouch
-            // we want to track the movement of this particular touch
-            this.data = event.data;
-            this.alpha = 0.5;
-            this.dragging = true;
+        function setupLetterT() {
+
+            //Create the sprites
+            gameSceneT = new Container();
+            stage.addChild(gameSceneT);
+
+            resource = resources["images/block.png"].texture;
+            var block1 = new Sprite(resource);
+            block1.y = 0; 
+            block1.x = block1.height * 5;
+
+            var block2 = new Sprite(resource);
+            block2.y = block1.height;
+            block2.x = block1.height * 5;
+
+            var block3 = new Sprite(resource);
+            block3.y = block1.height + block2.height;
+            block3.x = block1.height * 5;
+
+            var block3 = new Sprite(resource);
+            block3.y = block1.height + block2.height;
+            block3.x = block1.height * 5;
+
+            var block4 = new Sprite(resource);
+            block4.y = block1.height + block2.height;
+            block4.x = block1.height * 4;
+
+            var block5 = new Sprite(resource);
+            block5.y = block1.height + block2.height;
+            block5.x = block1.height * 6;
+
+            gameSceneT.addChild(block1);
+            gameSceneT.addChild(block2);
+            gameSceneT.addChild(block3);
+            gameSceneT.addChild(block4);
+            gameSceneT.addChild(block5);
+            gameSceneT.interactive = true;
+            
+            createDragAndDropAndClickFor(gameSceneT);
+            
         }
 
-        function onDragEnd()
-        {
-            this.alpha = 1;
+        // function onDragStart(event)
+        // {
+        //     // store a reference to the data the reason for this is because of multitouch we want to track the movement of this particular touch
+        //     this.data = event.data;
+        //     this.alpha = 0.5;
+        //     this.dragging = true;
+        // }
 
-            this.dragging = false;
+        // function onDragEnd()
+        // {
+        //     this.alpha = 1;
 
-            // set the interaction data to null
-            this.data = null;
-        }
+        //     this.dragging = false;
 
-        function onDragMove()
-        {
-            if (this.dragging)
-            {
-                var newPosition = this.data.getLocalPosition(this.parent);
-                this.position.x = newPosition.x;
-                this.position.y = newPosition.y;
-            }
-        }
+        //     // set the interaction data to null
+        //     this.data = null;
+        // }
+
+        // function onDragMove()
+        // {
+        //     if (this.dragging)
+        //     {
+        //         var newPosition = this.data.getLocalPosition(this.parent);
+        //         this.position.x = newPosition.x;
+        //         this.position.y = newPosition.y;
+        //     }
+        // }
 
         function createDragAndDropAndClickFor(target){  
             target.interactive = true;
@@ -111,25 +147,22 @@
             });
             target.on("mousemove", function(e){
                 if(drag){
+                    console.log(e.data.originalEvent.movementX);
+                    console.log(e.data.originalEvent.movementY);
                     drag.position.x += e.data.originalEvent.movementX;
                     drag.position.y += e.data.originalEvent.movementY;
                 }
             });
-            target.on("click", function(e){
-                target.rotation = target.rotation + 90;
-            });
-        }
-
-        function onClick()
-        {
-            cat.rotation = cat.rotation + 90;
+            // target.on("click", function(e){
+            //     e.rotation = e.rotation + 1;
+            // });
         }
 
         // run the render loop
         animate();
 
-        function animate() {
-
+        function animate() 
+        {
             renderer.render(stage);
             requestAnimationFrame( animate );
         }
