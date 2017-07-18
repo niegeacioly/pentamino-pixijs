@@ -68,7 +68,7 @@
             stage.addChild(block5);
             stage.interactive = true;
 
-            createDragAndDropFor(stage);
+            createDragAndDropAndClickFor(stage);
         }
 
         function onDragStart(event)
@@ -103,7 +103,7 @@
 
         function createDragAndDropAndClickFor(target){  
             target.interactive = true;
-            target.on("mousedown", function(e){s
+            target.on("mousedown", function(e){
                 drag = target;
             });
             target.on("mouseup", function(e){
@@ -116,6 +116,7 @@
                 }
             });
             target.on("click", function(e){
+                target.rotation = target.rotation + 90;
             });
         }
 
