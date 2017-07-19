@@ -62,9 +62,20 @@
             gameSceneP.addChild(block4);
             gameSceneP.addChild(block5);
             gameSceneP.interactive = true;
+            
+            // setup events
+            gameSceneP.on('mousedown', onDragStart)
+                .on('touchstart', onDragStart)
+                .on('mouseup', onDragEnd)
+                .on('mouseupoutside', onDragEnd)
+                .on('touchend', onDragEnd)
+                .on('touchendoutside', onDragEnd)
+                .on('mousemove', onDragMove)
+                .on('touchmove', onDragMove);
+                // .on('click',onClick);
 
-            var drag = false; 
-            createDragAndDropAndClickFor(gameSceneP);
+            // drag = false;
+            // createDragAndDropAndClickFor(gameSceneP);
         }
 
         function setupLetterT() {
@@ -86,10 +97,6 @@
             block3.y = block1.height + block2.height;
             block3.x = block1.height * 5;
 
-            var block3 = new Sprite(resource);
-            block3.y = block1.height + block2.height;
-            block3.x = block1.height * 5;
-
             var block4 = new Sprite(resource);
             block4.y = block1.height + block2.height;
             block4.x = block1.height * 4;
@@ -104,60 +111,47 @@
             gameSceneT.addChild(block4);
             gameSceneT.addChild(block5);
             gameSceneT.interactive = true;
+
+            gameSceneT.on('mousedown', onDragStart)
+                .on('touchstart', onDragStart)
+                .on('mouseup', onDragEnd)
+                .on('mouseupoutside', onDragEnd)
+                .on('touchend', onDragEnd)
+                .on('touchendoutside', onDragEnd)
+                .on('mousemove', onDragMove)
+                .on('touchmove', onDragMove);
             
-            createDragAndDropAndClickFor(gameSceneT);
-            
+            // drag = false;
+            // createDragAndDropAndClickFor(gameSceneT);
         }
 
-        // function onDragStart(event)
-        // {
-        //     // store a reference to the data the reason for this is because of multitouch we want to track the movement of this particular touch
-        //     this.data = event.data;
-        //     this.alpha = 0.5;
-        //     this.dragging = true;
-        // }
-
-        // function onDragEnd()
-        // {
-        //     this.alpha = 1;
-
-        //     this.dragging = false;
-
-        //     // set the interaction data to null
-        //     this.data = null;
-        // }
-
-        // function onDragMove()
-        // {
-        //     if (this.dragging)
-        //     {
-        //         var newPosition = this.data.getLocalPosition(this.parent);
-        //         this.position.x = newPosition.x;
-        //         this.position.y = newPosition.y;
-        //     }
-        // }
-
-        function createDragAndDropAndClickFor(target){  
-            target.interactive = true;
-            target.on("mousedown", function(e){
-                drag = target;
-            });
-            target.on("mouseup", function(e){
-                drag = false;
-            });
-            target.on("mousemove", function(e){
-                if(drag){
-                    console.log(e.data.originalEvent.movementX);
-                    console.log(e.data.originalEvent.movementY);
-                    drag.position.x += e.data.originalEvent.movementX;
-                    drag.position.y += e.data.originalEvent.movementY;
-                }
-            });
-            // target.on("click", function(e){
-            //     e.rotation = e.rotation + 1;
-            // });
+        function onDragStart(event)
+        {
+            // store a reference to the data the reason for this is because of multitouch we want to track the movement of this particular touch
+            this.data = event.data;
+            this.alpha = 0.5;
+            this.dragging = true;
         }
 
+        function onDragEnd()
+        {
+            this.alpha = 1;
+
+            this.dragging = false;
+
+            // set the interaction data to null
+            this.data = null;
+        }
+
+        function onDragMove()
+        {
+            if (this.dragging)
+            {
+                this.position.x += this.data.originalEvent.movementX;
+                this.position.y += this.data.originalEvent.movementY;
+            }
+        }
+        
         // run the render loop
         animate();
 
