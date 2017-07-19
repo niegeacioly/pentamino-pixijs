@@ -18,6 +18,7 @@
             Sprite = PIXI.Sprite;
 
         var stage = new Container(), renderer = autoDetectRenderer(800, 600, { antialias: true }, true);
+        renderer.
         renderer.autoResize = true;
 
         document.body.appendChild(renderer.view);
@@ -151,7 +152,7 @@
                 this.position.y += this.data.originalEvent.movementY;
             }
         }
-        
+
         // run the render loop
         animate();
 
