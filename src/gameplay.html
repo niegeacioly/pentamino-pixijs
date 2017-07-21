@@ -9,6 +9,7 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
       <link rel="stylesheet" href="gameplay.css">
       <script src="../bin/pixi.min.js"></script>
+      <script src="../bin/scaleToWindow.js"></script>
 
       </head>
       <body>
@@ -16,10 +17,10 @@
             <a class="navbar-brand" href="#">
               <img src="images/logo_pentamino.png" class="img-fluid" width="200" height="auto" class="d-inline-block align-top" alt="Pentaminó">
             </a>
-          </nav>
+          </nav>    
 
            <!-- Game paly -->
-          <section>
+          <!-- <section>
           <div id="gameplay">
               <div class="linha">
                   <div class="casa" id="casa1"></div>
@@ -154,26 +155,24 @@
                   <div class="casa" id="casa20"></div>
               </div>
           </div>
-          </section>
+          </section> -->
 
           <script type="text/javascript">
 
                 //Aliases
                     var Container = PIXI.Container,
                         autoDetectRenderer = PIXI.autoDetectRenderer,
-                        loaderP = PIXI.loader,
-                        loaderT = PIXI.loader,
+                        loader = PIXI.loader,
                         resources = PIXI.loader.resources,
                         Sprite = PIXI.Sprite;
 
-                    var stage = new Container(), renderer = autoDetectRenderer(1000, 240, { antialias: true }, true);
+                    var stage = new Container(), renderer = autoDetectRenderer(1000, 1000, { antialias: true }, true);
                     renderer.view.style.border = "1px dashed black";
                     renderer.backgroundColor = 0x232325;
-                    renderer.autoResize = true;
 
                     document.body.appendChild(renderer.view);
 
-                    loaderP
+                    loader
                         .add("images/block.png")
                         .load(setupLetterP)
                         .load(setupLetterT);
@@ -190,27 +189,28 @@
                         block1.y = 0;
                         block1.vx = 0;
                         block1.vy = 0;
-                        block1.anchor.set(0.5, 0.5);
 
-                        var block2 = new Sprite(resource);
+                        var block2 = new Sprite(resource);  
                         block2.y = 0;
                         block2.x = block1.height;
-                        block2.anchor.set(0.5, 0.5);
 
                         var block3 = new Sprite(resource);
                         block3.y = block2.height;
                         block3.x = 0;
-                        block3.anchor.set(0.5, 0.5);
 
                         var block4 = new Sprite(resource);
                         block4.y = block3.height;
                         block4.x = block3.width;
-                        block4.anchor.set(0.5, 0.5);
 
                         var block5 = new Sprite(resource);
                         block5.y = block4.height + block4.height;
                         block5.x = 0;
-                        block5.anchor.set(0.5, 0.5);
+
+                        block1.anchor.set(0.5);
+                        block2.anchor.set(0.5);
+                        block3.anchor.set(0.5);
+                        block4.anchor.set(0.5);
+                        block5.anchor.set(0.5);
 
                         gameSceneP.addChild(block1);
                         gameSceneP.addChild(block2);
@@ -218,12 +218,8 @@
                         gameSceneP.addChild(block4);
                         gameSceneP.addChild(block5);
                         gameSceneP.interactive = true;
+                        gameSceneP.rotation = 0;
 
-                        // the below code would shift the container 0.5 pixels along the x and y coords.
-                        // gameSceneP.pivot.set(gameSceneP.width / 2,  gameSceneP.height / 2);
-                        // gameSceneP.pivot.x = gameSceneP.width / 2;
-                        // gameSceneP.pivot.y = gameSceneP.height / 2;
-                        
                         // setup events
                         gameSceneP.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -232,8 +228,8 @@
                             .on('touchend', onDragEnd)
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
-                            .on('click', onClick)
-                            .on('touchmove', onDragMove);
+                            .on('touchmove', onDragMove)
+                            .on('click', onClick);
                     }
 
                     function setupLetterT() {
@@ -246,27 +242,28 @@
                         var block1 = new Sprite(resource);
                         block1.y = 0;
                         block1.x = block1.height * 5;
-                        block1.anchor.set(0.5, 0.5);
 
                         var block2 = new Sprite(resource);
                         block2.y = block1.height;
                         block2.x = block1.height * 5;
-                        block2.anchor.set(0.5, 0.5);
 
                         var block3 = new Sprite(resource);
                         block3.y = block1.height + block2.height;
                         block3.x = block1.height * 5;
-                        block3.anchor.set(0.5, 0.5);
 
                         var block4 = new Sprite(resource);
                         block4.y = block1.height + block2.height;
                         block4.x = block1.height * 4;
-                        block4.anchor.set(0.5, 0.5);
 
                         var block5 = new Sprite(resource);
                         block5.y = block1.height + block2.height;
                         block5.x = block1.height * 6;
-                        block5.anchor.set(0.5, 0.5);
+
+                        block1.anchor.set(0.5);
+                        block2.anchor.set(0.5);
+                        block3.anchor.set(0.5);
+                        block4.anchor.set(0.5);
+                        block5.anchor.set(0.5);
 
                         gameSceneT.addChild(block1);
                         gameSceneT.addChild(block2);
@@ -274,9 +271,12 @@
                         gameSceneT.addChild(block4);
                         gameSceneT.addChild(block5);
                         gameSceneT.interactive = true;
+                        gameSceneT.rotation = 0;
+                        gameSceneT.pivot.set(gameSceneT.width / 16, window.height / 16);
 
-                        // center the sprites anchor point
-                        // gameSceneT.pivot.set(gameSceneT.width / 2,  gameSceneT.height / 2);
+                        gameSceneT.click = function (event) {
+                            gameSceneT.rotation += Math.PI / 2;
+                        }.bind(this);
 
                         gameSceneT.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -285,30 +285,37 @@
                             .on('touchend', onDragEnd)
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
-                            .on('click', onClick)
                             .on('touchmove', onDragMove);
+                            // .on('click', onClick);
                     }
 
-                    function onDragStart(event)
-                    {
+                    function onDragStart(event) {
                         // store a reference to the data the reason for this is because of multitouch we want to track the movement of this particular touch
+                        this.start_data = {x: event.data.originalEvent.screenX, y: event.data.originalEvent.screenY};
                         this.data = event.data;
                         this.alpha = 0.5;
                         this.dragging = true;
                     }
 
-                    function onDragEnd()
-                    {
+                    function onDragEnd(event) {
+
+                        var ev_data = event.data.originalEvent;
+
                         this.alpha = 1;
 
                         this.dragging = false;
+
+                        if (this.start_data) {
+                            if (Math.abs(this.start_data.x - ev_data.screenX) > 2 || Math.abs(this.start_data.y - ev_data.screenY) > 2) {
+                                event.stopPropagation();
+                            }
+                        }
 
                         // set the interaction data to null
                         this.data = null;
                     }
 
-                    function onDragMove()
-                    {
+                    function onDragMove() {
                         if (this.dragging)
                         {
                             this.position.x += this.data.originalEvent.movementX;
@@ -316,12 +323,9 @@
                         }
                     }
 
-                    function onClick()
+                    function onClick(event)
                     {
-                        if (!this.dragging)
-                        {
-                            this.rotation += Math.PI / 2;
-                        }
+                        event.target.rotation += Math.PI / 2;
                     }
 
                     // run the render loop
@@ -332,6 +336,10 @@
                         renderer.render(stage);
                         requestAnimationFrame( animate );
                     }
+
+                    window.addEventListener("resize", function(event){ 
+                        scaleToWindow(renderer.view);
+                    });
 
             </script>
       </body>
