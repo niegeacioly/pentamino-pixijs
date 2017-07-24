@@ -8,7 +8,7 @@
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
       <link rel="stylesheet" href="gameplay.css">
-      <script src="../bin/pixi.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
       <script src="../bin/scaleToWindow.js"></script>
 
       </head>
@@ -183,42 +183,45 @@
 
                         //Create the sprites
                         gameSceneP = new Container();
-                        stage.addChild(gameSceneP);
+                        gameSceneP.interactive = true;
+                        gameSceneP.position.rotation = 0;
+                        gameSceneP.x = 20;
+                        gameSceneP.y = 20;
+                        gameSceneP.rotation = 0;
+                        gameSceneP.pivot.x = 0.5;
+                        gameSceneP.pivot.y = 0.5;
+
                         resource = resources["images/block.png"].texture;
                         var block1 = new Sprite(resource);
-                        block1.y = 0;
-                        block1.vx = 0;
-                        block1.vy = 0;
-
-                        var block2 = new Sprite(resource);  
-                        block2.y = 0;
-                        block2.x = block1.height;
-
+                        var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
-                        block3.y = block2.height;
-                        block3.x = 0;
-
                         var block4 = new Sprite(resource);
-                        block4.y = block3.height;
-                        block4.x = block3.width;
-
                         var block5 = new Sprite(resource);
-                        block5.y = block4.height + block4.height;
-                        block5.x = 0;
-
-                        block1.anchor.set(0.5);
-                        block2.anchor.set(0.5);
-                        block3.anchor.set(0.5);
-                        block4.anchor.set(0.5);
-                        block5.anchor.set(0.5);
 
                         gameSceneP.addChild(block1);
+                        block1.anchor.set(0.5, 0.5);
+                        block1.position.y = 0;
+                        block1.position.x = 0;
+
                         gameSceneP.addChild(block2);
+                        block2.anchor.set(0.5, 0.5);
+                        block2.position.y = 0;
+                        block2.position.x = block1.height;
+
                         gameSceneP.addChild(block3);
+                        block3.anchor.set(0.5, 0.5);
+                        block3.position.y = block2.height;
+                        block3.position.x = 0;
+
                         gameSceneP.addChild(block4);
+                        block4.anchor.set(0.5, 0.5);
+                        block4.position.y = block3.height;
+                        block4.position.x = block3.width;
+
                         gameSceneP.addChild(block5);
-                        gameSceneP.interactive = true;
-                        gameSceneP.rotation = 0;
+                        block5.anchor.set(0.5, 0.5);
+                        block5.position.y = block4.height + block4.height;
+                        block5.position.x = 0;
 
                         // setup events
                         gameSceneP.on('mousedown', onDragStart)
@@ -230,53 +233,54 @@
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
                             .on('click', onClick);
+                        
+                        stage.addChild(gameSceneP);
+
                     }
 
                     function setupLetterT() {
 
                         //Create the sprites
                         gameSceneT = new Container();
-                        stage.addChild(gameSceneT);
+                        gameSceneT.interactive = true;
+                        gameSceneT.position.rotation = 0;
+                        gameSceneT.x = 50;
+                        gameSceneT.y = 20;
+                        gameSceneT.rotation = 0;
+                        gameSceneT.pivot.x = 0.5;
+                        gameSceneT.pivot.y = 0.5;
 
                         resource = resources["images/block.png"].texture;
                         var block1 = new Sprite(resource);
-                        block1.y = 0;
-                        block1.x = block1.height * 5;
-
                         var block2 = new Sprite(resource);
-                        block2.y = block1.height;
-                        block2.x = block1.height * 5;
-
                         var block3 = new Sprite(resource);
-                        block3.y = block1.height + block2.height;
-                        block3.x = block1.height * 5;
-
                         var block4 = new Sprite(resource);
-                        block4.y = block1.height + block2.height;
-                        block4.x = block1.height * 4;
-
                         var block5 = new Sprite(resource);
-                        block5.y = block1.height + block2.height;
-                        block5.x = block1.height * 6;
-
-                        block1.anchor.set(0.5);
-                        block2.anchor.set(0.5);
-                        block3.anchor.set(0.5);
-                        block4.anchor.set(0.5);
-                        block5.anchor.set(0.5);
 
                         gameSceneT.addChild(block1);
-                        gameSceneT.addChild(block2);
-                        gameSceneT.addChild(block3);
-                        gameSceneT.addChild(block4);
-                        gameSceneT.addChild(block5);
-                        gameSceneT.interactive = true;
-                        gameSceneT.rotation = 0;
-                        gameSceneT.pivot.set(gameSceneT.width / 16, window.height / 16);
+                        block1.anchor.set(0.5, 0.5);
+                        block1.position.y = 0;
+                        block1.position.x = block1.height * 5;
 
-                        gameSceneT.click = function (event) {
-                            gameSceneT.rotation += Math.PI / 2;
-                        }.bind(this);
+                        gameSceneT.addChild(block2);
+                        block2.anchor.set(0.5, 0.5);
+                        block2.position.y = block1.height;
+                        block2.position.x = block1.height * 5;
+
+                        gameSceneT.addChild(block3);
+                        block3.anchor.set(0.5, 0.5);
+                        block3.position.y = block1.height + block2.height;
+                        block3.position.x = block1.height * 5;
+
+                        gameSceneT.addChild(block4);
+                        block4.anchor.set(0.5, 0.5);
+                        block4.position.y = block1.height + block2.height;
+                        block4.position.x = block1.height * 4;
+
+                        gameSceneT.addChild(block5);
+                        block5.anchor.set(0.5, 0.5);
+                        block5.position.y = block1.height + block2.height;
+                        block5.position.x = block1.height * 6;
 
                         gameSceneT.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -285,8 +289,10 @@
                             .on('touchend', onDragEnd)
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
-                            .on('touchmove', onDragMove);
-                            // .on('click', onClick);
+                            .on('touchmove', onDragMove)
+                            .on('click', onClick);
+
+                        stage.addChild(gameSceneT);
                     }
 
                     function onDragStart(event) {
@@ -325,7 +331,11 @@
 
                     function onClick(event)
                     {
-                        event.target.rotation += Math.PI / 2;
+                        // var currentTarget = event.currentTarget;
+                        // console.log(currentTarget.start_data.x + ' - '  + currentTarget.start_data.y);
+                        // console.log(currentTarget.position.x + ' - '  + currentTarget.position.y);
+                        // currentTarget.rotation += Math.PI / 2;
+                        this.rotation += Math.PI / 2; 
                     }
 
                     // run the render loop
