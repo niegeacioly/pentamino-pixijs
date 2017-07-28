@@ -47,13 +47,13 @@ p{
 }
  
 .linha{
-    height:50px;
+    height:42px;
     border-bottom:solid 1px;
 }
  
 .casa{
-    width: 50px;
-    height: 50px;
+    width: 42px;
+    height: 42px;
     border-right: solid 1px;
     float: left;
     border-top: solid 0.5px;
