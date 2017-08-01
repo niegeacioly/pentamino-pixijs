@@ -29,13 +29,16 @@
                         resources = PIXI.loader.resources,
                         Sprite = PIXI.Sprite;
 
-                    var stage = new Container(), renderer = autoDetectRenderer(1000, 400, { antialias: true }, true);
+                    var stage = new Container(), renderer = autoDetectRenderer(1200, 400, { antialias: true }, true);
                     renderer.view.style.border = "1px dashed black";
-                    renderer.backgroundColor = 0x232325;
+                    renderer.backgroundColor = 0xffffff;
+
+                    var minPixel = 3;
 
                     document.body.appendChild(renderer.view);
 
                     loader
+                        .add("images/grid.png")
                         .add("images/blockp.png")
                         .add("images/blockt.png")
                         .add("images/blocki.png")
@@ -48,6 +51,7 @@
                         .add("images/blockn.png")
                         .add("images/blockw.png")
                         .add("images/blockf.png")
+                        .load(setupGrid)
                         .load(setupLetterP)
                         .load(setupLetterT)
                         .load(setupLetterI)
@@ -70,6 +74,17 @@
                     };
 
                     stage.updateLayersOrder();
+
+                    function setupGrid() {
+
+                        //Create the grid
+                        gridContainer = new Container();
+
+                        resource = resources["images/grid.png"].texture;
+                        var grid = new Sprite(resource);
+                        gridContainer.addChild(grid);
+                        stage.addChild(gridContainer);
+                    }
                     
                     function setupLetterP() {
 
@@ -99,21 +114,21 @@
                         gameSceneP.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
                         block2.position.y = 0;
-                        block2.position.x = block1.height;
+                        block2.position.x = block1.height - minPixel;
 
                         gameSceneP.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
-                        block3.position.y = block2.height;
+                        block3.position.y = block2.height - minPixel;
                         block3.position.x = 0;
 
                         gameSceneP.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
-                        block4.position.y = block3.height;
-                        block4.position.x = block3.width;
+                        block4.position.y = block3.height - minPixel;
+                        block4.position.x = block3.width - minPixel;
 
                         gameSceneP.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
-                        block5.position.y = block4.height + block4.height;
+                        block5.position.y = (block4.height - minPixel) + (block4.height - minPixel);
                         block5.position.x = 0;
 
                         // setup events
@@ -153,26 +168,26 @@
                         gameSceneT.addChild(block1);
                         block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
-                        block1.position.x = block1.height;
+                        block1.position.x = block1.height - minPixel;
 
                         gameSceneT.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
-                        block2.position.y = block1.height;
-                        block2.position.x = block1.width;
+                        block2.position.y = block1.height - minPixel;
+                        block2.position.x = block1.width - minPixel;
 
                         gameSceneT.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
-                        block3.position.y = block1.height + block2.height;
-                        block3.position.x = block1.width + block2.width ;
+                        block3.position.y = (block1.height - minPixel) + (block2.height - minPixel);
+                        block3.position.x = (block1.width - minPixel) + (block2.width - minPixel);
 
                         gameSceneT.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
-                        block4.position.y = block1.height + block2.height;
-                        block4.position.x = block1.height;
+                        block4.position.y = (block1.height - minPixel) + (block2.height - minPixel);
+                        block4.position.x = (block1.height - minPixel);
 
                         gameSceneT.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
-                        block5.position.y = block1.height + block1.height;
+                        block5.position.y = (block1.height - minPixel) + (block1.height - minPixel);
                         block5.position.x = 0;
 
                         gameSceneT.on('mousedown', onDragStart)
@@ -216,22 +231,22 @@
                         gameSceneI.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
                         block2.position.y = 0;
-                        block2.position.x = block1.width;
+                        block2.position.x = block1.width - minPixel;
 
                         gameSceneI.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
                         block3.position.y = 0;
-                        block3.position.x = block1.width + block2.width;
+                        block3.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneI.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
                         block4.position.y = 0;
-                        block4.position.x = block1.width + block2.width + block3.width;
+                        block4.position.x = block1.width + block2.width + block3.width - (minPixel * 3);
 
                         gameSceneI.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
                         block5.position.y = 0;
-                        block5.position.x = block1.width + block2.width + block3.width + block4.width;
+                        block5.position.x = block1.width + block2.width + block3.width + block4.width - (minPixel * 4);
 
                         gameSceneI.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -269,27 +284,27 @@
                         gameSceneX.addChild(block1);
                         block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
-                        block1.position.x = block1.width;
+                        block1.position.x = block1.width - minPixel;
 
                         gameSceneX.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
-                        block2.position.y = block1.height;
+                        block2.position.y = block1.height - minPixel;
                         block2.position.x = 0;
 
                         gameSceneX.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
-                        block3.position.y = block1.height;
-                        block3.position.x = block1.width;
+                        block3.position.y = block1.height - minPixel;
+                        block3.position.x = block1.width - minPixel;
 
                         gameSceneX.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
-                        block4.position.y = block1.height;
-                        block4.position.x = block1.width + block2.width;
+                        block4.position.y = block1.height - minPixel;
+                        block4.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneX.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
-                        block5.position.y = block1.height + block2.height;
-                        block5.position.x = block1.width;
+                        block5.position.y = block1.height + block2.height - (minPixel * 2);
+                        block5.position.x = block1.width - minPixel;
 
                         gameSceneX.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -330,23 +345,23 @@
 
                         gameSceneU.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
-                        block2.position.y = block1.height;
+                        block2.position.y = block1.height - minPixel;
                         block2.position.x = 0 ;
 
                         gameSceneU.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
-                        block3.position.y = block1.height;
-                        block3.position.x = block1.width;
+                        block3.position.y = block1.height - minPixel;
+                        block3.position.x = block1.width - minPixel;
 
                         gameSceneU.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
-                        block4.position.y = block1.height;
-                        block4.position.x = block1.width + block2.width;
+                        block4.position.y = block1.height - minPixel;
+                        block4.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneU.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
                         block5.position.y = 0;
-                        block5.position.x = block1.width + block2.width;
+                        block5.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneU.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -388,23 +403,23 @@
 
                         gameSceneV.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
-                        block2.position.y = block1.height;
+                        block2.position.y = block1.height - minPixel;
                         block2.position.x = 0 ;
 
                         gameSceneV.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
-                        block3.position.y = block1.height + block2.height;
+                        block3.position.y = block1.height + block2.height - (minPixel * 2);
                         block3.position.x = 0;
 
                         gameSceneV.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
                         block4.position.y = 0;
-                        block4.position.x = block1.width;
+                        block4.position.x = block1.width - minPixel;
 
                         gameSceneV.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
                         block5.position.y = 0;
-                        block5.position.x = block1.width + block2.width;
+                        block5.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneV.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -447,22 +462,22 @@
                         gameSceneL.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
                         block2.position.y = 0;
-                        block2.position.x = block1.width;
+                        block2.position.x = block1.width - minPixel;
 
                         gameSceneL.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
-                        block3.position.y = block1.height;
-                        block3.position.x = block1.width;
+                        block3.position.y = block1.height - minPixel;
+                        block3.position.x = block1.width - minPixel;
 
                         gameSceneL.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
-                        block4.position.y = block1.height + block2.height;
-                        block4.position.x = block1.width;
+                        block4.position.y = block1.height + block2.height - (minPixel * 2);
+                        block4.position.x = block1.width - minPixel;
 
                         gameSceneL.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
-                        block5.position.y = block1.height + block2.height + block3.height;
-                        block5.position.x = block1.width;
+                        block5.position.y = block1.height + block2.height + block3.height - (minPixel * 3);
+                        block5.position.x = block1.width - minPixel;
 
                         gameSceneL.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -504,23 +519,23 @@
 
                         gameSceneZ.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
-                        block2.position.y = block1.height;
+                        block2.position.y = block1.height - minPixel;
                         block2.position.x = 0;
 
                         gameSceneZ.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
-                        block3.position.y = block1.height;
-                        block3.position.x = block1.width;
+                        block3.position.y = block1.height - minPixel;
+                        block3.position.x = block1.width - minPixel;
 
                         gameSceneZ.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
-                        block4.position.y = block1.height;
-                        block4.position.x = block1.width + block2.width;
+                        block4.position.y = block1.height - minPixel;
+                        block4.position.x = block1.width + block2.width - (minPixel * 2 );
 
                         gameSceneZ.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
-                        block5.position.y = block1.height + block2.height;
-                        block5.position.x = block1.width + block2.width;
+                        block5.position.y = block1.height + block2.height - (minPixel * 2 );
+                        block5.position.x = block1.width + block2.width - (minPixel * 2 );
 
                         gameSceneZ.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -557,28 +572,28 @@
 
                         gameSceneY.addChild(block1);
                         block1.anchor.set(0.5, 0.5);
-                        block1.position.y = block1.height;
+                        block1.position.y = block1.height - minPixel;
                         block1.position.x = 0;
 
                         gameSceneY.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
-                        block2.position.y = block1.height;
-                        block2.position.x = block1.width;
+                        block2.position.y = block1.height - minPixel;
+                        block2.position.x = block1.width - minPixel;
 
                         gameSceneY.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
                         block3.position.y = 0;
-                        block3.position.x = block1.width;
+                        block3.position.x = block1.width - minPixel;
 
                         gameSceneY.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
-                        block4.position.y = block1.height;
-                        block4.position.x = block1.width + block2.width;
+                        block4.position.y = block1.height - minPixel;
+                        block4.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneY.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
-                        block5.position.y = block1.height;
-                        block5.position.x = block1.width + block2.width + block3.width;
+                        block5.position.y = block1.height - minPixel;
+                        block5.position.x = block1.width + block2.width + block3.width - (minPixel * 3);
 
                         gameSceneY.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -616,26 +631,26 @@
                         gameSceneN.addChild(block1);
                         block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
-                        block1.position.x = block1.width;
+                        block1.position.x = block1.width - minPixel;
 
                         gameSceneN.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
-                        block2.position.y = block1.height;
-                        block2.position.x = block1.width;
+                        block2.position.y = block1.height - minPixel;
+                        block2.position.x = block1.width - minPixel;
 
                         gameSceneN.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
-                        block3.position.y = block1.height + block2.height;
-                        block3.position.x = block1.width;
+                        block3.position.y = block1.height + block2.height - (minPixel * 2);
+                        block3.position.x = block1.width - minPixel;
 
                         gameSceneN.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
-                        block4.position.y = block1.height + block2.height;
+                        block4.position.y = block1.height + block2.height - (minPixel * 2);
                         block4.position.x = 0;
 
                         gameSceneN.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
-                        block5.position.y = block1.height + block2.height + block3.height;
+                        block5.position.y = block1.height + block2.height + block3.height - (minPixel * 3);
                         block5.position.x = 0;
 
                         gameSceneN.on('mousedown', onDragStart)
@@ -679,22 +694,22 @@
                         gameSceneW.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
                         block2.position.y = 0;
-                        block2.position.x = block1.width;
+                        block2.position.x = block1.width - minPixel;
 
                         gameSceneW.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
-                        block3.position.y = block1.height;
-                        block3.position.x = block1.width;
+                        block3.position.y = block1.height - minPixel;
+                        block3.position.x = block1.width - minPixel;
 
                         gameSceneW.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
-                        block4.position.y = block1.height;
-                        block4.position.x = block1.width + block2.width;
+                        block4.position.y = block1.height - minPixel;
+                        block4.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneW.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
-                        block5.position.y = block1.height + block2.height;
-                        block5.position.x = block1.width + block2.width;
+                        block5.position.y = block1.height + block2.height - (minPixel * 2);
+                        block5.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneW.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -731,28 +746,28 @@
 
                         gameSceneF.addChild(block1);
                         block1.anchor.set(0.5, 0.5);
-                        block1.position.y = block1.height;
+                        block1.position.y = block1.height - minPixel;
                         block1.position.x = 0;
 
                         gameSceneF.addChild(block2);
                         block2.anchor.set(0.5, 0.5);
-                        block2.position.y = block1.height;
-                        block2.position.x = block1.width;
+                        block2.position.y = block1.height - minPixel;
+                        block2.position.x = block1.width - minPixel;
 
                         gameSceneF.addChild(block3);
                         block3.anchor.set(0.5, 0.5);
                         block3.position.y = 0;
-                        block3.position.x = block1.width;
+                        block3.position.x = block1.width - minPixel;
 
                         gameSceneF.addChild(block4);
                         block4.anchor.set(0.5, 0.5);
-                        block4.position.y = block1.height;
-                        block4.position.x = block1.width + block2.width;
+                        block4.position.y = block1.height - minPixel;
+                        block4.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneF.addChild(block5);
                         block5.anchor.set(0.5, 0.5);
-                        block5.position.y = block1.height + block2.height;
-                        block5.position.x = block1.width + block2.width;
+                        block5.position.y = block1.height + block2.height - (minPixel * 2);
+                        block5.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneF.on('mousedown', onDragStart)
                             .on('touchstart', onDragStart)
@@ -832,37 +847,30 @@
                             + " | tx -> " + wt.tx + " | ty -> " + wt.ty);
 
                         var texture = sprite.texture;
-                        // var vertexData = sprite.vertexData;
-                        // var trim = texture.trim;
-                        // var orig = texture.orig;
                         var anchor = sprite.anchor;
 
                         var collision = undefined;
 
                         //Left
                         if (sprite.x < container.x) {
-                        // if (wt.tx < container.x) {
                             sprite.x = container.x;
                             collision = "left";
                         }
 
                         //Top
                         if (sprite.y < container.y) {
-                        // if (wt.ty < container.y) {
                             sprite.y = container.y;
                             collision = "top";
                         }
 
                         //Right
                         if (sprite.x + sprite.width > container.width) {
-                        // if (wt.tx + sprite.width > container.width) {
                             sprite.x = container.width - sprite.width;
                             collision = "right";
                         }
 
                         //Bottom
                         if (sprite.y + sprite.height > container.height) {
-                        // if (wt.ty + sprite.height > container.height) {
                             sprite.y = container.height - sprite.height;
                             collision = "bottom";
                         }
