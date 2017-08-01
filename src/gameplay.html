@@ -36,7 +36,18 @@
                     document.body.appendChild(renderer.view);
 
                     loader
-                        .add("images/block.png")
+                        .add("images/blockp.png")
+                        .add("images/blockt.png")
+                        .add("images/blocki.png")
+                        .add("images/blockx.png")
+                        .add("images/blocku.png")
+                        .add("images/blockv.png")
+                        .add("images/blockl.png")
+                        .add("images/blockz.png")
+                        .add("images/blocky.png")
+                        .add("images/blockn.png")
+                        .add("images/blockw.png")
+                        .add("images/blockf.png")
                         .load(setupLetterP)
                         .load(setupLetterT)
                         .load(setupLetterI)
@@ -73,7 +84,7 @@
                         gameSceneP.pivot.y = 0.5;
                         gameSceneP.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blockp.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -132,7 +143,7 @@
                         gameSceneT.pivot.y = 0.5;
                         gameSceneT.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blockt.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -190,7 +201,7 @@
                         gameSceneI.pivot.y = 0.5;
                         gameSceneI.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blocki.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -248,7 +259,7 @@
                         gameSceneX.pivot.y = 0.5;
                         gameSceneX.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blockx.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -305,7 +316,7 @@
                         gameSceneU.pivot.y = 0.5;
                         gameSceneU.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blocku.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -363,7 +374,7 @@
                         gameSceneV.pivot.y = 0.5;
                         gameSceneV.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blockv.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -421,7 +432,7 @@
                         gameSceneL.pivot.y = 0.5;
                         gameSceneL.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blockl.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -479,7 +490,7 @@
                         gameSceneZ.pivot.y = 0.5;
                         gameSceneZ.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blockz.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -537,7 +548,7 @@
                         gameSceneY.pivot.y = 0.5;
                         gameSceneY.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blocky.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -595,7 +606,7 @@
                         gameSceneN.pivot.y = 0.5;
                         gameSceneN.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blockn.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -653,7 +664,7 @@
                         gameSceneW.pivot.y = 0.5;
                         gameSceneW.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blockw.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -711,7 +722,7 @@
                         gameSceneF.pivot.y = 0.5;
                         gameSceneF.zIndex = 0;
 
-                        resource = resources["images/block.png"].texture;
+                        resource = resources["images/blockf.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
                         var block3 = new Sprite(resource);
@@ -763,7 +774,7 @@
                         this.alpha = 0.5;
                         this.dragging = true;
                         this.zIndex = 999;
-                    }
+                    }   
 
                     function onDragEnd(event) {
 
@@ -812,176 +823,46 @@
                         scaleToWindow(renderer.view);
                     });
 
-                    function grid6X20()
-                    {
-                        var html = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
-                                    '<foreignObject width="100%" height="100%">' +
-                                //    '<section>' +
-                                        '<div id="gameplay">' + 
-                                            '<div >' + 
-                                                '<div id="casa1"></div>' + 
-                                                '<div id="casa2"></div>' + 
-                                                '<div id="casa3"></div>' + 
-                                                '<div id="casa4"></div>' + 
-                                                '<div id="casa5"></div>' + 
-                                                '<div id="casa6"></div>' +
-                                                '<div id="casa7"></div>' +
-                                                '<div id="casa8"></div>' +
-                                                '<div id="casa9"></div>' +
-                                                '<div id="casa10"></div>' +
-                                                '<div id="casa11"></div>' +
-                                                '<div id="casa12"></div>' +
-                                                '<div id="casa13"></div>' +
-                                                '<div id="casa14"></div>' +
-                                                '<div id="casa15"></div>' +
-                                                '<div id="casa16"></div>' +
-                                                '<div id="casa17"></div>' +
-                                                '<div id="casa18"></div>' +
-                                                '<div id="casa19"></div>' +
-                                                '<div id="casa20"></div>' +
-                                            '</div>' +
-                                            '<div >' +
-                                                '<div id="casa1"></div>' +
-                                                '<div id="casa2"></div>' +
-                                                '<div id="casa3"></div>' +
-                                                '<div id="casa4"></div>' +
-                                                '<div id="casa5"></div>' +
-                                                '<div id="casa6"></div>' +
-                                                '<div id="casa7"></div>' +
-                                                '<div id="casa8"></div>' +
-                                                '<div id="casa9"></div>' +
-                                                '<div id="casa10"></div>' +
-                                                '<div id="casa11"></div>' +
-                                                '<div id="casa12"></div>' +
-                                                '<div id="casa13"></div>' +
-                                                '<div id="casa14"></div>' +
-                                                '<div id="casa15"></div>' +
-                                                '<div id="casa16"></div>' +
-                                                '<div id="casa17"></div>' +
-                                                '<div id="casa18"></div>' +
-                                                '<div id="casa19"></div>' +
-                                                '<div id="casa20"></div>' +
-                                            '</div>' +
-                                            '<div >' +
-                                                '<div id="casa1"></div>' +
-                                                '<div id="casa2"></div>' +
-                                                '<div id="casa3"></div>' +
-                                                '<div id="casa4"></div>' +
-                                                '<div id="casa5"></div>' +
-                                                '<div id="casa6"></div>' +
-                                                '<div id="casa7"></div>' +
-                                                '<div id="casa8"></div>' +
-                                                '<div id="casa9"></div>' +
-                                                '<div id="casa10"></div>' +
-                                                '<div id="casa11"></div>' +
-                                                '<div id="casa12"></div>' +
-                                                '<div id="casa13"></div>' +
-                                                '<div id="casa14"></div>' +
-                                                '<div id="casa15"></div>' +
-                                                '<div id="casa16"></div>' +
-                                                '<div id="casa17"></div>' +
-                                                '<div id="casa18"></div>' +
-                                                '<div id="casa19"></div>' +
-                                                '<div id="casa20"></div>' +
-                                            '</div>' +
-                                            '<div >' +
-                                                '<div id="casa1"></div>' +
-                                                '<div id="casa2"></div>' +
-                                                '<div id="casa3"></div>' +
-                                                '<div id="casa4"></div>' +
-                                                '<div id="casa5"></div>' +
-                                                '<div id="casa6"></div>' +
-                                                '<div id="casa7"></div>' +
-                                                '<div id="casa8"></div>' +
-                                                '<div id="casa9"></div>' +
-                                                '<div id="casa10"></div>' +
-                                                '<div id="casa11"></div>' +
-                                                '<div id="casa12"></div>' +
-                                                '<div id="casa13"></div>' +
-                                                '<div id="casa14"></div>' +
-                                                '<div id="casa15"></div>' +
-                                                '<div id="casa16"></div>' +
-                                                '<div id="casa17"></div>' +
-                                                '<div id="casa18"></div>' +
-                                                '<div id="casa19"></div>' +
-                                                '<div id="casa20"></div>' +
-                                            '</div>' +
-                                            '<div >' +
-                                                '<div id="casa1"></div>' +
-                                                '<div id="casa2"></div>' +
-                                                '<div id="casa3"></div>' +
-                                                '<div id="casa4"></div>' +
-                                                '<div id="casa5"></div>' +
-                                                '<div id="casa6"></div>' +
-                                                '<div id="casa7"></div>' +
-                                                '<div id="casa8"></div>' +
-                                                '<div id="casa9"></div>' +
-                                                '<div id="casa10"></div>' +
-                                                '<div id="casa11"></div>' +
-                                                '<div id="casa12"></div>' +
-                                                '<div id="casa13"></div>' +
-                                                '<div id="casa14"></div>' +
-                                                '<div id="casa15"></div>' +
-                                                '<div id="casa16"></div>' +
-                                                '<div id="casa17"></div>' +
-                                                '<div id="casa18"></div>' +
-                                                '<div id="casa19"></div>' +
-                                                '<div id="casa20"></div>' +
-                                            '</div>' +
-                                            '<div >' +
-                                                '<div id="casa1"></div>' +
-                                                '<div id="casa2"></div>' +
-                                                '<div id="casa3"></div>' +
-                                                '<div id="casa4"></div>' +
-                                                '<div id="casa5"></div>' +
-                                                '<div id="casa6"></div>' +
-                                                '<div id="casa7"></div>' +
-                                                '<div id="casa8"></div>' +
-                                                '<div id="casa9"></div>' +
-                                                '<div id="casa10"></div>' +
-                                                '<div id="casa11"></div>' +
-                                                '<div id="casa12"></div>' +
-                                                '<div id="casa13"></div>' +
-                                                '<div id="casa14"></div>' +
-                                                '<div id="casa15"></div>' +
-                                                '<div id="casa16"></div>' +
-                                                '<div id="casa17"></div>' +
-                                                '<div id="casa18"></div>' +
-                                                '<div id="casa19"></div>' +
-                                                '<div id="casa20"></div>'
-                                            '</div>' +
-                                        '</div>' +
-                                        // '</section> ' +
-                                    '</foreignObject>' +
-                                    '</svg>';
-                            return html;
-                    }
-
+                   
                     function contain(sprite, container) 
                     {
+                        
+                        var wt = sprite.worldTransform;
+                        console.log("a -> " + wt.a + " | b -> " + wt.b  + " | c -> " + wt.c + " | d -> " + wt.d 
+                            + " | tx -> " + wt.tx + " | ty -> " + wt.ty);
+
+                        var texture = sprite.texture;
+                        // var vertexData = sprite.vertexData;
+                        // var trim = texture.trim;
+                        // var orig = texture.orig;
+                        var anchor = sprite.anchor;
 
                         var collision = undefined;
 
                         //Left
                         if (sprite.x < container.x) {
+                        // if (wt.tx < container.x) {
                             sprite.x = container.x;
                             collision = "left";
                         }
 
                         //Top
                         if (sprite.y < container.y) {
+                        // if (wt.ty < container.y) {
                             sprite.y = container.y;
                             collision = "top";
                         }
 
                         //Right
                         if (sprite.x + sprite.width > container.width) {
+                        // if (wt.tx + sprite.width > container.width) {
                             sprite.x = container.width - sprite.width;
                             collision = "right";
                         }
 
                         //Bottom
-                        if ((sprite.y + sprite.height) > container.height) {
+                        if (sprite.y + sprite.height > container.height) {
+                        // if (wt.ty + sprite.height > container.height) {
                             sprite.y = container.height - sprite.height;
                             collision = "bottom";
                         }
