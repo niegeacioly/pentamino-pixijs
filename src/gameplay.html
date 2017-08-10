@@ -31,49 +31,50 @@
 
                     var stage = new Container(), renderer = autoDetectRenderer(1200, 400, { antialias: true }, true);
                     renderer.view.style.border = "1px dashed black";
-                    renderer.backgroundColor = 0x232325;
+                    // renderer.backgroundColor = 0x232325;
+                    renderer.backgroundColor = 0xFFFFFF;
 
-                    var minPixel = 3;
+                    var minPixel = 3, defaultIndentation = 20;
 
                     document.body.appendChild(renderer.view);
 
                     loader
                         .add("images/grid.png")
                         .add("images/blockp.png")
-                        .add("images/blockt.png")
-                        .add("images/blocki.png")
-                        .add("images/blockx.png")
-                        .add("images/blocku.png")
-                        .add("images/blockv.png")
-                        .add("images/blockl.png")
-                        .add("images/blockz.png")
-                        .add("images/blocky.png")
-                        .add("images/blockn.png")
-                        .add("images/blockw.png")
-                        .add("images/blockf.png")
+                        // .add("images/blockt.png")
+                        // .add("images/blocki.png")
+                        // .add("images/blockx.png")
+                        // .add("images/blocku.png")
+                        // .add("images/blockv.png")
+                        // .add("images/blockl.png")
+                        // .add("images/blockz.png")
+                        // .add("images/blocky.png")
+                        // .add("images/blockn.png")
+                        // .add("images/blockw.png")
+                        // .add("images/blockf.png")
                         .load(setupGrid)
-                        .load(setupLetterP)
-                        .load(setupLetterT)
-                        .load(setupLetterI)
-                        .load(setupLetterX)
-                        .load(setupLetterU)
-                        .load(setupLetterV)
-                        .load(setupLetterL)
-                        .load(setupLetterZ)
-                        .load(setupLetterY)
-                        .load(setupLetterN)
-                        .load(setupLetterW)
-                        .load(setupLetterF);
+                        .load(setupLetterP);
+                        // .load(setupLetterT)
+                        // .load(setupLetterI)
+                        // .load(setupLetterX)
+                        // .load(setupLetterU)
+                        // .load(setupLetterV)
+                        // .load(setupLetterL)
+                        // .load(setupLetterZ)
+                        // .load(setupLetterY)
+                        // .load(setupLetterN)
+                        // .load(setupLetterW)
+                        // .load(setupLetterF);
 
-                    stage.updateLayersOrder = function () {
-                        stage.children.sort(function(a,b) {
-                            a.zIndex = a.zIndex || 0;
-                            b.zIndex = b.zIndex || 0;
-                            return b.zIndex - a.zIndex
-                        });
-                    };
+                    // stage.updateLayersOrder = function () {
+                    //     stage.children.sort(function(a,b) {
+                    //         a.zIndex = a.zIndex || 0;
+                    //         b.zIndex = b.zIndex || 0;
+                    //         return b.zIndex - a.zIndex
+                    //     });
+                    // };
 
-                    stage.updateLayersOrder();
+                    // stage.updateLayersOrder();
 
                     function setupGrid() {
 
@@ -91,13 +92,15 @@
                         //Create the sprites
                         gameSceneP = new Container();
                         gameSceneP.interactive = true;
-                        gameSceneP.position.rotation = 0;
-                        gameSceneP.x = 20;
-                        gameSceneP.y = 20;
-                        gameSceneP.rotation = 0;
+                        // gameSceneP.position.rotation = 0;
+                        gameSceneP.x = defaultIndentation;
+                        gameSceneP.y = defaultIndentation;
+                        // gameSceneP.x = 0;
+                        // gameSceneP.y = 0;
+                        // gameSceneP.rotation = 0;
                         gameSceneP.pivot.x = 0.5;
                         gameSceneP.pivot.y = 0.5;
-                        gameSceneP.zIndex = 0;
+                        // gameSceneP.zIndex = 0;
 
                         resource = resources["images/blockp.png"].texture;
                         var block1 = new Sprite(resource);
@@ -143,6 +146,8 @@
                             .on('click', onClick);
                         
                         stage.addChild(gameSceneP);
+                        gameSceneP.updateTransform();
+
                     }
 
                     function setupLetterT() {
@@ -152,7 +157,7 @@
                         gameSceneT.interactive = true;
                         gameSceneT.position.rotation = 0;
                         gameSceneT.x = 100;
-                        gameSceneT.y = 20;
+                        gameSceneT.y = defaultIndentation;
                         gameSceneT.rotation = 0;
                         gameSceneT.pivot.x = 0.5;
                         gameSceneT.pivot.y = 0.5;
@@ -201,6 +206,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneT);
+                        gameSceneT.updateTransform();
                     }
                     
                     function setupLetterI() {
@@ -210,10 +216,10 @@
                         gameSceneI.interactive = true;
                         gameSceneI.position.rotation = 0;
                         gameSceneI.x = 150;
-                        gameSceneI.y = 20;
+                        gameSceneI.y = defaultIndentation;
                         gameSceneI.rotation = 0;
-                        gameSceneI.pivot.x = 0.5;
-                        gameSceneI.pivot.y = 0.5;
+                        // gameSceneI.pivot.x = 0.5;
+                        // gameSceneI.pivot.y = 0.5;
                         gameSceneI.zIndex = 0;
 
                         resource = resources["images/blocki.png"].texture;
@@ -224,27 +230,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneI.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
                         block1.position.x = 0;
 
                         gameSceneI.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = 0;
                         block2.position.x = block1.width - minPixel;
 
                         gameSceneI.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = 0;
                         block3.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneI.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = 0;
                         block4.position.x = block1.width + block2.width + block3.width - (minPixel * 3);
 
                         gameSceneI.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = 0;
                         block5.position.x = block1.width + block2.width + block3.width + block4.width - (minPixel * 4);
 
@@ -259,6 +265,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneI);
+                        gameSceneI.updateTransform();
                     }
 
                     function setupLetterX() {
@@ -268,7 +275,7 @@
                         gameSceneX.interactive = true;
                         gameSceneX.position.rotation = 0;
                         gameSceneX.x = 200;
-                        gameSceneX.y = 20;
+                        gameSceneX.y = defaultIndentation;
                         gameSceneX.rotation = 0;
                         gameSceneX.pivot.x = 0.5;
                         gameSceneX.pivot.y = 0.5;
@@ -316,6 +323,7 @@
                             .on('touchmove', onDragMove);
 
                         stage.addChild(gameSceneX);
+                        gameSceneX.updateTransform();
                     }
 
                     function setupLetterU() {
@@ -325,7 +333,7 @@
                         gameSceneU.interactive = true;
                         gameSceneU.position.rotation = 0;
                         gameSceneU.x = 250;
-                        gameSceneU.y = 20;
+                        gameSceneU.y = defaultIndentation;
                         gameSceneU.rotation = 0;
                         gameSceneU.pivot.x = 0.5;
                         gameSceneU.pivot.y = 0.5;
@@ -374,6 +382,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneU);
+                        gameSceneU.updateTransform();
                     }
 
                     function setupLetterV() {
@@ -383,7 +392,7 @@
                         gameSceneV.interactive = true;
                         gameSceneV.position.rotation = 0;
                         gameSceneV.x = 280;
-                        gameSceneV.y = 20;
+                        gameSceneV.y = defaultIndentation;
                         gameSceneV.rotation = 0;
                         gameSceneV.pivot.x = 0.5;
                         gameSceneV.pivot.y = 0.5;
@@ -432,6 +441,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneV);
+                        gameSceneV.updateTransform();
                     }
 
                     function setupLetterL() {
@@ -440,7 +450,7 @@
                         gameSceneL = new Container();
                         gameSceneL.interactive = true;
                         gameSceneL.position.rotation = 0;
-                        gameSceneL.x = 20;
+                        gameSceneL.x = defaultIndentation;
                         gameSceneL.y = 150;
                         gameSceneL.rotation = 0;
                         gameSceneL.pivot.x = 0.5;
@@ -490,6 +500,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneL);
+                        gameSceneL.updateTransform();
                     }
 
                     function setupLetterZ() {
@@ -548,6 +559,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneZ);
+                        gameSceneZ.updateTransform();
                     }
 
                     function setupLetterY() {
@@ -606,6 +618,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneY);
+                        gameSceneY.updateTransform();
                     }
 
                     function setupLetterN() {
@@ -664,6 +677,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneN);
+                        gameSceneN.updateTransform();
                     }
 
                     function setupLetterW() {
@@ -722,6 +736,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneW);
+                        gameSceneW.updateTransform();
                     }
 
                     function setupLetterF() {
@@ -780,6 +795,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneF);
+                        gameSceneF.updateTransform();
                     }
 
                     function onDragStart(event) {
@@ -816,7 +832,7 @@
                         {
                             this.position.x += this.data.originalEvent.movementX;
                             this.position.y += this.data.originalEvent.movementY;
-                            contain(event.currentTarget, {x : 20, y : 20, width : renderer.width, height: renderer.height});
+                            contain(event.currentTarget, {x : defaultIndentation, y : defaultIndentation, width : renderer.width, height: renderer.height});
                         }
                     }
 
@@ -842,46 +858,89 @@
                     function contain(sprite, container) 
                     {
                         
-                        var wt = sprite.worldTransform;
-                        console.log("a -> " + wt.a + " | b -> " + wt.b  + " | c -> " + wt.c + " | d -> " + wt.d 
-                            + " | tx -> " + wt.tx + " | ty -> " + wt.ty);
-
-                        var texture = sprite.texture;
-                        var anchor = sprite.anchor;
-
                         var collision = undefined;
+
+                        sprite.calculateBounds();
+                        const allVyVertexData = [];
+                        const allVxVertexData = [];
+                        for (i = 0; i < sprite.children.length; i++) { 
+                            const vertexData = sprite.children[i].vertexData;
+                            for (j = 0; j < vertexData.length; j++){
+                                if (j % 2 === 0){
+                                    allVxVertexData.push(vertexData[j]);
+                                } else {
+                                    allVyVertexData.push(vertexData[j]);
+                                }
+                            }
+                        }
+
+                        const yMin = Math.min.apply(Math, allVyVertexData) + 0.5;
+                        const yMax = Math.max.apply(Math, allVyVertexData) + 0.5;
+                        const xMin = Math.min.apply(Math, allVxVertexData) + 0.5;
+                        const xMax = Math.max.apply(Math, allVxVertexData) + 0.5;
+
+                        const yInterval = yMax - yMin; 
+                        const xInterval = xMax - xMin; 
+
+                        // console.log("yMin -> " + yMin + " | yMax -> " + yMax + " | xMin -> " + xMin + " | xMax -> " + xMax );
+                        console.log("yInterval -> " + yInterval + " | xInterval -> " + xInterval);
+                        
+                        var rotation = sprite.rotation / Math.PI;
+
+                        console.log("rotation -> " + rotation);
+                        const mod = rotation % 1;
+
+                        console.log("mod -> " + mod);
 
                         //Left
                         if (sprite.x < container.x) {
                             sprite.x = container.x;
                             collision = "left";
                         }
-
                         //Top
                         if (sprite.y < container.y) {
                             sprite.y = container.y;
                             collision = "top";
                         }
-
                         //Right
                         if (sprite.x + sprite.width > container.width) {
                             sprite.x = container.width - sprite.width;
                             collision = "right";
                         }
-
                         //Bottom
                         if (sprite.y + sprite.height > container.height) {
                             sprite.y = container.height - sprite.height;
                             collision = "bottom";
                         }
+                        console.log("collision -> " + collision);
 
-                        //Return the `collision` value
+                        // //Left
+                        // if (sprite.x < container.x) {
+                        //     sprite.x = container.x;
+                        //     collision = "left";
+                        // }
+                        // //Top
+                        // if (sprite.y < container.y) {
+                        //     sprite.y = container.y;
+                        //     collision = "top";
+                        // }
+                        // //Right
+                        // if (sprite.x + sprite.width > container.width) {
+                        //     sprite.x = container.width - sprite.width;
+                        //     collision = "right";
+                        // }
+                        // //Bottom
+                        // if (sprite.y + sprite.height > container.height) {
+                        //     sprite.y = container.height - sprite.height;
+                        //     collision = "bottom";
+                        // }
+
                         return collision;
 
                     }
 
             </script>
-      </body>
+      <!-- </body> -->
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
