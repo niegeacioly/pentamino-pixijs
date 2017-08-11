@@ -41,30 +41,30 @@
                     loader
                         .add("images/grid.png")
                         .add("images/blockp.png")
-                        // .add("images/blockt.png")
-                        // .add("images/blocki.png")
-                        // .add("images/blockx.png")
-                        // .add("images/blocku.png")
-                        // .add("images/blockv.png")
-                        // .add("images/blockl.png")
-                        // .add("images/blockz.png")
-                        // .add("images/blocky.png")
-                        // .add("images/blockn.png")
-                        // .add("images/blockw.png")
-                        // .add("images/blockf.png")
+                        .add("images/blockt.png")
+                        .add("images/blocki.png")
+                        .add("images/blockx.png")
+                        .add("images/blocku.png")
+                        .add("images/blockv.png")
+                        .add("images/blockl.png")
+                        .add("images/blockz.png")
+                        .add("images/blocky.png")
+                        .add("images/blockn.png")
+                        .add("images/blockw.png")
+                        .add("images/blockf.png")
                         .load(setupGrid)
-                        .load(setupLetterP);
-                        // .load(setupLetterT)
-                        // .load(setupLetterI)
-                        // .load(setupLetterX)
-                        // .load(setupLetterU)
-                        // .load(setupLetterV)
-                        // .load(setupLetterL)
-                        // .load(setupLetterZ)
-                        // .load(setupLetterY)
-                        // .load(setupLetterN)
-                        // .load(setupLetterW)
-                        // .load(setupLetterF);
+                        .load(setupLetterP)
+                        .load(setupLetterT)
+                        .load(setupLetterI)
+                        .load(setupLetterX)
+                        .load(setupLetterU)
+                        .load(setupLetterV)
+                        .load(setupLetterL)
+                        .load(setupLetterZ)
+                        .load(setupLetterY)
+                        .load(setupLetterN)
+                        .load(setupLetterW)
+                        .load(setupLetterF);
 
                     // stage.updateLayersOrder = function () {
                     //     stage.children.sort(function(a,b) {
@@ -93,14 +93,12 @@
                         gameSceneP = new Container();
                         gameSceneP.interactive = true;
                         // gameSceneP.position.rotation = 0;
-                        gameSceneP.x = defaultIndentation;
-                        gameSceneP.y = defaultIndentation;
-                        // gameSceneP.x = 0;
-                        // gameSceneP.y = 0;
-                        // gameSceneP.rotation = 0;
-                        gameSceneP.pivot.x = 0.5;
-                        gameSceneP.pivot.y = 0.5;
-                        // gameSceneP.zIndex = 0;
+                        gameSceneP.x = 100;
+                        gameSceneP.y = 100;
+                        gameSceneP.rotation = 0;
+                        // gameSceneP.pivot.x = 0.5;
+                        // gameSceneP.pivot.y = 0.5;
+                        gameSceneP.zIndex = 0;
 
                         resource = resources["images/blockp.png"].texture;
                         var block1 = new Sprite(resource);
@@ -110,27 +108,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneP.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
                         block1.position.x = 0;
 
                         gameSceneP.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = 0;
                         block2.position.x = block1.height - minPixel;
 
                         gameSceneP.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = block2.height - minPixel;
                         block3.position.x = 0;
 
                         gameSceneP.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = block3.height - minPixel;
                         block4.position.x = block3.width - minPixel;
 
                         gameSceneP.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = (block4.height - minPixel) + (block4.height - minPixel);
                         block5.position.x = 0;
 
@@ -146,6 +144,10 @@
                             .on('click', onClick);
                         
                         stage.addChild(gameSceneP);
+
+                        gameSceneP.pivot.set(gameSceneP.width/2, gameSceneP.height/2);
+                        // console.log("PW ->" + gameSceneP.width +" | PH ->"+gameSceneP.height);
+
                         gameSceneP.updateTransform();
 
                     }
@@ -159,8 +161,8 @@
                         gameSceneT.x = 100;
                         gameSceneT.y = defaultIndentation;
                         gameSceneT.rotation = 0;
-                        gameSceneT.pivot.x = 0.5;
-                        gameSceneT.pivot.y = 0.5;
+                        // gameSceneT.pivot.x = 0.5;
+                        // gameSceneT.pivot.y = 0.5;
                         gameSceneT.zIndex = 0;
 
                         resource = resources["images/blockt.png"].texture;
@@ -171,27 +173,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneT.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
                         block1.position.x = block1.height - minPixel;
 
                         gameSceneT.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = block1.height - minPixel;
                         block2.position.x = block1.width - minPixel;
 
                         gameSceneT.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = (block1.height - minPixel) + (block2.height - minPixel);
                         block3.position.x = (block1.width - minPixel) + (block2.width - minPixel);
 
                         gameSceneT.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = (block1.height - minPixel) + (block2.height - minPixel);
                         block4.position.x = (block1.height - minPixel);
 
                         gameSceneT.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = (block1.height - minPixel) + (block1.height - minPixel);
                         block5.position.x = 0;
 
@@ -206,6 +208,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneT);
+                        gameSceneT.pivot.set(gameSceneT.width/2, gameSceneT.height/2);
                         gameSceneT.updateTransform();
                     }
                     
@@ -220,6 +223,7 @@
                         gameSceneI.rotation = 0;
                         // gameSceneI.pivot.x = 0.5;
                         // gameSceneI.pivot.y = 0.5;
+                        //gameSceneI.position.set(150, 200);
                         gameSceneI.zIndex = 0;
 
                         resource = resources["images/blocki.png"].texture;
@@ -265,6 +269,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneI);
+                        gameSceneI.pivot.set(gameSceneI.width/2, gameSceneI.height/2);
                         gameSceneI.updateTransform();
                     }
 
@@ -277,8 +282,8 @@
                         gameSceneX.x = 200;
                         gameSceneX.y = defaultIndentation;
                         gameSceneX.rotation = 0;
-                        gameSceneX.pivot.x = 0.5;
-                        gameSceneX.pivot.y = 0.5;
+                        // gameSceneX.pivot.x = 0.5;
+                        // gameSceneX.pivot.y = 0.5;
                         gameSceneX.zIndex = 0;
 
                         resource = resources["images/blockx.png"].texture;
@@ -289,27 +294,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneX.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
                         block1.position.x = block1.width - minPixel;
 
                         gameSceneX.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = block1.height - minPixel;
                         block2.position.x = 0;
 
                         gameSceneX.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = block1.height - minPixel;
                         block3.position.x = block1.width - minPixel;
 
                         gameSceneX.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = block1.height - minPixel;
                         block4.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneX.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = block1.height + block2.height - (minPixel * 2);
                         block5.position.x = block1.width - minPixel;
 
@@ -323,6 +328,7 @@
                             .on('touchmove', onDragMove);
 
                         stage.addChild(gameSceneX);
+                        gameSceneX.pivot.set(gameSceneX.width/2, gameSceneX.height/2);
                         gameSceneX.updateTransform();
                     }
 
@@ -335,8 +341,8 @@
                         gameSceneU.x = 250;
                         gameSceneU.y = defaultIndentation;
                         gameSceneU.rotation = 0;
-                        gameSceneU.pivot.x = 0.5;
-                        gameSceneU.pivot.y = 0.5;
+                        // gameSceneU.pivot.x = 0.5;
+                        // gameSceneU.pivot.y = 0.5;
                         gameSceneU.zIndex = 0;
 
                         resource = resources["images/blocku.png"].texture;
@@ -347,27 +353,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneU.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
                         block1.position.x = 0;
 
                         gameSceneU.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = block1.height - minPixel;
                         block2.position.x = 0 ;
 
                         gameSceneU.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = block1.height - minPixel;
                         block3.position.x = block1.width - minPixel;
 
                         gameSceneU.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = block1.height - minPixel;
                         block4.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneU.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = 0;
                         block5.position.x = block1.width + block2.width - (minPixel * 2);
 
@@ -382,6 +388,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneU);
+                        gameSceneU.pivot.set(gameSceneU.width/2, gameSceneU.height/2);
                         gameSceneU.updateTransform();
                     }
 
@@ -394,8 +401,8 @@
                         gameSceneV.x = 280;
                         gameSceneV.y = defaultIndentation;
                         gameSceneV.rotation = 0;
-                        gameSceneV.pivot.x = 0.5;
-                        gameSceneV.pivot.y = 0.5;
+                        // gameSceneV.pivot.x = 0.5;
+                        // gameSceneV.pivot.y = 0.5;
                         gameSceneV.zIndex = 0;
 
                         resource = resources["images/blockv.png"].texture;
@@ -406,27 +413,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneV.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
                         block1.position.x = 0;
 
                         gameSceneV.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = block1.height - minPixel;
                         block2.position.x = 0 ;
 
                         gameSceneV.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = block1.height + block2.height - (minPixel * 2);
                         block3.position.x = 0;
 
                         gameSceneV.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = 0;
                         block4.position.x = block1.width - minPixel;
 
                         gameSceneV.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = 0;
                         block5.position.x = block1.width + block2.width - (minPixel * 2);
 
@@ -441,6 +448,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneV);
+                        gameSceneV.pivot.set(gameSceneV.width/2, gameSceneV.height/2);
                         gameSceneV.updateTransform();
                     }
 
@@ -453,8 +461,8 @@
                         gameSceneL.x = defaultIndentation;
                         gameSceneL.y = 150;
                         gameSceneL.rotation = 0;
-                        gameSceneL.pivot.x = 0.5;
-                        gameSceneL.pivot.y = 0.5;
+                        // gameSceneL.pivot.x = 0.5;
+                        // gameSceneL.pivot.y = 0.5;
                         gameSceneL.zIndex = 0;
 
                         resource = resources["images/blockl.png"].texture;
@@ -465,27 +473,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneL.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
                         block1.position.x = 0;
 
                         gameSceneL.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = 0;
                         block2.position.x = block1.width - minPixel;
 
                         gameSceneL.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = block1.height - minPixel;
                         block3.position.x = block1.width - minPixel;
 
                         gameSceneL.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = block1.height + block2.height - (minPixel * 2);
                         block4.position.x = block1.width - minPixel;
 
                         gameSceneL.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = block1.height + block2.height + block3.height - (minPixel * 3);
                         block5.position.x = block1.width - minPixel;
 
@@ -500,6 +508,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneL);
+                        gameSceneL.pivot.set(gameSceneL.width/2, gameSceneL.height/2);
                         gameSceneL.updateTransform();
                     }
 
@@ -512,8 +521,8 @@
                         gameSceneZ.x = 60;
                         gameSceneZ.y = 150;
                         gameSceneZ.rotation = 0;
-                        gameSceneZ.pivot.x = 0.5;
-                        gameSceneZ.pivot.y = 0.5;
+                        // gameSceneZ.pivot.x = 0.5;
+                        // gameSceneZ.pivot.y = 0.5;
                         gameSceneZ.zIndex = 0;
 
                         resource = resources["images/blockz.png"].texture;
@@ -524,27 +533,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneZ.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
                         block1.position.x = 0;
 
                         gameSceneZ.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = block1.height - minPixel;
                         block2.position.x = 0;
 
                         gameSceneZ.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = block1.height - minPixel;
                         block3.position.x = block1.width - minPixel;
 
                         gameSceneZ.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = block1.height - minPixel;
                         block4.position.x = block1.width + block2.width - (minPixel * 2 );
 
                         gameSceneZ.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = block1.height + block2.height - (minPixel * 2 );
                         block5.position.x = block1.width + block2.width - (minPixel * 2 );
 
@@ -559,6 +568,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneZ);
+                        gameSceneZ.pivot.set(gameSceneZ.width/2, gameSceneZ.height/2);
                         gameSceneZ.updateTransform();
                     }
 
@@ -571,8 +581,8 @@
                         gameSceneY.x = 60;
                         gameSceneY.y = 150;
                         gameSceneY.rotation = 0;
-                        gameSceneY.pivot.x = 0.5;
-                        gameSceneY.pivot.y = 0.5;
+                        // gameSceneY.pivot.x = 0.5;
+                        // gameSceneY.pivot.y = 0.5;
                         gameSceneY.zIndex = 0;
 
                         resource = resources["images/blocky.png"].texture;
@@ -583,27 +593,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneY.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = block1.height - minPixel;
                         block1.position.x = 0;
 
                         gameSceneY.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = block1.height - minPixel;
                         block2.position.x = block1.width - minPixel;
 
                         gameSceneY.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = 0;
                         block3.position.x = block1.width - minPixel;
 
                         gameSceneY.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = block1.height - minPixel;
                         block4.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneY.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = block1.height - minPixel;
                         block5.position.x = block1.width + block2.width + block3.width - (minPixel * 3);
 
@@ -618,6 +628,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneY);
+                        gameSceneY.pivot.set(gameSceneY.width/2, gameSceneY.height/2);
                         gameSceneY.updateTransform();
                     }
 
@@ -630,8 +641,8 @@
                         gameSceneN.x = 60;
                         gameSceneN.y = 260;
                         gameSceneN.rotation = 0;
-                        gameSceneN.pivot.x = 0.5;
-                        gameSceneN.pivot.y = 0.5;
+                        // gameSceneN.pivot.x = 0.5;
+                        // gameSceneN.pivot.y = 0.5;
                         gameSceneN.zIndex = 0;
 
                         resource = resources["images/blockn.png"].texture;
@@ -642,27 +653,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneN.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
                         block1.position.x = block1.width - minPixel;
 
                         gameSceneN.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = block1.height - minPixel;
                         block2.position.x = block1.width - minPixel;
 
                         gameSceneN.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = block1.height + block2.height - (minPixel * 2);
                         block3.position.x = block1.width - minPixel;
 
                         gameSceneN.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = block1.height + block2.height - (minPixel * 2);
                         block4.position.x = 0;
 
                         gameSceneN.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = block1.height + block2.height + block3.height - (minPixel * 3);
                         block5.position.x = 0;
 
@@ -677,6 +688,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneN);
+                        gameSceneN.pivot.set(gameSceneN.width/2, gameSceneN.height/2);
                         gameSceneN.updateTransform();
                     }
 
@@ -689,8 +701,8 @@
                         gameSceneW.x = 150;
                         gameSceneW.y = 200;
                         gameSceneW.rotation = 0;
-                        gameSceneW.pivot.x = 0.5;
-                        gameSceneW.pivot.y = 0.5;
+                        // gameSceneW.pivot.x = 0.5;
+                        // gameSceneW.pivot.y = 0.5;
                         gameSceneW.zIndex = 0;
 
                         resource = resources["images/blockw.png"].texture;
@@ -701,27 +713,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneW.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = 0;
                         block1.position.x = 0;
 
                         gameSceneW.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = 0;
                         block2.position.x = block1.width - minPixel;
 
                         gameSceneW.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = block1.height - minPixel;
                         block3.position.x = block1.width - minPixel;
 
                         gameSceneW.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = block1.height - minPixel;
                         block4.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneW.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = block1.height + block2.height - (minPixel * 2);
                         block5.position.x = block1.width + block2.width - (minPixel * 2);
 
@@ -736,6 +748,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneW);
+                        gameSceneW.pivot.set(gameSceneW.width/2, gameSceneW.height/2);
                         gameSceneW.updateTransform();
                     }
 
@@ -748,8 +761,8 @@
                         gameSceneF.x = 300;
                         gameSceneF.y = 200;
                         gameSceneF.rotation = 0;
-                        gameSceneF.pivot.x = 0.5;
-                        gameSceneF.pivot.y = 0.5;
+                        // gameSceneF.pivot.x = 0.5;
+                        // gameSceneF.pivot.y = 0.5;
                         gameSceneF.zIndex = 0;
 
                         resource = resources["images/blockf.png"].texture;
@@ -760,27 +773,27 @@
                         var block5 = new Sprite(resource);
 
                         gameSceneF.addChild(block1);
-                        block1.anchor.set(0.5, 0.5);
+                        // block1.anchor.set(0.5, 0.5);
                         block1.position.y = block1.height - minPixel;
                         block1.position.x = 0;
 
                         gameSceneF.addChild(block2);
-                        block2.anchor.set(0.5, 0.5);
+                        // block2.anchor.set(0.5, 0.5);
                         block2.position.y = block1.height - minPixel;
                         block2.position.x = block1.width - minPixel;
 
                         gameSceneF.addChild(block3);
-                        block3.anchor.set(0.5, 0.5);
+                        // block3.anchor.set(0.5, 0.5);
                         block3.position.y = 0;
                         block3.position.x = block1.width - minPixel;
 
                         gameSceneF.addChild(block4);
-                        block4.anchor.set(0.5, 0.5);
+                        // block4.anchor.set(0.5, 0.5);
                         block4.position.y = block1.height - minPixel;
                         block4.position.x = block1.width + block2.width - (minPixel * 2);
 
                         gameSceneF.addChild(block5);
-                        block5.anchor.set(0.5, 0.5);
+                        // block5.anchor.set(0.5, 0.5);
                         block5.position.y = block1.height + block2.height - (minPixel * 2);
                         block5.position.x = block1.width + block2.width - (minPixel * 2);
 
@@ -795,6 +808,7 @@
                             .on('click', onClick);
 
                         stage.addChild(gameSceneF);
+                        gameSceneF.pivot.set(gameSceneF.width/2, gameSceneF.height/2);
                         gameSceneF.updateTransform();
                     }
 
@@ -805,6 +819,9 @@
                         this.alpha = 0.5;
                         this.dragging = true;
                         this.zIndex = 999;
+                        const currentSprite = this;
+                        stage.removeChild(currentSprite);
+                        stage.addChild(currentSprite);
                     }   
 
                     function onDragEnd(event) {
@@ -838,7 +855,17 @@
 
                     function onClick(event)
                     {
-                        this.rotation += Math.PI / 2; 
+                        event.currentTarget.calculateBounds();
+
+                        var rad, x, y;
+
+                        rad = 90 * Math.PI / 180;
+
+                        // if(Math.ceil(this.rotation) >= 5){
+                        //     this.rotation = 0; 
+                        // } else{
+                        this.rotation += rad; 
+                        // }
                     }
 
                     // run the render loop
@@ -861,82 +888,67 @@
                         var collision = undefined;
 
                         sprite.calculateBounds();
-                        const allVyVertexData = [];
-                        const allVxVertexData = [];
-                        for (i = 0; i < sprite.children.length; i++) { 
-                            const vertexData = sprite.children[i].vertexData;
-                            for (j = 0; j < vertexData.length; j++){
-                                if (j % 2 === 0){
-                                    allVxVertexData.push(vertexData[j]);
-                                } else {
-                                    allVyVertexData.push(vertexData[j]);
-                                }
-                            }
-                        }
 
-                        const yMin = Math.min.apply(Math, allVyVertexData) + 0.5;
-                        const yMax = Math.max.apply(Math, allVyVertexData) + 0.5;
-                        const xMin = Math.min.apply(Math, allVxVertexData) + 0.5;
-                        const xMax = Math.max.apply(Math, allVxVertexData) + 0.5;
-
-                        const yInterval = yMax - yMin; 
-                        const xInterval = xMax - xMin; 
-
-                        // console.log("yMin -> " + yMin + " | yMax -> " + yMax + " | xMin -> " + xMin + " | xMax -> " + xMax );
-                        console.log("yInterval -> " + yInterval + " | xInterval -> " + xInterval);
-                        
-                        var rotation = sprite.rotation / Math.PI;
-
-                        console.log("rotation -> " + rotation);
-                        const mod = rotation % 1;
-
-                        console.log("mod -> " + mod);
+                        var bounds = sprite._bounds;
 
                         //Left
-                        if (sprite.x < container.x) {
-                            sprite.x = container.x;
+                        if (bounds.minX < 1) {
+                            sprite.x = getPositionX(container, bounds, "left");
                             collision = "left";
                         }
+
                         //Top
-                        if (sprite.y < container.y) {
-                            sprite.y = container.y;
+                        if (bounds.minY < 1) {
+                            sprite.y = getPositionY(container, bounds, "top");
                             collision = "top";
                         }
+
                         //Right
-                        if (sprite.x + sprite.width > container.width) {
-                            sprite.x = container.width - sprite.width;
+                        if (bounds.maxX > container.width) {
+                            sprite.x = getPositionX(container, bounds, "right");
                             collision = "right";
                         }
                         //Bottom
-                        if (sprite.y + sprite.height > container.height) {
-                            sprite.y = container.height - sprite.height;
+                        if (bounds.maxY > container.height) {
+                            //sprite.y = container.height - sprite.height;
+                            sprite.y = getPositionY(container, bounds, "bottom");
                             collision = "bottom";
                         }
-                        console.log("collision -> " + collision);
-
-                        // //Left
-                        // if (sprite.x < container.x) {
-                        //     sprite.x = container.x;
-                        //     collision = "left";
-                        // }
-                        // //Top
-                        // if (sprite.y < container.y) {
-                        //     sprite.y = container.y;
-                        //     collision = "top";
-                        // }
-                        // //Right
-                        // if (sprite.x + sprite.width > container.width) {
-                        //     sprite.x = container.width - sprite.width;
-                        //     collision = "right";
-                        // }
-                        // //Bottom
-                        // if (sprite.y + sprite.height > container.height) {
-                        //     sprite.y = container.height - sprite.height;
-                        //     collision = "bottom";
-                        // }
 
                         return collision;
+                    }
 
+                    function getPositionX(container, bounds, collision){
+                        
+                        var position = 300;
+                        
+                        var xInterval = bounds.maxX - bounds.minX; 
+                        if(collision == "left"){
+                            position = 1 + xInterval/2;
+                        }
+
+                        if(collision == "right"){
+                            position = container.width - xInterval/2;
+                        }
+
+                        return position;
+                    }
+
+                    function getPositionY(container, bounds, collision){
+                        var position = 300;
+                        
+                        var yInterval = bounds.maxY - bounds.minY; 
+
+                        if(collision == "top"){
+                            position = 1 + yInterval/2;
+                        }
+
+                        if(collision == "bottom"){
+                            position = container.height - yInterval/2;
+
+                        }
+
+                        return position;
                     }
 
             </script>
