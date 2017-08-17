@@ -11,13 +11,17 @@
       <link rel="stylesheet" href="gameplay.css">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
       <script src="../bin/scaleToWindow.js"></script>
-
+      <title>Game Play</title>
       </head>
       <body>
           <nav class="navbar navbar-light bg-faded">
             <a class="navbar-brand" href="#">
               <img src="images/logo_pentamino.png" class="img-fluid" width="200" height="auto" class="d-inline-block align-top" alt="Pentaminó">
             </a>
+            <br>
+            <span id="teste">0</span>
+            <br>
+            <span id="teste1">0</span>
           </nav>    
 
           <script type="text/javascript">
@@ -29,10 +33,12 @@
                         resources = PIXI.loader.resources,
                         Sprite = PIXI.Sprite;
 
-                    var stage = new Container(), renderer = autoDetectRenderer(1200, 400, { antialias: true }, true);
+                    var stage = new Container(), renderer = autoDetectRenderer(1200, 500, { antialias: true }, true);
                     renderer.view.style.border = "1px dashed black";
                     // renderer.backgroundColor = 0x232325;
                     renderer.backgroundColor = 0xFFFFFF;
+
+                    var matrixGrid = new Array();
 
                     var minPixel = 3, defaultIndentation = 20;
 
@@ -40,51 +46,54 @@
 
                     loader
                         .add("images/grid.png")
-                        .add("images/blockp.png")
-                        .add("images/blockt.png")
-                        .add("images/blocki.png")
-                        .add("images/blockx.png")
-                        .add("images/blocku.png")
-                        .add("images/blockv.png")
-                        .add("images/blockl.png")
-                        .add("images/blockz.png")
-                        .add("images/blocky.png")
-                        .add("images/blockn.png")
+                        // .add("images/blockp.png")
+                        // .add("images/blockt.png")
+                        // .add("images/blocki.png")
+                        // .add("images/blockx.png")
+                        // .add("images/blocku.png")
+                        // .add("images/blockv.png")
+                        // .add("images/blockl.png")
+                        // .add("images/blockz.png")
+                        // .add("images/blocky.png")
+                        // .add("images/blockn.png")
                         .add("images/blockw.png")
                         .add("images/blockf.png")
                         .load(setupGrid)
-                        .load(setupLetterP)
-                        .load(setupLetterT)
-                        .load(setupLetterI)
-                        .load(setupLetterX)
-                        .load(setupLetterU)
-                        .load(setupLetterV)
-                        .load(setupLetterL)
-                        .load(setupLetterZ)
-                        .load(setupLetterY)
-                        .load(setupLetterN)
+                        // .load(setupLetterP)
+                        // .load(setupLetterT)
+                        // .load(setupLetterI)
+                        // .load(setupLetterX)
+                        // .load(setupLetterU)
+                        // .load(setupLetterV)
+                        // .load(setupLetterL)
+                        // .load(setupLetterZ)
+                        // .load(setupLetterY)
+                        // .load(setupLetterN)
                         .load(setupLetterW)
                         .load(setupLetterF);
-
-                    // stage.updateLayersOrder = function () {
-                    //     stage.children.sort(function(a,b) {
-                    //         a.zIndex = a.zIndex || 0;
-                    //         b.zIndex = b.zIndex || 0;
-                    //         return b.zIndex - a.zIndex
-                    //     });
-                    // };
-
-                    // stage.updateLayersOrder();
 
                     function setupGrid() {
 
                         //Create the grid
                         gridContainer = new Container();
-
                         resource = resources["images/grid.png"].texture;
                         var grid = new Sprite(resource);
                         gridContainer.addChild(grid);
                         stage.addChild(gridContainer);
+
+                        for(var y = 1; y <= 6; y++){
+                            for(var x = 1; x <= 8; x++){
+                                var maxX = 0, minX = 0, maxY = 0, minY = 0;
+                                maxX = (40 * x);
+                                maxY = (40 * y);
+                                minX = maxX - 40;
+                                minY = maxY - 40;
+
+                                matrixGrid.push({ minX: minX, minY: minY, maxX: maxX, maxY: maxY, centerX: minX + 20, centerY: minY + 20, check: false });
+                            }
+                        }
+
+                        countCheckGrid();
                     }
                     
                     function setupLetterP() {
@@ -92,9 +101,12 @@
                         //Create the sprites
                         gameSceneP = new Container();
                         gameSceneP.interactive = true;
+                        // gameSceneP.position.rotation = 0;
                         gameSceneP.x = 100;
                         gameSceneP.y = 100;
                         gameSceneP.rotation = 0;
+                        // gameSceneP.pivot.x = 0.5;
+                        // gameSceneP.pivot.y = 0.5;
                         gameSceneP.zIndex = 0;
 
                         resource = resources["images/blockp.png"].texture;
@@ -138,7 +150,6 @@
                         stage.addChild(gameSceneP);
 
                         gameSceneP.pivot.set(gameSceneP.width/2, gameSceneP.height/2);
-
                         gameSceneP.updateTransform();
 
                     }
@@ -152,6 +163,8 @@
                         gameSceneT.x = 100;
                         gameSceneT.y = defaultIndentation;
                         gameSceneT.rotation = 0;
+                        // gameSceneT.pivot.x = 0.5;
+                        // gameSceneT.pivot.y = 0.5;
                         gameSceneT.zIndex = 0;
 
                         resource = resources["images/blockt.png"].texture;
@@ -205,6 +218,9 @@
                         gameSceneI.x = 150;
                         gameSceneI.y = defaultIndentation;
                         gameSceneI.rotation = 0;
+                        // gameSceneI.pivot.x = 0.5;
+                        // gameSceneI.pivot.y = 0.5;
+                        //gameSceneI.position.set(150, 200);
                         gameSceneI.zIndex = 0;
 
                         resource = resources["images/blocki.png"].texture;
@@ -258,6 +274,8 @@
                         gameSceneX.x = 200;
                         gameSceneX.y = defaultIndentation;
                         gameSceneX.rotation = 0;
+                        // gameSceneX.pivot.x = 0.5;
+                        // gameSceneX.pivot.y = 0.5;
                         gameSceneX.zIndex = 0;
 
                         resource = resources["images/blockx.png"].texture;
@@ -310,6 +328,8 @@
                         gameSceneU.x = 250;
                         gameSceneU.y = defaultIndentation;
                         gameSceneU.rotation = 0;
+                        // gameSceneU.pivot.x = 0.5;
+                        // gameSceneU.pivot.y = 0.5;
                         gameSceneU.zIndex = 0;
 
                         resource = resources["images/blocku.png"].texture;
@@ -363,6 +383,8 @@
                         gameSceneV.x = 280;
                         gameSceneV.y = defaultIndentation;
                         gameSceneV.rotation = 0;
+                        // gameSceneV.pivot.x = 0.5;
+                        // gameSceneV.pivot.y = 0.5;
                         gameSceneV.zIndex = 0;
 
                         resource = resources["images/blockv.png"].texture;
@@ -416,6 +438,8 @@
                         gameSceneL.x = defaultIndentation;
                         gameSceneL.y = 150;
                         gameSceneL.rotation = 0;
+                        // gameSceneL.pivot.x = 0.5;
+                        // gameSceneL.pivot.y = 0.5;
                         gameSceneL.zIndex = 0;
 
                         resource = resources["images/blockl.png"].texture;
@@ -469,6 +493,8 @@
                         gameSceneZ.x = 60;
                         gameSceneZ.y = 150;
                         gameSceneZ.rotation = 0;
+                        // gameSceneZ.pivot.x = 0.5;
+                        // gameSceneZ.pivot.y = 0.5;
                         gameSceneZ.zIndex = 0;
 
                         resource = resources["images/blockz.png"].texture;
@@ -522,6 +548,8 @@
                         gameSceneY.x = 60;
                         gameSceneY.y = 150;
                         gameSceneY.rotation = 0;
+                        // gameSceneY.pivot.x = 0.5;
+                        // gameSceneY.pivot.y = 0.5;
                         gameSceneY.zIndex = 0;
 
                         resource = resources["images/blocky.png"].texture;
@@ -575,6 +603,8 @@
                         gameSceneN.x = 60;
                         gameSceneN.y = 260;
                         gameSceneN.rotation = 0;
+                        // gameSceneN.pivot.x = 0.5;
+                        // gameSceneN.pivot.y = 0.5;
                         gameSceneN.zIndex = 0;
 
                         resource = resources["images/blockn.png"].texture;
@@ -626,8 +656,10 @@
                         gameSceneW.interactive = true;
                         gameSceneW.position.rotation = 0;
                         gameSceneW.x = 150;
-                        gameSceneW.y = 200;
+                        gameSceneW.y = 300;
                         gameSceneW.rotation = 0;
+                        // gameSceneW.pivot.x = 0.5;
+                        // gameSceneW.pivot.y = 0.5;
                         gameSceneW.zIndex = 0;
 
                         resource = resources["images/blockw.png"].texture;
@@ -665,7 +697,8 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
-                            .on('click', onClick);
+                            .on('click', onClick)
+                            ;
 
                         stage.addChild(gameSceneW);
                         gameSceneW.pivot.set(gameSceneW.width/2, gameSceneW.height/2);
@@ -679,8 +712,10 @@
                         gameSceneF.interactive = true;
                         gameSceneF.position.rotation = 0;
                         gameSceneF.x = 300;
-                        gameSceneF.y = 200;
+                        gameSceneF.y = 300;
                         gameSceneF.rotation = 0;
+                        // gameSceneF.pivot.x = 0.5;
+                        // gameSceneF.pivot.y = 0.5;
                         gameSceneF.zIndex = 0;
 
                         resource = resources["images/blockf.png"].texture;
@@ -718,10 +753,13 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
-                            .on('click', onClick);
-
-                        stage.addChild(gameSceneF);
+                            .on('click', onClick)
+                            ;
+                        console.log("w -> "+gameSceneF.width + " | h -> "+gameSceneF.height);
                         gameSceneF.pivot.set(gameSceneF.width/2, gameSceneF.height/2);
+                        stage.addChild(gameSceneF);
+                        
+                        
                         gameSceneF.updateTransform();
                     }
 
@@ -732,9 +770,10 @@
                         this.alpha = 0.5;
                         this.dragging = true;
                         this.zIndex = 999;
-                        const currentSprite = this;
-                        stage.removeChild(currentSprite);
-                        stage.addChild(currentSprite);
+
+                        event.currentTarget.calculateBounds();
+                        unCheck(event.currentTarget.children);
+                        
                     }   
 
                     function onDragEnd(event) {
@@ -755,6 +794,11 @@
                         this.data = null;
 
                         this.zIndex = 0;
+
+                        event.currentTarget.calculateBounds();
+                        var points = check(event.currentTarget.children);
+                        this.position.x = points.x - 3;
+                        this.position.y = points.y - 3;
                     }
 
                     function onDragMove(event) {
@@ -768,17 +812,115 @@
 
                     function onClick(event)
                     {
-                        event.currentTarget.calculateBounds();
+                        unCheck(event.currentTarget.children);
+                        // var rad = 90 * Math.PI / 180;
+                        this.rotation += Math.PI / 2; 
+                        // this.rotation += rad;
+                    }
 
-                        var rad, x, y;
+                    function check(children){
+                        var points = new Array();
+                        
+                        for(var c = 0; c < children.length; c++){
 
-                        rad = 90 * Math.PI / 180;
+                            var boundsChild = children[c]._bounds;
 
-                        // if(Math.ceil(this.rotation) >= 5){
-                        //     this.rotation = 0; 
-                        // } else{
-                        this.rotation += rad; 
-                        // }
+                            var xmin = boundsChild.minX;
+                            var xmax = boundsChild.maxX;
+                            var ymin = boundsChild.minY;
+                            var ymax = boundsChild.maxY;
+                            var centerX = xmin + 20;
+                            var centerY = ymin + 20;
+                            var countChildCheck = 0;
+                            
+                            for(var i = 0; i < matrixGrid.length; i++){
+                                // console.log("BoundsGrid -> "+JSON.stringify(matrixGrid[i]));
+                                if( matrixGrid[i].minX <= centerX && centerX <= matrixGrid[i].maxX && matrixGrid[i].minY <= centerY && centerY <= matrixGrid[i].maxY ) {
+                                    matrixGrid[i].check = true;
+                                    countChildCheck++;
+                                    points.push({ x: matrixGrid[i].centerX, y: matrixGrid[i].centerY, minX:matrixGrid[i].minX, minY: matrixGrid[i].minY, maxX: matrixGrid[i].maxX, maxY: matrixGrid[i].maxY  });
+                                }
+                            }
+                        }
+
+                        // console.log("meio -> "+JSON.stringify(findCenter(points)));
+                        countCheckGrid();
+                        return findCenter(points);
+                    }
+
+                    function unCheck(children){
+                        for(var c = 0; c < children.length; c++){
+                            var boundsChild = children[c]._bounds;
+                            // console.log("BoundsElement -> "+JSON.stringify(boundsChild));
+
+                            var xmin = boundsChild.minX;
+                            var xmax = boundsChild.maxX;
+                            var ymin = boundsChild.minY;
+                            var ymax = boundsChild.maxY;
+                            var centerX = xmin + 20;
+                            var centerY = ymin + 20;
+                            
+                            for(var i = 0; i < matrixGrid.length; i++){
+                                // console.log("BoundsGrid -> "+JSON.stringify(matrixGrid[i]));
+                                if( matrixGrid[i].minX <= centerX && centerX <= matrixGrid[i].maxX && matrixGrid[i].minY <= centerY && centerY <= matrixGrid[i].maxY ) {
+                                    matrixGrid[i].check = false;
+                                    // console.log("achou -> "+JSON.stringify(matrixGrid[i]));    
+                                }
+                            }
+                        }
+                    }
+
+                    function countCheckGrid(){
+                        
+                        var count = 0;
+                        var countFalse = 0;;
+
+                        for(var i = 0; i < matrixGrid.length; i++){
+                            if( matrixGrid[i].check == true ) {
+                                count++;
+                            }
+                            else{
+                                countFalse++;
+                            }
+                        }
+                        document.getElementById("teste").innerHTML = ""+count+" Preenchido";
+                        document.getElementById("teste1").innerHTML = ""+countFalse+" Vazio";
+                    }
+
+                    function findCenter(points) {
+
+                        var x = 0, y = 0, i, len = points.length;
+                        var arrayX = new Array();
+                        var arrayY = new Array();
+
+                        for (i = 0; i < len; i++) {
+
+                            arrayX.push(points[i].minX);
+                            arrayX.push(points[i].maxX);
+
+                            arrayY.push(points[i].minY);
+                            arrayY.push(points[i].maxY);
+
+                            // x += points[i].x;
+                            // y += points[i].y;
+                        }
+
+                        var yMin = Math.min.apply(Math, arrayY);
+                        var yMax = Math.max.apply(Math, arrayY);
+
+                        var xMin = Math.min.apply(Math, arrayX);
+                        var xMax = Math.max.apply(Math, arrayX);
+
+                        var yInterval = yMax - yMin;
+                        var xInterval = xMax - xMin;
+
+                        var newX = xMin + xInterval / 2;
+                        var newY = yMin + yInterval / 2;
+
+                        console.log("newX -> "+newX+" | newY -> "+newY);
+
+                        // return {x: x / len, y: y / len};   // return average position
+                        return {x: newX, y: newY};
                     }
 
                     // run the render loop
@@ -799,69 +941,37 @@
                     {
                         
                         var collision = undefined;
+                        sprite.calculateBounds(); 
 
-                        sprite.calculateBounds();
-
+                        var rotation = Math.ceil(sprite.rotation);
                         var bounds = sprite._bounds;
-
+                        var yInterval = bounds.maxY - bounds.minY;
+                        var xInterval = bounds.maxX - bounds.minX; 
+                    
                         //Left
-                        if (bounds.minX < 1) {
-                            sprite.x = getPositionX(container, bounds, "left");
+                        if (bounds.minX < 0.5) {
+                            sprite.x = 0.5 + xInterval/2;
                             collision = "left";
                         }
 
                         //Top
-                        if (bounds.minY < 1) {
-                            sprite.y = getPositionY(container, bounds, "top");
+                        if (bounds.minY < 0.5) {
+                            sprite.y = 0.5 + yInterval/2;
                             collision = "top";
                         }
 
                         //Right
                         if (bounds.maxX > container.width) {
-                            sprite.x = getPositionX(container, bounds, "right");
+                            sprite.x = container.width - xInterval/2;
                             collision = "right";
                         }
                         //Bottom
                         if (bounds.maxY > container.height) {
-                            //sprite.y = container.height - sprite.height;
-                            sprite.y = getPositionY(container, bounds, "bottom");
+                            sprite.y = container.height - yInterval/2;
                             collision = "bottom";
                         }
 
                         return collision;
-                    }
-
-                    function getPositionX(container, bounds, collision){
-                        
-                        var position = 300;
-                        
-                        var xInterval = bounds.maxX - bounds.minX; 
-                        if(collision == "left"){
-                            position = 1 + xInterval/2;
-                        }
-
-                        if(collision == "right"){
-                            position = container.width - xInterval/2;
-                        }
-
-                        return position;
-                    }
-
-                    function getPositionY(container, bounds, collision){
-                        var position = 300;
-                        
-                        var yInterval = bounds.maxY - bounds.minY; 
-
-                        if(collision == "top"){
-                            position = 1 + yInterval/2;
-                        }
-
-                        if(collision == "bottom"){
-                            position = container.height - yInterval/2;
-
-                        }
-
-                        return position;
                     }
 
             </script>
