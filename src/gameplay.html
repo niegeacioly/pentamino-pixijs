@@ -46,9 +46,14 @@
                     document.body.appendChild(renderer.view);
 
                     var gridHeight = 0;
+                    var columnSelected = 0, rowSelected = 0;
 
                     loader
                         .add("images/grid.png")
+                        .add("images/grid_6x10_normal.png")
+                        .add("images/grid_5x12_normal.png")
+                        .add("images/grid_4x15_normal.png")
+                        .add("images/grid_3x20_normal.png")
                         .add("images/blockz.png")
                         .add("images/blocky.png")
                         .add("images/blockl.png")
@@ -61,6 +66,7 @@
                         .add("images/blockv.png")
                         .add("images/blocku.png")
                         .add("images/blockp.png")
+                        .load(setupMiniGrids)
                         .load(setupGrid)
                         .load(setupLetterZ)
                         .load(setupLetterY)
@@ -75,6 +81,35 @@
                         .load(setupLetterU)
                         .load(setupLetterP);
 
+                    function setupMiniGrids() {
+
+                        //Create the grid
+                        miniGridContainer = new Container();
+
+                        resource = resources["images/grid_6x10_normal.png"].texture;
+                        var grid1 = new Sprite(resource);
+                        miniGridContainer.addChild(grid1);
+
+                        resource = resources["images/grid_5x12_normal.png"].texture;
+                        var grid2 = new Sprite(resource);
+                        grid2.y = grid1.y + grid1.height + defaultIndentation;
+                        miniGridContainer.addChild(grid2);
+
+                        resource = resources["images/grid_4x15_normal.png"].texture;
+                        var grid3 = new Sprite(resource);
+                        grid3.y = grid2.y + grid2.height + defaultIndentation;
+                        miniGridContainer.addChild(grid3);
+
+                        resource = resources["images/grid_3x20_normal.png"].texture;
+                        var grid4 = new Sprite(resource);
+                        grid4.y = grid3.y + grid3.height + defaultIndentation;
+                        miniGridContainer.addChild(grid4);
+
+                        stage.addChild(miniGridContainer);
+
+                    }
+
+
                     function setupGrid() {
 
                         //Create the grid
@@ -86,17 +121,18 @@
 
                         gridHeight = grid.height + defaultIndentation;
 
-                        const row = 6, column = 10;
+                        var row = 6, column = 10;
 
                         for(var y = 1; y <= row; y++) {
                             for(var x = 1; x <= column; x++) {
                                 var maxX = 0, minX = 0, maxY = 0, minY = 0;
-                                maxX = (DEFAULT_SIZE_BLOCK * x) - x * 3;
-                                maxY = (DEFAULT_SIZE_BLOCK * y) - y * 3;
-                                minX = (maxX - DEFAULT_SIZE_BLOCK) + 3;
-                                minY = (maxY - DEFAULT_SIZE_BLOCK) + 3;
+                                maxX = (DEFAULT_SIZE_BLOCK * x) - x * minPixel;
+                                maxY = (DEFAULT_SIZE_BLOCK * y) - y * minPixel;
+                                minX = (maxX - DEFAULT_SIZE_BLOCK) + minPixel;
+                                minY = (maxY - DEFAULT_SIZE_BLOCK) + minPixel;
 
-                                matrixGrid.push({ minX: minX, minY: minY, maxX: maxX, maxY: maxY, centerX: minX + 20, centerY: minY + 20, check: false });
+                                matrixGrid.push(
+                                    { minX: minX, minY: minY, maxX: maxX, maxY: maxY, centerX: minX + defaultIndentation, centerY: minY + defaultIndentation, check: false });
                             }
                         }
 
