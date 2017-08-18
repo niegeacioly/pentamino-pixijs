@@ -90,8 +90,8 @@
                                 var maxX = 0, minX = 0, maxY = 0, minY = 0;
                                 maxX = (40 * x) - x * 3;
                                 maxY = (40 * y) - y * 3;
-                                minX = (maxX - 40) + x;
-                                minY = (maxY - 40) + y;
+                                minX = (maxX - 40) + 3;
+                                minY = (maxY - 40) + 3;
 
                                 matrixGrid.push({ minX: minX, minY: minY, maxX: maxX, maxY: maxY, centerX: minX + 20, centerY: minY + 20, check: false });
                             }
@@ -119,6 +119,7 @@
                         gameSceneZ.position.rotation = 0;
                         gameSceneZ.x = GRID_INDENTATION + defaultIndentation * 4;
                         gameSceneZ.y = gridHeight + defaultIndentation * 4;
+                        gameSceneZ.filter = { name: "Z", id: 1, x: gameSceneZ.x, y: gameSceneZ.y };
                         gameSceneZ.rotation = 0;
                         gameSceneZ.zIndex = 0;
 
@@ -172,6 +173,7 @@
                         gameSceneY.position.rotation = 0;
                         gameSceneY.x = GRID_INDENTATION + defaultIndentation * 5;
                         gameSceneY.y = gridHeight + defaultIndentation * 9;
+                        gameSceneY.filter = { name: "Y", id: 2, x: gameSceneY.x, y: gameSceneY.y };
                         gameSceneY.rotation = 0;
                         gameSceneY.zIndex = 0;
 
@@ -225,6 +227,7 @@
                         gameSceneL.position.rotation = 0;
                         gameSceneL.x = GRID_INDENTATION + defaultIndentation * 10;
                         gameSceneL.y = gridHeight + defaultIndentation * 5;
+                        gameSceneL.filter = { name: "L", id: 3, x: gameSceneL.x, y: gameSceneL.y };
                         gameSceneL.rotation = 0;
                         gameSceneL.zIndex = 0;
 
@@ -278,10 +281,10 @@
                         gameSceneI.position.rotation = 0;
                         gameSceneI.x = GRID_INDENTATION + defaultIndentation * 18;
                         gameSceneI.y = gridHeight + defaultIndentation * 2 + 5;
+                        gameSceneI.filter = { name: "I", id: 4, x: gameSceneI.x, y: gameSceneI.y };
                         gameSceneI.rotation = 0;
                         gameSceneI.zIndex = 0;
-                        gameSceneI.filter = { name: "I", id: 0, x: 500, y: 300 };
-
+                        
                         resource = resources["images/blocki.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
@@ -323,7 +326,7 @@
                         gameSceneI.pivot.set(gameSceneI.width/2, gameSceneI.height/2);
                         gameSceneI.updateTransform();
                     }
-                    
+
 
                     function setupLetterN() {
 
@@ -333,6 +336,7 @@
                         gameSceneN.position.rotation = 0;
                         gameSceneN.x = GRID_INDENTATION + defaultIndentation * 14 + 5;
                         gameSceneN.y = gridHeight + defaultIndentation * 7 + 10;
+                        gameSceneN.filter = { name: "N", id: 5, x: gameSceneN.x, y: gameSceneN.y };
                         gameSceneN.rotation = 0;
                         gameSceneN.zIndex = 0;
 
@@ -386,8 +390,8 @@
                         gameSceneT.position.rotation = 0;
                         gameSceneT.x = GRID_INDENTATION + defaultIndentation * 20;
                         gameSceneT.y = gridHeight + defaultIndentation * 8;
+                        gameSceneT.filter = { name: "T", id: 6, x: gameSceneT.x, y: gameSceneT.y };
                         gameSceneT.rotation = 0;
-                        gameSceneT.filter = { name: "T", id: 1, x: 200, y: 400 };
                         gameSceneT.zIndex = 0;
 
                         resource = resources["images/blockt.png"].texture;
@@ -440,6 +444,7 @@
                         gameSceneX.position.rotation = 0;
                         gameSceneX.x = GRID_INDENTATION + defaultIndentation * 26;
                         gameSceneX.y = gridHeight + defaultIndentation * 9;
+                        gameSceneX.filter = { name: "X", id: 7, x: gameSceneX.x, y: gameSceneX.y };
                         gameSceneX.rotation = 0;
                         gameSceneX.zIndex = 0;
 
@@ -492,10 +497,10 @@
                         gameSceneW.position.rotation = 0;
                         gameSceneW.x = GRID_INDENTATION + defaultIndentation * 27;
                         gameSceneW.y = gridHeight + defaultIndentation * 4;
+                        gameSceneW.filter = { name: "W", id: 8, x: gameSceneW.x, y: gameSceneW.y };
                         gameSceneW.rotation = 0;
                         gameSceneW.zIndex = 0;
-                        gameSceneW.filter = { name: "W", id: 0, x: 150, y: 300 };
-
+                        
                         resource = resources["images/blockw.png"].texture;
                         var block1 = new Sprite(resource);
                         var block2 = new Sprite(resource);
@@ -547,9 +552,9 @@
                         gameSceneF.position.rotation = 0;
                         gameSceneF.x = GRID_INDENTATION + defaultIndentation * 33;
                         gameSceneF.y = gridHeight + defaultIndentation * 4;
+                        gameSceneF.filter = { name: "F", id: 9, x: gameSceneF.x, y: gameSceneF.y };
                         gameSceneF.rotation = 0;
                         gameSceneF.zIndex = 0;
-                        gameSceneF.filter = { name: "F", id: 0, x: 300, y: 300 };
 
                         resource = resources["images/blockf.png"].texture;
                         var block1 = new Sprite(resource);
@@ -602,6 +607,7 @@
                         gameSceneV.position.rotation = 0;
                         gameSceneV.x = GRID_INDENTATION + defaultIndentation * 33;
                         gameSceneV.y = gridHeight + defaultIndentation * 10;
+                        gameSceneV.filter = { name: "V", id: 10, x: gameSceneV.x, y: gameSceneV.y };
                         gameSceneV.rotation = 0;
                         gameSceneV.zIndex = 0;
 
@@ -655,6 +661,7 @@
                         gameSceneU.position.rotation = 0;
                         gameSceneU.x = GRID_INDENTATION + defaultIndentation * 39;
                         gameSceneU.y = gridHeight + defaultIndentation * 3;
+                        gameSceneU.filter = { name: "U", id: 11, x: gameSceneU.x, y: gameSceneU.y };
                         gameSceneU.rotation = 0;
                         gameSceneU.zIndex = 0;
 
@@ -707,9 +714,8 @@
                         gameSceneP.interactive = true;
                         gameSceneP.x = GRID_INDENTATION + defaultIndentation * 39;
                         gameSceneP.y = gridHeight + defaultIndentation * 9;
-
+                        gameSceneP.filter = { name: "P", id: 12, x: gameSceneP.x, y: gameSceneP.y };
                         gameSceneP.rotation = 0;
-                        gameSceneP.filter = { name: "P", id: 0, x: 200, y: 300 };
                         gameSceneP.zIndex = 0;
 
                         resource = resources["images/blockp.png"].texture;
@@ -757,7 +763,6 @@
 
                     }
 
-                    
                     function onDragStart(event) {
                         // store a reference to the data the reason for this is because of multitouch we want to track the movement of this particular touch
                         this.start_data = {x: event.data.originalEvent.screenX, y: event.data.originalEvent.screenY};
@@ -796,6 +801,7 @@
                         if(points.x == 0){
                             this.position.x = this.filter.x;
                             this.position.y = this.filter.y;
+                            this.rotation = 0;
                         }
                         else{
                             this.position.x = points.x;
