@@ -35,18 +35,17 @@
 
                     var stage = new Container(), renderer = autoDetectRenderer(1200, 600, { antialias: true }, true);
                     renderer.view.style.border = "1px dashed black";
-                    // renderer.backgroundColor = 0x232325;
-                    renderer.backgroundColor = 0xFFFFFF;
+                    renderer.backgroundColor = 0x232325;
 
                     var matrixGrid = new Array();
 
                     var minPixel = 3, defaultIndentation = 20;
 
-                    const GRID_INDENTATION = 150, GRID_WIDTH = 850, GRID_HEIGHT = 270;
-
-                    var gridHeight = 0;
+                    const GRID_INDENTATION = 150, GRID_WIDTH = 850, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
 
                     document.body.appendChild(renderer.view);
+
+                    var gridHeight = 0;
 
                     loader
                         .add("images/grid.png")
@@ -85,30 +84,50 @@
                         gridContainer.addChild(grid);
                         stage.addChild(gridContainer);
 
-                        for(var y = 1; y <= 6; y++){
-                            for(var x = 1; x <= 20; x++){
+                        gridHeight = grid.height + defaultIndentation;
+
+                        const row = 6, column = 10;
+
+                        for(var y = 1; y <= row; y++) {
+                            for(var x = 1; x <= column; x++) {
                                 var maxX = 0, minX = 0, maxY = 0, minY = 0;
-                                maxX = (40 * x) - x * 3;
-                                maxY = (40 * y) - y * 3;
-                                minX = (maxX - 40) + 3;
-                                minY = (maxY - 40) + 3;
+                                maxX = (DEFAULT_SIZE_BLOCK * x) - x * 3;
+                                maxY = (DEFAULT_SIZE_BLOCK * y) - y * 3;
+                                minX = (maxX - DEFAULT_SIZE_BLOCK) + 3;
+                                minY = (maxY - DEFAULT_SIZE_BLOCK) + 3;
 
                                 matrixGrid.push({ minX: minX, minY: minY, maxX: maxX, maxY: maxY, centerX: minX + 20, centerY: minY + 20, check: false });
                             }
                         }
 
+                        var bgWidth = DEFAULT_SIZE_BLOCK * column - (minPixel * (column - 1));
+                        var bgHeight = DEFAULT_SIZE_BLOCK * row - (minPixel * (row - 1));
+
                         countCheckGrid();
+                        drawBackgroundRectGrid(bgWidth,bgHeight );
+                        drawBackgroundRectForLetters(gridHeight);
+                    }
 
+                    function drawBackgroundRectGrid(bgWidth,bgHeight) {
                         var graphics = new PIXI.Graphics();
-                        graphics.beginFill(0xBCB09A);
+                        graphics.beginFill(0xFDFDFF);
+                        graphics.alpha = 0.1;
+                        // draw a rectangle
+                        graphics.drawRect(0, 0, bgWidth,bgHeight);
+                        graphics.endFill();
 
-                        gridHeight = grid.height + defaultIndentation;
+                        stage.addChild(graphics);
+                    }
+
+                    function drawBackgroundRectForLetters(gridHeight) {
+                        var graphics = new PIXI.Graphics();
+
+                        graphics.beginFill(0xBCB09A);
 
                         // draw a rectangle
                         graphics.drawRect(GRID_INDENTATION, gridHeight, GRID_WIDTH, GRID_HEIGHT);
 
                         stage.addChild(graphics);
-
                     }
 
                     function setupLetterZ() {
@@ -326,7 +345,6 @@
                         gameSceneI.pivot.set(gameSceneI.width/2, gameSceneI.height/2);
                         gameSceneI.updateTransform();
                     }
-
 
                     function setupLetterN() {
 
@@ -821,9 +839,7 @@
                     function onClick(event)
                     {
                         unCheck(event.currentTarget.children);
-                        // var rad = 90 * Math.PI / 180;
                         this.rotation += Math.PI / 2; 
-                        // this.rotation += rad;
                     }
 
                     function check(children){
@@ -837,8 +853,8 @@
                             var xmax = boundsChild.maxX;
                             var ymin = boundsChild.minY;
                             var ymax = boundsChild.maxY;
-                            var centerX = xmin + 20;
-                            var centerY = ymin + 20;
+                            var centerX = xmin + defaultIndentation;
+                            var centerY = ymin + defaultIndentation;
                             var countChildCheck = 0;
                             
                             for(var i = 0; i < matrixGrid.length; i++){
@@ -869,8 +885,8 @@
                             var xmax = boundsChild.maxX;
                             var ymin = boundsChild.minY;
                             var ymax = boundsChild.maxY;
-                            var centerX = xmin + 20;
-                            var centerY = ymin + 20;
+                            var centerX = xmin + defaultIndentation;
+                            var centerY = ymin + defaultIndentation;
                             
                             for(var i = 0; i < matrixGrid.length; i++){
                                 // console.log("BoundsGrid -> "+JSON.stringify(matrixGrid[i]));
