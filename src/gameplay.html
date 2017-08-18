@@ -33,7 +33,7 @@
                         resources = PIXI.loader.resources,
                         Sprite = PIXI.Sprite;
 
-                    var stage = new Container(), renderer = autoDetectRenderer(1200, 500, { antialias: true }, true);
+                    var stage = new Container(), renderer = autoDetectRenderer(1200, 600, { antialias: true }, true);
                     renderer.view.style.border = "1px dashed black";
                     // renderer.backgroundColor = 0x232325;
                     renderer.backgroundColor = 0xFFFFFF;
@@ -42,35 +42,39 @@
 
                     var minPixel = 3, defaultIndentation = 20;
 
+                    const GRID_INDENTATION = 150, GRID_WIDTH = 850, GRID_HEIGHT = 270;
+
+                    var gridHeight = 0;
+
                     document.body.appendChild(renderer.view);
 
                     loader
                         .add("images/grid.png")
-                        // .add("images/blockp.png")
-                        // .add("images/blockt.png")
-                        // .add("images/blocki.png")
-                        // .add("images/blockx.png")
-                        // .add("images/blocku.png")
-                        // .add("images/blockv.png")
-                        // .add("images/blockl.png")
-                        // .add("images/blockz.png")
-                        // .add("images/blocky.png")
-                        // .add("images/blockn.png")
+                        .add("images/blockz.png")
+                        .add("images/blocky.png")
+                        .add("images/blockl.png")
+                        .add("images/blocki.png")
+                        .add("images/blockn.png")
+                        .add("images/blockt.png")
+                        .add("images/blockx.png")
                         .add("images/blockw.png")
                         .add("images/blockf.png")
+                        .add("images/blockv.png")
+                        .add("images/blocku.png")
+                        .add("images/blockp.png")
                         .load(setupGrid)
-                        // .load(setupLetterP)
-                        // .load(setupLetterT)
-                        // .load(setupLetterI)
-                        // .load(setupLetterX)
-                        // .load(setupLetterU)
-                        // .load(setupLetterV)
-                        // .load(setupLetterL)
-                        // .load(setupLetterZ)
-                        // .load(setupLetterY)
-                        // .load(setupLetterN)
+                        .load(setupLetterZ)
+                        .load(setupLetterY)
+                        .load(setupLetterL)
+                        .load(setupLetterI)
+                        .load(setupLetterN)
+                        .load(setupLetterT)
+                        .load(setupLetterX)
                         .load(setupLetterW)
-                        .load(setupLetterF);
+                        .load(setupLetterF)
+                        .load(setupLetterV)
+                        .load(setupLetterU)
+                        .load(setupLetterP);
 
                     function setupGrid() {
 
@@ -82,406 +86,29 @@
                         stage.addChild(gridContainer);
 
                         for(var y = 1; y <= 6; y++){
-                            for(var x = 1; x <= 8; x++){
+                            for(var x = 1; x <= 20; x++){
                                 var maxX = 0, minX = 0, maxY = 0, minY = 0;
-                                maxX = (40 * x);
-                                maxY = (40 * y);
-                                minX = maxX - 40;
-                                minY = maxY - 40;
+                                maxX = (40 * x) - x * 3;
+                                maxY = (40 * y) - y * 3;
+                                minX = (maxX - 40) + x;
+                                minY = (maxY - 40) + y;
 
                                 matrixGrid.push({ minX: minX, minY: minY, maxX: maxX, maxY: maxY, centerX: minX + 20, centerY: minY + 20, check: false });
                             }
                         }
 
                         countCheckGrid();
-                    }
-                    
-                    function setupLetterP() {
 
-                        //Create the sprites
-                        gameSceneP = new Container();
-                        gameSceneP.interactive = true;
-                        // gameSceneP.position.rotation = 0;
-                        gameSceneP.x = 100;
-                        gameSceneP.y = 100;
-                        gameSceneP.rotation = 0;
-                        // gameSceneP.pivot.x = 0.5;
-                        // gameSceneP.pivot.y = 0.5;
-                        gameSceneP.zIndex = 0;
+                        var graphics = new PIXI.Graphics();
+                        graphics.beginFill(0xBCB09A);
 
-                        resource = resources["images/blockp.png"].texture;
-                        var block1 = new Sprite(resource);
-                        var block2 = new Sprite(resource);
-                        var block3 = new Sprite(resource);
-                        var block4 = new Sprite(resource);
-                        var block5 = new Sprite(resource);
+                        gridHeight = grid.height + defaultIndentation;
 
-                        gameSceneP.addChild(block1);
-                        block1.position.y = 0;
-                        block1.position.x = 0;
+                        // draw a rectangle
+                        graphics.drawRect(GRID_INDENTATION, gridHeight, GRID_WIDTH, GRID_HEIGHT);
 
-                        gameSceneP.addChild(block2);
-                        block2.position.y = 0;
-                        block2.position.x = block1.height - minPixel;
+                        stage.addChild(graphics);
 
-                        gameSceneP.addChild(block3);
-                        block3.position.y = block2.height - minPixel;
-                        block3.position.x = 0;
-
-                        gameSceneP.addChild(block4);
-                        block4.position.y = block3.height - minPixel;
-                        block4.position.x = block3.width - minPixel;
-
-                        gameSceneP.addChild(block5);
-                        block5.position.y = (block4.height - minPixel) + (block4.height - minPixel);
-                        block5.position.x = 0;
-
-                        // setup events
-                        gameSceneP.on('mousedown', onDragStart)
-                            .on('touchstart', onDragStart)
-                            .on('mouseup', onDragEnd)
-                            .on('mouseupoutside', onDragEnd)
-                            .on('touchend', onDragEnd)
-                            .on('touchendoutside', onDragEnd)
-                            .on('mousemove', onDragMove)
-                            .on('touchmove', onDragMove)
-                            .on('click', onClick);
-                        
-                        stage.addChild(gameSceneP);
-
-                        gameSceneP.pivot.set(gameSceneP.width/2, gameSceneP.height/2);
-                        gameSceneP.updateTransform();
-
-                    }
-
-                    function setupLetterT() {
-
-                        //Create the sprites
-                        gameSceneT = new Container();
-                        gameSceneT.interactive = true;
-                        gameSceneT.position.rotation = 0;
-                        gameSceneT.x = 100;
-                        gameSceneT.y = defaultIndentation;
-                        gameSceneT.rotation = 0;
-                        // gameSceneT.pivot.x = 0.5;
-                        // gameSceneT.pivot.y = 0.5;
-                        gameSceneT.zIndex = 0;
-
-                        resource = resources["images/blockt.png"].texture;
-                        var block1 = new Sprite(resource);
-                        var block2 = new Sprite(resource);
-                        var block3 = new Sprite(resource);
-                        var block4 = new Sprite(resource);
-                        var block5 = new Sprite(resource);
-
-                        gameSceneT.addChild(block1);
-                        block1.position.y = 0;
-                        block1.position.x = block1.height - minPixel;
-
-                        gameSceneT.addChild(block2);
-                        block2.position.y = block1.height - minPixel;
-                        block2.position.x = block1.width - minPixel;
-
-                        gameSceneT.addChild(block3);
-                        block3.position.y = (block1.height - minPixel) + (block2.height - minPixel);
-                        block3.position.x = (block1.width - minPixel) + (block2.width - minPixel);
-
-                        gameSceneT.addChild(block4);
-                        block4.position.y = (block1.height - minPixel) + (block2.height - minPixel);
-                        block4.position.x = (block1.height - minPixel);
-
-                        gameSceneT.addChild(block5);
-                        block5.position.y = (block1.height - minPixel) + (block1.height - minPixel);
-                        block5.position.x = 0;
-
-                        gameSceneT.on('mousedown', onDragStart)
-                            .on('touchstart', onDragStart)
-                            .on('mouseup', onDragEnd)
-                            .on('mouseupoutside', onDragEnd)
-                            .on('touchend', onDragEnd)
-                            .on('touchendoutside', onDragEnd)
-                            .on('mousemove', onDragMove)
-                            .on('touchmove', onDragMove)
-                            .on('click', onClick);
-
-                        stage.addChild(gameSceneT);
-                        gameSceneT.pivot.set(gameSceneT.width/2, gameSceneT.height/2);
-                        gameSceneT.updateTransform();
-                    }
-                    
-                    function setupLetterI() {
-
-                        //Create the sprites
-                        gameSceneI = new Container();
-                        gameSceneI.interactive = true;
-                        gameSceneI.position.rotation = 0;
-                        gameSceneI.x = 150;
-                        gameSceneI.y = defaultIndentation;
-                        gameSceneI.rotation = 0;
-                        // gameSceneI.pivot.x = 0.5;
-                        // gameSceneI.pivot.y = 0.5;
-                        //gameSceneI.position.set(150, 200);
-                        gameSceneI.zIndex = 0;
-
-                        resource = resources["images/blocki.png"].texture;
-                        var block1 = new Sprite(resource);
-                        var block2 = new Sprite(resource);
-                        var block3 = new Sprite(resource);
-                        var block4 = new Sprite(resource);
-                        var block5 = new Sprite(resource);
-
-                        gameSceneI.addChild(block1);
-                        block1.position.y = 0;
-                        block1.position.x = 0;
-
-                        gameSceneI.addChild(block2);
-                        block2.position.y = 0;
-                        block2.position.x = block1.width - minPixel;
-
-                        gameSceneI.addChild(block3);
-                        block3.position.y = 0;
-                        block3.position.x = block1.width + block2.width - (minPixel * 2);
-
-                        gameSceneI.addChild(block4);
-                        block4.position.y = 0;
-                        block4.position.x = block1.width + block2.width + block3.width - (minPixel * 3);
-
-                        gameSceneI.addChild(block5);
-                        block5.position.y = 0;
-                        block5.position.x = block1.width + block2.width + block3.width + block4.width - (minPixel * 4);
-
-                        gameSceneI.on('mousedown', onDragStart)
-                            .on('touchstart', onDragStart)
-                            .on('mouseup', onDragEnd)
-                            .on('mouseupoutside', onDragEnd)
-                            .on('touchend', onDragEnd)
-                            .on('touchendoutside', onDragEnd)
-                            .on('mousemove', onDragMove)
-                            .on('touchmove', onDragMove)
-                            .on('click', onClick);
-
-                        stage.addChild(gameSceneI);
-                        gameSceneI.pivot.set(gameSceneI.width/2, gameSceneI.height/2);
-                        gameSceneI.updateTransform();
-                    }
-
-                    function setupLetterX() {
-
-                        //Create the sprites
-                        gameSceneX = new Container();
-                        gameSceneX.interactive = true;
-                        gameSceneX.position.rotation = 0;
-                        gameSceneX.x = 200;
-                        gameSceneX.y = defaultIndentation;
-                        gameSceneX.rotation = 0;
-                        // gameSceneX.pivot.x = 0.5;
-                        // gameSceneX.pivot.y = 0.5;
-                        gameSceneX.zIndex = 0;
-
-                        resource = resources["images/blockx.png"].texture;
-                        var block1 = new Sprite(resource);
-                        var block2 = new Sprite(resource);
-                        var block3 = new Sprite(resource);
-                        var block4 = new Sprite(resource);
-                        var block5 = new Sprite(resource);
-
-                        gameSceneX.addChild(block1);
-                        block1.position.y = 0;
-                        block1.position.x = block1.width - minPixel;
-
-                        gameSceneX.addChild(block2);
-                        block2.position.y = block1.height - minPixel;
-                        block2.position.x = 0;
-
-                        gameSceneX.addChild(block3);
-                        block3.position.y = block1.height - minPixel;
-                        block3.position.x = block1.width - minPixel;
-
-                        gameSceneX.addChild(block4);
-                        block4.position.y = block1.height - minPixel;
-                        block4.position.x = block1.width + block2.width - (minPixel * 2);
-
-                        gameSceneX.addChild(block5);
-                        block5.position.y = block1.height + block2.height - (minPixel * 2);
-                        block5.position.x = block1.width - minPixel;
-
-                        gameSceneX.on('mousedown', onDragStart)
-                            .on('touchstart', onDragStart)
-                            .on('mouseup', onDragEnd)
-                            .on('mouseupoutside', onDragEnd)
-                            .on('touchend', onDragEnd)
-                            .on('touchendoutside', onDragEnd)
-                            .on('mousemove', onDragMove)
-                            .on('touchmove', onDragMove);
-
-                        stage.addChild(gameSceneX);
-                        gameSceneX.pivot.set(gameSceneX.width/2, gameSceneX.height/2);
-                        gameSceneX.updateTransform();
-                    }
-
-                    function setupLetterU() {
-
-                        //Create the sprites
-                        gameSceneU = new Container();
-                        gameSceneU.interactive = true;
-                        gameSceneU.position.rotation = 0;
-                        gameSceneU.x = 250;
-                        gameSceneU.y = defaultIndentation;
-                        gameSceneU.rotation = 0;
-                        // gameSceneU.pivot.x = 0.5;
-                        // gameSceneU.pivot.y = 0.5;
-                        gameSceneU.zIndex = 0;
-
-                        resource = resources["images/blocku.png"].texture;
-                        var block1 = new Sprite(resource);
-                        var block2 = new Sprite(resource);
-                        var block3 = new Sprite(resource);
-                        var block4 = new Sprite(resource);
-                        var block5 = new Sprite(resource);
-
-                        gameSceneU.addChild(block1);
-                        block1.position.y = 0;
-                        block1.position.x = 0;
-
-                        gameSceneU.addChild(block2);
-                        block2.position.y = block1.height - minPixel;
-                        block2.position.x = 0 ;
-
-                        gameSceneU.addChild(block3);
-                        block3.position.y = block1.height - minPixel;
-                        block3.position.x = block1.width - minPixel;
-
-                        gameSceneU.addChild(block4);
-                        block4.position.y = block1.height - minPixel;
-                        block4.position.x = block1.width + block2.width - (minPixel * 2);
-
-                        gameSceneU.addChild(block5);
-                        block5.position.y = 0;
-                        block5.position.x = block1.width + block2.width - (minPixel * 2);
-
-                        gameSceneU.on('mousedown', onDragStart)
-                            .on('touchstart', onDragStart)
-                            .on('mouseup', onDragEnd)
-                            .on('mouseupoutside', onDragEnd)
-                            .on('touchend', onDragEnd)
-                            .on('touchendoutside', onDragEnd)
-                            .on('mousemove', onDragMove)
-                            .on('touchmove', onDragMove)
-                            .on('click', onClick);
-
-                        stage.addChild(gameSceneU);
-                        gameSceneU.pivot.set(gameSceneU.width/2, gameSceneU.height/2);
-                        gameSceneU.updateTransform();
-                    }
-
-                    function setupLetterV() {
-
-                        //Create the sprites
-                        gameSceneV = new Container();
-                        gameSceneV.interactive = true;
-                        gameSceneV.position.rotation = 0;
-                        gameSceneV.x = 280;
-                        gameSceneV.y = defaultIndentation;
-                        gameSceneV.rotation = 0;
-                        // gameSceneV.pivot.x = 0.5;
-                        // gameSceneV.pivot.y = 0.5;
-                        gameSceneV.zIndex = 0;
-
-                        resource = resources["images/blockv.png"].texture;
-                        var block1 = new Sprite(resource);
-                        var block2 = new Sprite(resource);
-                        var block3 = new Sprite(resource);
-                        var block4 = new Sprite(resource);
-                        var block5 = new Sprite(resource);
-
-                        gameSceneV.addChild(block1);
-                        block1.position.y = 0;
-                        block1.position.x = 0;
-
-                        gameSceneV.addChild(block2);
-                        block2.position.y = block1.height - minPixel;
-                        block2.position.x = 0 ;
-
-                        gameSceneV.addChild(block3);
-                        block3.position.y = block1.height + block2.height - (minPixel * 2);
-                        block3.position.x = 0;
-
-                        gameSceneV.addChild(block4);
-                        block4.position.y = 0;
-                        block4.position.x = block1.width - minPixel;
-
-                        gameSceneV.addChild(block5);
-                        block5.position.y = 0;
-                        block5.position.x = block1.width + block2.width - (minPixel * 2);
-
-                        gameSceneV.on('mousedown', onDragStart)
-                            .on('touchstart', onDragStart)
-                            .on('mouseup', onDragEnd)
-                            .on('mouseupoutside', onDragEnd)
-                            .on('touchend', onDragEnd)
-                            .on('touchendoutside', onDragEnd)
-                            .on('mousemove', onDragMove)
-                            .on('touchmove', onDragMove)
-                            .on('click', onClick);
-
-                        stage.addChild(gameSceneV);
-                        gameSceneV.pivot.set(gameSceneV.width/2, gameSceneV.height/2);
-                        gameSceneV.updateTransform();
-                    }
-
-                    function setupLetterL() {
-
-                        //Create the sprites
-                        gameSceneL = new Container();
-                        gameSceneL.interactive = true;
-                        gameSceneL.position.rotation = 0;
-                        gameSceneL.x = defaultIndentation;
-                        gameSceneL.y = 150;
-                        gameSceneL.rotation = 0;
-                        // gameSceneL.pivot.x = 0.5;
-                        // gameSceneL.pivot.y = 0.5;
-                        gameSceneL.zIndex = 0;
-
-                        resource = resources["images/blockl.png"].texture;
-                        var block1 = new Sprite(resource);
-                        var block2 = new Sprite(resource);
-                        var block3 = new Sprite(resource);
-                        var block4 = new Sprite(resource);
-                        var block5 = new Sprite(resource);
-
-                        gameSceneL.addChild(block1);
-                        block1.position.y = 0;
-                        block1.position.x = 0;
-
-                        gameSceneL.addChild(block2);
-                        block2.position.y = 0;
-                        block2.position.x = block1.width - minPixel;
-
-                        gameSceneL.addChild(block3);
-                        block3.position.y = block1.height - minPixel;
-                        block3.position.x = block1.width - minPixel;
-
-                        gameSceneL.addChild(block4);
-                        block4.position.y = block1.height + block2.height - (minPixel * 2);
-                        block4.position.x = block1.width - minPixel;
-
-                        gameSceneL.addChild(block5);
-                        block5.position.y = block1.height + block2.height + block3.height - (minPixel * 3);
-                        block5.position.x = block1.width - minPixel;
-
-                        gameSceneL.on('mousedown', onDragStart)
-                            .on('touchstart', onDragStart)
-                            .on('mouseup', onDragEnd)
-                            .on('mouseupoutside', onDragEnd)
-                            .on('touchend', onDragEnd)
-                            .on('touchendoutside', onDragEnd)
-                            .on('mousemove', onDragMove)
-                            .on('touchmove', onDragMove)
-                            .on('click', onClick);
-
-                        stage.addChild(gameSceneL);
-                        gameSceneL.pivot.set(gameSceneL.width/2, gameSceneL.height/2);
-                        gameSceneL.updateTransform();
                     }
 
                     function setupLetterZ() {
@@ -490,11 +117,9 @@
                         gameSceneZ = new Container();
                         gameSceneZ.interactive = true;
                         gameSceneZ.position.rotation = 0;
-                        gameSceneZ.x = 60;
-                        gameSceneZ.y = 150;
+                        gameSceneZ.x = GRID_INDENTATION + defaultIndentation * 4;
+                        gameSceneZ.y = gridHeight + defaultIndentation * 4;
                         gameSceneZ.rotation = 0;
-                        // gameSceneZ.pivot.x = 0.5;
-                        // gameSceneZ.pivot.y = 0.5;
                         gameSceneZ.zIndex = 0;
 
                         resource = resources["images/blockz.png"].texture;
@@ -545,11 +170,9 @@
                         gameSceneY = new Container();
                         gameSceneY.interactive = true;
                         gameSceneY.position.rotation = 0;
-                        gameSceneY.x = 60;
-                        gameSceneY.y = 150;
+                        gameSceneY.x = GRID_INDENTATION + defaultIndentation * 5;
+                        gameSceneY.y = gridHeight + defaultIndentation * 9;
                         gameSceneY.rotation = 0;
-                        // gameSceneY.pivot.x = 0.5;
-                        // gameSceneY.pivot.y = 0.5;
                         gameSceneY.zIndex = 0;
 
                         resource = resources["images/blocky.png"].texture;
@@ -594,17 +217,122 @@
                         gameSceneY.updateTransform();
                     }
 
+                    function setupLetterL() {
+
+                        //Create the sprites
+                        gameSceneL = new Container();
+                        gameSceneL.interactive = true;
+                        gameSceneL.position.rotation = 0;
+                        gameSceneL.x = GRID_INDENTATION + defaultIndentation * 10;
+                        gameSceneL.y = gridHeight + defaultIndentation * 5;
+                        gameSceneL.rotation = 0;
+                        gameSceneL.zIndex = 0;
+
+                        resource = resources["images/blockl.png"].texture;
+                        var block1 = new Sprite(resource);
+                        var block2 = new Sprite(resource);
+                        var block3 = new Sprite(resource);
+                        var block4 = new Sprite(resource);
+                        var block5 = new Sprite(resource);
+
+                        gameSceneL.addChild(block1);
+                        block1.position.y = 0;
+                        block1.position.x = 0;
+
+                        gameSceneL.addChild(block2);
+                        block2.position.y = 0;
+                        block2.position.x = block1.width - minPixel;
+
+                        gameSceneL.addChild(block3);
+                        block3.position.y = block1.height - minPixel;
+                        block3.position.x = block1.width - minPixel;
+
+                        gameSceneL.addChild(block4);
+                        block4.position.y = block1.height + block2.height - (minPixel * 2);
+                        block4.position.x = block1.width - minPixel;
+
+                        gameSceneL.addChild(block5);
+                        block5.position.y = block1.height + block2.height + block3.height - (minPixel * 3);
+                        block5.position.x = block1.width - minPixel;
+
+                        gameSceneL.on('mousedown', onDragStart)
+                            .on('touchstart', onDragStart)
+                            .on('mouseup', onDragEnd)
+                            .on('mouseupoutside', onDragEnd)
+                            .on('touchend', onDragEnd)
+                            .on('touchendoutside', onDragEnd)
+                            .on('mousemove', onDragMove)
+                            .on('touchmove', onDragMove)
+                            .on('click', onClick);
+
+                        stage.addChild(gameSceneL);
+                        gameSceneL.pivot.set(gameSceneL.width/2, gameSceneL.height/2);
+                        gameSceneL.updateTransform();
+                    }
+                    
+                    function setupLetterI() {
+
+                        //Create the sprites
+                        gameSceneI = new Container();
+                        gameSceneI.interactive = true;
+                        gameSceneI.position.rotation = 0;
+                        gameSceneI.x = GRID_INDENTATION + defaultIndentation * 18;
+                        gameSceneI.y = gridHeight + defaultIndentation * 2 + 5;
+                        gameSceneI.rotation = 0;
+                        gameSceneI.zIndex = 0;
+                        gameSceneI.filter = { name: "I", id: 0, x: 500, y: 300 };
+
+                        resource = resources["images/blocki.png"].texture;
+                        var block1 = new Sprite(resource);
+                        var block2 = new Sprite(resource);
+                        var block3 = new Sprite(resource);
+                        var block4 = new Sprite(resource);
+                        var block5 = new Sprite(resource);
+
+                        gameSceneI.addChild(block1);
+                        block1.position.y = 0;
+                        block1.position.x = 0;
+
+                        gameSceneI.addChild(block2);
+                        block2.position.y = 0;
+                        block2.position.x = block1.width - minPixel;
+
+                        gameSceneI.addChild(block3);
+                        block3.position.y = 0;
+                        block3.position.x = block1.width + block2.width - (minPixel * 2);
+
+                        gameSceneI.addChild(block4);
+                        block4.position.y = 0;
+                        block4.position.x = block1.width + block2.width + block3.width - (minPixel * 3);
+
+                        gameSceneI.addChild(block5);
+                        block5.position.y = 0;
+                        block5.position.x = block1.width + block2.width + block3.width + block4.width - (minPixel * 4);
+
+                        gameSceneI.on('mousedown', onDragStart)
+                            .on('touchstart', onDragStart)
+                            .on('mouseup', onDragEnd)
+                            .on('mouseupoutside', onDragEnd)
+                            .on('touchend', onDragEnd)
+                            .on('touchendoutside', onDragEnd)
+                            .on('mousemove', onDragMove)
+                            .on('touchmove', onDragMove)
+                            .on('click', onClick);
+
+                        stage.addChild(gameSceneI);
+                        gameSceneI.pivot.set(gameSceneI.width/2, gameSceneI.height/2);
+                        gameSceneI.updateTransform();
+                    }
+
                     function setupLetterN() {
 
                         //Create the sprites
                         gameSceneN = new Container();
                         gameSceneN.interactive = true;
                         gameSceneN.position.rotation = 0;
-                        gameSceneN.x = 60;
-                        gameSceneN.y = 260;
+                        gameSceneN.x = GRID_INDENTATION + defaultIndentation * 14 + 5;
+                        gameSceneN.y = gridHeight + defaultIndentation * 7 + 10;
                         gameSceneN.rotation = 0;
-                        // gameSceneN.pivot.x = 0.5;
-                        // gameSceneN.pivot.y = 0.5;
                         gameSceneN.zIndex = 0;
 
                         resource = resources["images/blockn.png"].texture;
@@ -648,6 +376,112 @@
                         gameSceneN.pivot.set(gameSceneN.width/2, gameSceneN.height/2);
                         gameSceneN.updateTransform();
                     }
+                    
+                    function setupLetterT() {
+
+                        //Create the sprites
+                        gameSceneT = new Container();
+                        gameSceneT.interactive = true;
+                        gameSceneT.position.rotation = 0;
+                        gameSceneT.x = GRID_INDENTATION + defaultIndentation * 20;
+                        gameSceneT.y = gridHeight + defaultIndentation * 8;
+                        gameSceneT.rotation = 0;
+                        gameSceneT.filter = { name: "T", id: 1, x: 200, y: 400 };
+                        gameSceneT.zIndex = 0;
+
+                        resource = resources["images/blockt.png"].texture;
+                        var block1 = new Sprite(resource);
+                        var block2 = new Sprite(resource);
+                        var block3 = new Sprite(resource);
+                        var block4 = new Sprite(resource);
+                        var block5 = new Sprite(resource);
+
+                        gameSceneT.addChild(block1);
+                        block1.position.y = 0;
+                        block1.position.x = block1.height - minPixel;
+
+                        gameSceneT.addChild(block2);
+                        block2.position.y = block1.height - minPixel;
+                        block2.position.x = block1.width - minPixel;
+
+                        gameSceneT.addChild(block3);
+                        block3.position.y = (block1.height - minPixel) + (block2.height - minPixel);
+                        block3.position.x = (block1.width - minPixel) + (block2.width - minPixel);
+
+                        gameSceneT.addChild(block4);
+                        block4.position.y = (block1.height - minPixel) + (block2.height - minPixel);
+                        block4.position.x = (block1.height - minPixel);
+
+                        gameSceneT.addChild(block5);
+                        block5.position.y = (block1.height - minPixel) + (block1.height - minPixel);
+                        block5.position.x = 0;
+
+                        gameSceneT.on('mousedown', onDragStart)
+                            .on('touchstart', onDragStart)
+                            .on('mouseup', onDragEnd)
+                            .on('mouseupoutside', onDragEnd)
+                            .on('touchend', onDragEnd)
+                            .on('touchendoutside', onDragEnd)
+                            .on('mousemove', onDragMove)
+                            .on('touchmove', onDragMove)
+                            .on('click', onClick);
+
+                        stage.addChild(gameSceneT);
+                        gameSceneT.pivot.set(gameSceneT.width/2, gameSceneT.height/2);
+                        gameSceneT.updateTransform();
+                    }
+
+                    function setupLetterX() {
+
+                        //Create the sprites
+                        gameSceneX = new Container();
+                        gameSceneX.interactive = true;
+                        gameSceneX.position.rotation = 0;
+                        gameSceneX.x = GRID_INDENTATION + defaultIndentation * 26;
+                        gameSceneX.y = gridHeight + defaultIndentation * 9;
+                        gameSceneX.rotation = 0;
+                        gameSceneX.zIndex = 0;
+
+                        resource = resources["images/blockx.png"].texture;
+                        var block1 = new Sprite(resource);
+                        var block2 = new Sprite(resource);
+                        var block3 = new Sprite(resource);
+                        var block4 = new Sprite(resource);
+                        var block5 = new Sprite(resource);
+
+                        gameSceneX.addChild(block1);
+                        block1.position.y = 0;
+                        block1.position.x = block1.width - minPixel;
+
+                        gameSceneX.addChild(block2);
+                        block2.position.y = block1.height - minPixel;
+                        block2.position.x = 0;
+
+                        gameSceneX.addChild(block3);
+                        block3.position.y = block1.height - minPixel;
+                        block3.position.x = block1.width - minPixel;
+
+                        gameSceneX.addChild(block4);
+                        block4.position.y = block1.height - minPixel;
+                        block4.position.x = block1.width + block2.width - (minPixel * 2);
+
+                        gameSceneX.addChild(block5);
+                        block5.position.y = block1.height + block2.height - (minPixel * 2);
+                        block5.position.x = block1.width - minPixel;
+
+                        gameSceneX.on('mousedown', onDragStart)
+                            .on('touchstart', onDragStart)
+                            .on('mouseup', onDragEnd)
+                            .on('mouseupoutside', onDragEnd)
+                            .on('touchend', onDragEnd)
+                            .on('touchendoutside', onDragEnd)
+                            .on('mousemove', onDragMove)
+                            .on('touchmove', onDragMove);
+
+                        stage.addChild(gameSceneX);
+                        gameSceneX.pivot.set(gameSceneX.width/2, gameSceneX.height/2);
+                        gameSceneX.updateTransform();
+                    }
 
                     function setupLetterW() {
 
@@ -655,12 +489,11 @@
                         gameSceneW = new Container();
                         gameSceneW.interactive = true;
                         gameSceneW.position.rotation = 0;
-                        gameSceneW.x = 150;
-                        gameSceneW.y = 300;
+                        gameSceneW.x = GRID_INDENTATION + defaultIndentation * 27;
+                        gameSceneW.y = gridHeight + defaultIndentation * 4;
                         gameSceneW.rotation = 0;
-                        // gameSceneW.pivot.x = 0.5;
-                        // gameSceneW.pivot.y = 0.5;
                         gameSceneW.zIndex = 0;
+                        gameSceneW.filter = { name: "W", id: 0, x: 150, y: 300 };
 
                         resource = resources["images/blockw.png"].texture;
                         var block1 = new Sprite(resource);
@@ -704,19 +537,18 @@
                         gameSceneW.pivot.set(gameSceneW.width/2, gameSceneW.height/2);
                         gameSceneW.updateTransform();
                     }
-
+                    
                     function setupLetterF() {
 
                         //Create the sprites
                         gameSceneF = new Container();
                         gameSceneF.interactive = true;
                         gameSceneF.position.rotation = 0;
-                        gameSceneF.x = 300;
-                        gameSceneF.y = 300;
+                        gameSceneF.x = GRID_INDENTATION + defaultIndentation * 33;
+                        gameSceneF.y = gridHeight + defaultIndentation * 4;
                         gameSceneF.rotation = 0;
-                        // gameSceneF.pivot.x = 0.5;
-                        // gameSceneF.pivot.y = 0.5;
                         gameSceneF.zIndex = 0;
+                        gameSceneF.filter = { name: "F", id: 0, x: 300, y: 300 };
 
                         resource = resources["images/blockf.png"].texture;
                         var block1 = new Sprite(resource);
@@ -753,16 +585,178 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
-                            .on('click', onClick)
-                            ;
+                            .on('click', onClick);
+
                         console.log("w -> "+gameSceneF.width + " | h -> "+gameSceneF.height);
                         gameSceneF.pivot.set(gameSceneF.width/2, gameSceneF.height/2);
                         stage.addChild(gameSceneF);
-                        
-                        
                         gameSceneF.updateTransform();
                     }
 
+                    function setupLetterV() {
+
+                        //Create the sprites
+                        gameSceneV = new Container();
+                        gameSceneV.interactive = true;
+                        gameSceneV.position.rotation = 0;
+                        gameSceneV.x = GRID_INDENTATION + defaultIndentation * 33;
+                        gameSceneV.y = gridHeight + defaultIndentation * 10;
+                        gameSceneV.rotation = 0;
+                        gameSceneV.zIndex = 0;
+
+                        resource = resources["images/blockv.png"].texture;
+                        var block1 = new Sprite(resource);
+                        var block2 = new Sprite(resource);
+                        var block3 = new Sprite(resource);
+                        var block4 = new Sprite(resource);
+                        var block5 = new Sprite(resource);
+
+                        gameSceneV.addChild(block1);
+                        block1.position.y = 0;
+                        block1.position.x = 0;
+
+                        gameSceneV.addChild(block2);
+                        block2.position.y = block1.height - minPixel;
+                        block2.position.x = 0 ;
+
+                        gameSceneV.addChild(block3);
+                        block3.position.y = block1.height + block2.height - (minPixel * 2);
+                        block3.position.x = 0;
+
+                        gameSceneV.addChild(block4);
+                        block4.position.y = 0;
+                        block4.position.x = block1.width - minPixel;
+
+                        gameSceneV.addChild(block5);
+                        block5.position.y = 0;
+                        block5.position.x = block1.width + block2.width - (minPixel * 2);
+
+                        gameSceneV.on('mousedown', onDragStart)
+                            .on('touchstart', onDragStart)
+                            .on('mouseup', onDragEnd)
+                            .on('mouseupoutside', onDragEnd)
+                            .on('touchend', onDragEnd)
+                            .on('touchendoutside', onDragEnd)
+                            .on('mousemove', onDragMove)
+                            .on('touchmove', onDragMove)
+                            .on('click', onClick);
+
+                        stage.addChild(gameSceneV);
+                        gameSceneV.pivot.set(gameSceneV.width/2, gameSceneV.height/2);
+                        gameSceneV.updateTransform();
+                    }
+
+                    function setupLetterU() {
+
+                        //Create the sprites
+                        gameSceneU = new Container();
+                        gameSceneU.interactive = true;
+                        gameSceneU.position.rotation = 0;
+                        gameSceneU.x = GRID_INDENTATION + defaultIndentation * 39;
+                        gameSceneU.y = gridHeight + defaultIndentation * 3;
+                        gameSceneU.rotation = 0;
+                        gameSceneU.zIndex = 0;
+
+                        resource = resources["images/blocku.png"].texture;
+                        var block1 = new Sprite(resource);
+                        var block2 = new Sprite(resource);
+                        var block3 = new Sprite(resource);
+                        var block4 = new Sprite(resource);
+                        var block5 = new Sprite(resource);
+
+                        gameSceneU.addChild(block1);
+                        block1.position.y = 0;
+                        block1.position.x = 0;
+
+                        gameSceneU.addChild(block2);
+                        block2.position.y = block1.height - minPixel;
+                        block2.position.x = 0 ;
+
+                        gameSceneU.addChild(block3);
+                        block3.position.y = block1.height - minPixel;
+                        block3.position.x = block1.width - minPixel;
+
+                        gameSceneU.addChild(block4);
+                        block4.position.y = block1.height - minPixel;
+                        block4.position.x = block1.width + block2.width - (minPixel * 2);
+
+                        gameSceneU.addChild(block5);
+                        block5.position.y = 0;
+                        block5.position.x = block1.width + block2.width - (minPixel * 2);
+
+                        gameSceneU.on('mousedown', onDragStart)
+                            .on('touchstart', onDragStart)
+                            .on('mouseup', onDragEnd)
+                            .on('mouseupoutside', onDragEnd)
+                            .on('touchend', onDragEnd)
+                            .on('touchendoutside', onDragEnd)
+                            .on('mousemove', onDragMove)
+                            .on('touchmove', onDragMove)
+                            .on('click', onClick);
+
+                        stage.addChild(gameSceneU);
+                        gameSceneU.pivot.set(gameSceneU.width/2, gameSceneU.height/2);
+                        gameSceneU.updateTransform();
+                    }
+
+                    function setupLetterP() {
+
+                        //Create the sprites
+                        gameSceneP = new Container();
+                        gameSceneP.interactive = true;
+                        gameSceneP.x = GRID_INDENTATION + defaultIndentation * 39;
+                        gameSceneP.y = gridHeight + defaultIndentation * 9;
+
+                        gameSceneP.rotation = 0;
+                        gameSceneP.filter = { name: "P", id: 0, x: 200, y: 300 };
+                        gameSceneP.zIndex = 0;
+
+                        resource = resources["images/blockp.png"].texture;
+                        var block1 = new Sprite(resource);
+                        var block2 = new Sprite(resource);
+                        var block3 = new Sprite(resource);
+                        var block4 = new Sprite(resource);
+                        var block5 = new Sprite(resource);
+
+                        gameSceneP.addChild(block1);
+                        block1.position.y = 0;
+                        block1.position.x = 0;
+
+                        gameSceneP.addChild(block2);
+                        block2.position.y = 0;
+                        block2.position.x = block1.height - minPixel;
+
+                        gameSceneP.addChild(block3);
+                        block3.position.y = block2.height - minPixel;
+                        block3.position.x = 0;
+
+                        gameSceneP.addChild(block4);
+                        block4.position.y = block3.height - minPixel;
+                        block4.position.x = block3.width - minPixel;
+
+                        gameSceneP.addChild(block5);
+                        block5.position.y = (block4.height - minPixel) + (block4.height - minPixel);
+                        block5.position.x = 0;
+
+                        // setup events
+                        gameSceneP.on('mousedown', onDragStart)
+                            .on('touchstart', onDragStart)
+                            .on('mouseup', onDragEnd)
+                            .on('mouseupoutside', onDragEnd)
+                            .on('touchend', onDragEnd)
+                            .on('touchendoutside', onDragEnd)
+                            .on('mousemove', onDragMove)
+                            .on('touchmove', onDragMove)
+                            .on('click', onClick);
+                        
+                        stage.addChild(gameSceneP);
+
+                        gameSceneP.pivot.set(gameSceneP.width/2, gameSceneP.height/2);
+                        gameSceneP.updateTransform();
+
+                    }
+
+                    
                     function onDragStart(event) {
                         // store a reference to the data the reason for this is because of multitouch we want to track the movement of this particular touch
                         this.start_data = {x: event.data.originalEvent.screenX, y: event.data.originalEvent.screenY};
@@ -797,8 +791,15 @@
 
                         event.currentTarget.calculateBounds();
                         var points = check(event.currentTarget.children);
-                        this.position.x = points.x - 3;
-                        this.position.y = points.y - 3;
+
+                        if(points.x == 0){
+                            this.position.x = this.filter.x;
+                            this.position.y = this.filter.y;
+                        }
+                        else{
+                            this.position.x = points.x;
+                            this.position.y = points.y;
+                        }
                     }
 
                     function onDragMove(event) {
@@ -824,7 +825,7 @@
                         for(var c = 0; c < children.length; c++){
 
                             var boundsChild = children[c]._bounds;
-
+                            
                             var xmin = boundsChild.minX;
                             var xmax = boundsChild.maxX;
                             var ymin = boundsChild.minY;
@@ -834,7 +835,6 @@
                             var countChildCheck = 0;
                             
                             for(var i = 0; i < matrixGrid.length; i++){
-                                // console.log("BoundsGrid -> "+JSON.stringify(matrixGrid[i]));
                                 if( matrixGrid[i].minX <= centerX && centerX <= matrixGrid[i].maxX && matrixGrid[i].minY <= centerY && centerY <= matrixGrid[i].maxY ) {
                                     matrixGrid[i].check = true;
                                     countChildCheck++;
@@ -843,9 +843,14 @@
                             }
                         }
 
-                        // console.log("meio -> "+JSON.stringify(findCenter(points)));
                         countCheckGrid();
-                        return findCenter(points);
+                        if(points.length == 5){
+                            return findCenter(points);
+                        }  
+                        else{
+                            return {x: 0, y: 0};
+                        }
+                        
                     }
 
                     function unCheck(children){
@@ -889,20 +894,15 @@
 
                     function findCenter(points) {
 
-                        var x = 0, y = 0, i, len = points.length;
+                        var len = points.length;
                         var arrayX = new Array();
                         var arrayY = new Array();
 
                         for (i = 0; i < len; i++) {
-
                             arrayX.push(points[i].minX);
                             arrayX.push(points[i].maxX);
-
                             arrayY.push(points[i].minY);
                             arrayY.push(points[i].maxY);
-
-                            // x += points[i].x;
-                            // y += points[i].y;
                         }
 
                         var yMin = Math.min.apply(Math, arrayY);
@@ -914,13 +914,12 @@
                         var yInterval = yMax - yMin;
                         var xInterval = xMax - xMin;
 
-                        var newX = xMin + xInterval / 2;
-                        var newY = yMin + yInterval / 2;
+                        var newX = (xMin + xInterval / 2);
+                        var newY = (yMin + yInterval / 2);
 
                         console.log("newX -> "+newX+" | newY -> "+newY);
 
-                        // return {x: x / len, y: y / len};   // return average position
-                        return {x: newX, y: newY};
+                        return { x: newX, y: newY };
                     }
 
                     // run the render loop
