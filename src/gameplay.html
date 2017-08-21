@@ -126,14 +126,14 @@
                         gridHeight = grid.height + defaultIndentation;
 
                         var row = 6, column = 10;
-                        
+
                         for(var y = 1; y <= row; y++) {
                             for(var x = 1; x <= column; x++) {
                                 var maxX = 0, minX = 0, maxY = 0, minY = 0;
-                                maxX = (DEFAULT_SIZE_BLOCK * x) - x * minPixel;
-                                maxY = (DEFAULT_SIZE_BLOCK * y) - y * minPixel;
-                                minX = (maxX - DEFAULT_SIZE_BLOCK) + minPixel;
-                                minY = (maxY - DEFAULT_SIZE_BLOCK) + minPixel;
+                                maxX = ((DEFAULT_SIZE_BLOCK * x) - (x * minPixel)) + (GRID_INDENTATION + minPixel);
+                                maxY = ((DEFAULT_SIZE_BLOCK * y) - (y * minPixel)) + (GRID_INDENTATION_Y + minPixel);
+                                minX = ((maxX - DEFAULT_SIZE_BLOCK) + minPixel)
+                                minY = ((maxY - DEFAULT_SIZE_BLOCK) + minPixel)
 
                                 matrixGrid.push(
                                     { minX: minX, minY: minY, maxX: maxX, maxY: maxY, centerX: minX + defaultIndentation, centerY: minY + defaultIndentation, check: false });
