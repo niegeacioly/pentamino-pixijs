@@ -41,12 +41,14 @@
 
                     var minPixel = 3, defaultIndentation = 20;
 
-                    const GRID_INDENTATION = 300, GRID_INDENTATION_Y = 40, GRID_WIDTH = 850, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
+                    const GRID_INDENTATION = 300, MINI_GRID_INDENDATION = 50, GRID_INDENTATION_Y = 40, GRID_WIDTH = 850, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
 
                     document.body.appendChild(renderer.view);
 
                     var gridHeight = 0;
-                    var columnSelected = 0, rowSelected = 0;
+                    var rowSelected = 6, columnSelected = 10;
+
+                    var rectGridGraphics = null;
 
                     loader
                         .add("images/grid.png")
@@ -87,28 +89,44 @@
                         miniGridContainer = new Container();
 
                         resource = resources["images/grid_6x10_normal.png"].texture;
-                        var grid1 = new Sprite(resource);
-                        miniGridContainer.addChild(grid1);
+                        grid6x10 = new Sprite(resource);
+                        grid6x10.interactive = true;
+                        grid6x10.x = MINI_GRID_INDENDATION;
+                        grid6x10.y = GRID_INDENTATION_Y;
+                        grid6x10.filter = { name: "grid6x10", row : 6 , column : 10 };
+                        miniGridContainer.addChild(grid6x10);
+                        grid6x10.on('click', onClickMiniGrid);
 
                         resource = resources["images/grid_5x12_normal.png"].texture;
-                        var grid2 = new Sprite(resource);
-                        grid2.y = grid1.y + grid1.height + defaultIndentation;
-                        miniGridContainer.addChild(grid2);
+                        grid5X12 = new Sprite(resource);
+                        grid5X12.interactive = true;
+                        grid5X12.x = MINI_GRID_INDENDATION;
+                        grid5X12.y = grid6x10.y + grid6x10.height + defaultIndentation;
+                        grid5X12.filter = { name: "grid5X12", row : 5 , column : 12 };
+                        miniGridContainer.addChild(grid5X12);
+                        grid5X12.on('click', onClickMiniGrid);
 
                         resource = resources["images/grid_4x15_normal.png"].texture;
-                        var grid3 = new Sprite(resource);
-                        grid3.y = grid2.y + grid2.height + defaultIndentation;
-                        miniGridContainer.addChild(grid3);
+                        grid4x15 = new Sprite(resource);
+                        grid4x15.interactive = true;
+                        grid4x15.x = MINI_GRID_INDENDATION;
+                        grid4x15.y = grid5X12.y + grid5X12.height + defaultIndentation;
+                        grid4x15.filter = { name: "grid4x15", row : 4 , column : 15 };
+                        miniGridContainer.addChild(grid4x15);
+                        grid4x15.on('click', onClickMiniGrid);
 
                         resource = resources["images/grid_3x20_normal.png"].texture;
-                        var grid4 = new Sprite(resource);
-                        grid4.y = grid3.y + grid3.height + defaultIndentation;
-                        miniGridContainer.addChild(grid4);
+                        grid3x20 = new Sprite(resource);
+                        grid3x20.interactive = true;
+                        grid3x20.x = MINI_GRID_INDENDATION;
+                        grid3x20.y = grid4x15.y + grid4x15.height + defaultIndentation;
+                        grid3x20.filter = { name: "grid3x20", row : 3 , column : 20 };
+                        miniGridContainer.addChild(grid3x20);
+                        grid3x20.on('click', onClickMiniGrid);
 
                         stage.addChild(miniGridContainer);
 
                     }
-
 
                     function setupGrid() {
 
@@ -122,10 +140,14 @@
                         gridContainer.x = GRID_INDENTATION;
                         gridContainer.y = GRID_INDENTATION_Y;
 
-
+                        drawAllRectGridBackground();
                         gridHeight = grid.height + defaultIndentation;
+                        drawBackgroundRectForLetters(gridHeight);
+                    }
 
-                        var row = 6, column = 10;
+                    function drawAllRectGridBackground() {
+
+                        var row = rowSelected, column = columnSelected;
 
                         for(var y = 1; y <= row; y++) {
                             for(var x = 1; x <= column; x++) {
@@ -145,18 +167,18 @@
 
                         countCheckGrid();
                         drawBackgroundRectGrid(bgWidth,bgHeight );
-                        drawBackgroundRectForLetters(gridHeight);
                     }
 
                     function drawBackgroundRectGrid(bgWidth,bgHeight) {
-                        var graphics = new PIXI.Graphics();
-                        graphics.beginFill(0xFDFDFF);
-                        graphics.alpha = 0.1;
+                        stage.removeChild(rectGridGraphics);
+                        rectGridGraphics = new PIXI.Graphics();
+                        rectGridGraphics.beginFill(0xFDFDFF);
+                        rectGridGraphics.alpha = 0.1;
                         // draw a rectangle
-                        graphics.drawRect(GRID_INDENTATION, GRID_INDENTATION_Y, bgWidth,bgHeight);
-                        graphics.endFill();
+                        rectGridGraphics.drawRect(GRID_INDENTATION, GRID_INDENTATION_Y, bgWidth,bgHeight);
+                        rectGridGraphics.endFill();
 
-                        stage.addChild(graphics);
+                        stage.addChild(rectGridGraphics);
                     }
 
                     function drawBackgroundRectForLetters(gridHeight) {
@@ -881,6 +903,14 @@
                     {
                         unCheck(event.currentTarget.children);
                         this.rotation += Math.PI / 2; 
+                    }
+
+                    function onClickMiniGrid(event)
+                    {
+                        var filter = event.currentTarget.filter;
+                        rowSelected = filter.row;
+                        columnSelected = filter.column;
+                        drawAllRectGridBackground();
                     }
 
                     function check(children){
