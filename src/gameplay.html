@@ -158,7 +158,16 @@
                                 minY = ((maxY - DEFAULT_SIZE_BLOCK) + minPixel)
 
                                 matrixGrid.push(
-                                    { minX: minX, minY: minY, maxX: maxX, maxY: maxY, centerX: minX + defaultIndentation, centerY: minY + defaultIndentation, check: false });
+                                    { 
+                                        minX: minX, 
+                                        minY: minY, 
+                                        maxX: maxX, 
+                                        maxY: maxY,
+                                        centerX: minX + defaultIndentation, 
+                                        centerY: minY + defaultIndentation, 
+                                        check: false, 
+                                        idLetters: 0 
+                                    });
                             }
                         }
 
@@ -201,7 +210,7 @@
                         gameSceneZ.position.rotation = 0;
                         gameSceneZ.x = GRID_INDENTATION + defaultIndentation * 4;
                         gameSceneZ.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 4;
-                        gameSceneZ.filter = { name: "Z", id: 1, x: gameSceneZ.x, y: gameSceneZ.y };
+                        gameSceneZ.filter = { name: "Z", id: 1, x: gameSceneZ.x, y: gameSceneZ.y, statusPosition: 0 };
                         gameSceneZ.rotation = 0;
                         gameSceneZ.zIndex = 0;
 
@@ -255,7 +264,7 @@
                         gameSceneY.position.rotation = 0;
                         gameSceneY.x = GRID_INDENTATION + defaultIndentation * 5;
                         gameSceneY.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 9;
-                        gameSceneY.filter = { name: "Y", id: 2, x: gameSceneY.x, y: gameSceneY.y };
+                        gameSceneY.filter = { name: "Y", id: 2, x: gameSceneY.x, y: gameSceneY.y, statusPosition: 0 };
                         gameSceneY.rotation = 0;
                         gameSceneY.zIndex = 0;
 
@@ -309,7 +318,7 @@
                         gameSceneL.position.rotation = 0;
                         gameSceneL.x = GRID_INDENTATION + defaultIndentation * 10;
                         gameSceneL.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 5;
-                        gameSceneL.filter = { name: "L", id: 3, x: gameSceneL.x, y: gameSceneL.y };
+                        gameSceneL.filter = { name: "L", id: 3, x: gameSceneL.x, y: gameSceneL.y, statusPosition: 0 };
                         gameSceneL.rotation = 0;
                         gameSceneL.zIndex = 0;
 
@@ -363,7 +372,7 @@
                         gameSceneI.position.rotation = 0;
                         gameSceneI.x = GRID_INDENTATION + defaultIndentation * 18;
                         gameSceneI.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 2 + 5;
-                        gameSceneI.filter = { name: "I", id: 4, x: gameSceneI.x, y: gameSceneI.y };
+                        gameSceneI.filter = { name: "I", id: 4, x: gameSceneI.x, y: gameSceneI.y, statusPosition: 0 };
                         gameSceneI.rotation = 0;
                         gameSceneI.zIndex = 0;
                         
@@ -417,7 +426,7 @@
                         gameSceneN.position.rotation = 0;
                         gameSceneN.x = GRID_INDENTATION + defaultIndentation * 14 + 5;
                         gameSceneN.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 7 + 10;
-                        gameSceneN.filter = { name: "N", id: 5, x: gameSceneN.x, y: gameSceneN.y };
+                        gameSceneN.filter = { name: "N", id: 5, x: gameSceneN.x, y: gameSceneN.y, statusPosition: 0 };
                         gameSceneN.rotation = 0;
                         gameSceneN.zIndex = 0;
 
@@ -471,7 +480,7 @@
                         gameSceneT.position.rotation = 0;
                         gameSceneT.x = GRID_INDENTATION + defaultIndentation * 20;
                         gameSceneT.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 8;
-                        gameSceneT.filter = { name: "T", id: 6, x: gameSceneT.x, y: gameSceneT.y };
+                        gameSceneT.filter = { name: "T", id: 6, x: gameSceneT.x, y: gameSceneT.y, statusPosition: 0 };
                         gameSceneT.rotation = 0;
                         gameSceneT.zIndex = 0;
 
@@ -525,7 +534,7 @@
                         gameSceneX.position.rotation = 0;
                         gameSceneX.x = GRID_INDENTATION + defaultIndentation * 26;
                         gameSceneX.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 9;
-                        gameSceneX.filter = { name: "X", id: 7, x: gameSceneX.x, y: gameSceneX.y };
+                        gameSceneX.filter = { name: "X", id: 7, x: gameSceneX.x, y: gameSceneX.y, statusPosition: 0 };
                         gameSceneX.rotation = 0;
                         gameSceneX.zIndex = 0;
 
@@ -578,7 +587,7 @@
                         gameSceneW.position.rotation = 0;
                         gameSceneW.x = GRID_INDENTATION + defaultIndentation * 27;
                         gameSceneW.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 4;
-                        gameSceneW.filter = { name: "W", id: 8, x: gameSceneW.x, y: gameSceneW.y };
+                        gameSceneW.filter = { name: "W", id: 8, x: gameSceneW.x, y: gameSceneW.y, statusPosition: 0 };
                         gameSceneW.rotation = 0;
                         gameSceneW.zIndex = 0;
                         
@@ -633,7 +642,7 @@
                         gameSceneF.position.rotation = 0;
                         gameSceneF.x = GRID_INDENTATION + defaultIndentation * 33;
                         gameSceneF.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 4;
-                        gameSceneF.filter = { name: "F", id: 9, x: gameSceneF.x, y: gameSceneF.y };
+                        gameSceneF.filter = { name: "F", id: 9, x: gameSceneF.x, y: gameSceneF.y, statusPosition: 0 };
                         gameSceneF.rotation = 0;
                         gameSceneF.zIndex = 0;
 
@@ -673,8 +682,6 @@
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
                             .on('click', onClick);
-
-                        console.log("w -> "+gameSceneF.width + " | h -> "+gameSceneF.height);
                         gameSceneF.pivot.set(gameSceneF.width/2, gameSceneF.height/2);
                         stage.addChild(gameSceneF);
                         gameSceneF.updateTransform();
@@ -688,7 +695,7 @@
                         gameSceneV.position.rotation = 0;
                         gameSceneV.x = GRID_INDENTATION + defaultIndentation * 33;
                         gameSceneV.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 10;
-                        gameSceneV.filter = { name: "V", id: 10, x: gameSceneV.x, y: gameSceneV.y };
+                        gameSceneV.filter = { name: "V", id: 10, x: gameSceneV.x, y: gameSceneV.y, statusPosition: 0 };
                         gameSceneV.rotation = 0;
                         gameSceneV.zIndex = 0;
 
@@ -742,7 +749,7 @@
                         gameSceneU.position.rotation = 0;
                         gameSceneU.x = GRID_INDENTATION + defaultIndentation * 39;
                         gameSceneU.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 3;
-                        gameSceneU.filter = { name: "U", id: 11, x: gameSceneU.x, y: gameSceneU.y };
+                        gameSceneU.filter = { name: "U", id: 11, x: gameSceneU.x, y: gameSceneU.y, statusPosition: 0 };
                         gameSceneU.rotation = 0;
                         gameSceneU.zIndex = 0;
 
@@ -795,7 +802,7 @@
                         gameSceneP.interactive = true;
                         gameSceneP.x = GRID_INDENTATION + defaultIndentation * 39;
                         gameSceneP.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 9;
-                        gameSceneP.filter = { name: "P", id: 12, x: gameSceneP.x, y: gameSceneP.y };
+                        gameSceneP.filter = { name: "P", id: 12, x: gameSceneP.x, y: gameSceneP.y, statusPosition: 0 };
                         gameSceneP.rotation = 0;
                         gameSceneP.zIndex = 0;
 
@@ -851,10 +858,9 @@
                         this.alpha = 0.5;
                         this.dragging = true;
                         this.zIndex = 999;
-
-                        event.currentTarget.calculateBounds();
-                        unCheck(event.currentTarget.children);
-                        
+                        // event.currentTarget.calculateBounds();
+                        unCheck(event.currentTarget.children, this.filter);
+                        countCheckGrid();
                     }   
 
                     function onDragEnd(event) {
@@ -877,22 +883,27 @@
                         this.zIndex = 0;
 
                         event.currentTarget.calculateBounds();
-                        var points = check(event.currentTarget.children);
+                        var points = check(event.currentTarget.children, this.filter);
 
                         if(points.x == 0){
-                            this.position.x = this.filter.x;
-                            this.position.y = this.filter.y;
-                            this.rotation = 0;
+                            // this.position.x = this.filter.x;
+                            // this.position.y = this.filter.y;
+                            // this.rotation = 0;
+                            this.alpha = 0.5;
+                            this.filter.statusPosition = 2; // Position is not valid
                         }
                         else{
                             this.position.x = points.x;
                             this.position.y = points.y;
+                            this.filter.statusPosition = 1; // Position is valid
                         }
+                        countCheckGrid();
                     }
 
                     function onDragMove(event) {
                         if (this.dragging)
                         {
+                            verifyStatusPosition(this.filter);
                             this.position.x += this.data.originalEvent.movementX;
                             this.position.y += this.data.originalEvent.movementY;
                             contain(event.currentTarget, {x : defaultIndentation, y : defaultIndentation, width : renderer.width, height: renderer.height});
@@ -901,8 +912,22 @@
 
                     function onClick(event)
                     {
-                        unCheck(event.currentTarget.children);
-                        this.rotation += Math.PI / 2; 
+                        unCheck(this.children, this.filter);
+                        this.rotation += Math.PI / 2;
+                        event.currentTarget.updateTransform();
+                        event.currentTarget.calculateBounds();
+                        var points = check(event.currentTarget.children, this.filter);
+                        if(points.x == 0){
+                            this.alpha = 0.5;
+                            this.filter.statusPosition = 2; // Position is not valid
+                        }
+                        else{
+                            this.alpha = 1;
+                            this.position.x = points.x;
+                            this.position.y = points.y;
+                            this.filter.statusPosition = 1; // Position is valid
+                        }
+                        countCheckGrid();
                     }
 
                     function onClickMiniGrid(event)
@@ -913,7 +938,8 @@
                         drawAllRectGridBackground();
                     }
 
-                    function check(children){
+                    function check(children, filter){
+                        
                         var points = new Array();
                         
                         for(var c = 0; c < children.length; c++){
@@ -926,28 +952,42 @@
                             var ymax = boundsChild.maxY;
                             var centerX = xmin + defaultIndentation;
                             var centerY = ymin + defaultIndentation;
-                            var countChildCheck = 0;
                             
                             for(var i = 0; i < matrixGrid.length; i++){
-                                if( matrixGrid[i].minX <= centerX && centerX <= matrixGrid[i].maxX && matrixGrid[i].minY <= centerY && centerY <= matrixGrid[i].maxY ) {
-                                    matrixGrid[i].check = true;
-                                    countChildCheck++;
-                                    points.push({ x: matrixGrid[i].centerX, y: matrixGrid[i].centerY, minX:matrixGrid[i].minX, minY: matrixGrid[i].minY, maxX: matrixGrid[i].maxX, maxY: matrixGrid[i].maxY  });
+                                if( matrixGrid[i].minX <= centerX && centerX <= matrixGrid[i].maxX && matrixGrid[i].minY <= centerY && centerY <= matrixGrid[i].maxY && matrixGrid[i].check === false) {
+                                    points.push(
+                                        {
+                                             x: matrixGrid[i].centerX, 
+                                             y: matrixGrid[i].centerY, 
+                                             minX:matrixGrid[i].minX, 
+                                             minY: matrixGrid[i].minY, 
+                                             maxX: matrixGrid[i].maxX, 
+                                             maxY: matrixGrid[i].maxY, 
+                                             indexMatrix: i, 
+                                             idLetters: filter.id  
+                                        }
+                                        );
                                 }
                             }
                         }
 
-                        countCheckGrid();
+                        // countCheckGrid();
+                        console.log("point len -> "+points.length);
                         if(points.length == 5){
+                            for(var i = 0; i < points.length; i++){
+                                matrixGrid[points[i].indexMatrix].check = true;
+                                matrixGrid[points[i].indexMatrix].idLetters = filter.id;
+                            }
                             return findCenter(points);
                         }  
                         else{
-                            return {x: 0, y: 0};
+                            console.log("position failed");
+                            return { x: 0, y: 0 };
                         }
                         
                     }
 
-                    function unCheck(children){
+                    function unCheck(children, filter){
                         for(var c = 0; c < children.length; c++){
                             var boundsChild = children[c]._bounds;
                             // console.log("BoundsElement -> "+JSON.stringify(boundsChild));
@@ -961,7 +1001,7 @@
                             
                             for(var i = 0; i < matrixGrid.length; i++){
                                 // console.log("BoundsGrid -> "+JSON.stringify(matrixGrid[i]));
-                                if( matrixGrid[i].minX <= centerX && centerX <= matrixGrid[i].maxX && matrixGrid[i].minY <= centerY && centerY <= matrixGrid[i].maxY ) {
+                                if( matrixGrid[i].minX <= centerX && centerX <= matrixGrid[i].maxX && matrixGrid[i].minY <= centerY && centerY <= matrixGrid[i].maxY && matrixGrid[i].idLetters == filter.id ) {
                                     matrixGrid[i].check = false;
                                     // console.log("achou -> "+JSON.stringify(matrixGrid[i]));    
                                 }
@@ -1014,6 +1054,26 @@
                         console.log("newX -> "+newX+" | newY -> "+newY);
 
                         return { x: newX, y: newY };
+                    }
+
+                    function verifyStatusPosition(filter){
+                        var letters = stage.children;
+
+                        for(var i=0; i < letters.length; i++){
+                            if(letters[i].filter != undefined){
+                                if(letters[i].filter.statusPosition == 2){
+                                    if(letters[i].filter.id != filter.id){
+                                        console.log("Name Letter->" + letters[i].filter.name);
+                                        stage.children[i].filter.statusPosition = 0;
+                                        stage.children[i].rotation = 0;
+                                        stage.children[i].alpha = 1;
+                                        stage.children[i].position.x = letters[i].filter.x;
+                                        stage.children[i].position.y = letters[i].filter.y;
+                                    }
+                                }
+                                
+                            }
+                        }
                     }
 
                     // run the render loop
