@@ -41,7 +41,7 @@
 
                     var minPixel = 3, defaultIndentation = 20;
 
-                    const GRID_INDENTATION = 150, GRID_WIDTH = 850, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
+                    const GRID_INDENTATION = 300, GRID_INDENTATION_Y = 40, GRID_WIDTH = 850, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
 
                     document.body.appendChild(renderer.view);
 
@@ -119,10 +119,14 @@
                         gridContainer.addChild(grid);
                         stage.addChild(gridContainer);
 
+                        gridContainer.x = GRID_INDENTATION;
+                        gridContainer.y = GRID_INDENTATION_Y;
+
+
                         gridHeight = grid.height + defaultIndentation;
 
                         var row = 6, column = 10;
-
+                        
                         for(var y = 1; y <= row; y++) {
                             for(var x = 1; x <= column; x++) {
                                 var maxX = 0, minX = 0, maxY = 0, minY = 0;
@@ -149,7 +153,7 @@
                         graphics.beginFill(0xFDFDFF);
                         graphics.alpha = 0.1;
                         // draw a rectangle
-                        graphics.drawRect(0, 0, bgWidth,bgHeight);
+                        graphics.drawRect(GRID_INDENTATION, GRID_INDENTATION_Y, bgWidth,bgHeight);
                         graphics.endFill();
 
                         stage.addChild(graphics);
@@ -162,6 +166,7 @@
 
                         // draw a rectangle
                         graphics.drawRect(GRID_INDENTATION, gridHeight, GRID_WIDTH, GRID_HEIGHT);
+                        graphics.y = GRID_INDENTATION_Y;
 
                         stage.addChild(graphics);
                     }
@@ -173,7 +178,7 @@
                         gameSceneZ.interactive = true;
                         gameSceneZ.position.rotation = 0;
                         gameSceneZ.x = GRID_INDENTATION + defaultIndentation * 4;
-                        gameSceneZ.y = gridHeight + defaultIndentation * 4;
+                        gameSceneZ.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 4;
                         gameSceneZ.filter = { name: "Z", id: 1, x: gameSceneZ.x, y: gameSceneZ.y };
                         gameSceneZ.rotation = 0;
                         gameSceneZ.zIndex = 0;
@@ -227,7 +232,7 @@
                         gameSceneY.interactive = true;
                         gameSceneY.position.rotation = 0;
                         gameSceneY.x = GRID_INDENTATION + defaultIndentation * 5;
-                        gameSceneY.y = gridHeight + defaultIndentation * 9;
+                        gameSceneY.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 9;
                         gameSceneY.filter = { name: "Y", id: 2, x: gameSceneY.x, y: gameSceneY.y };
                         gameSceneY.rotation = 0;
                         gameSceneY.zIndex = 0;
@@ -281,7 +286,7 @@
                         gameSceneL.interactive = true;
                         gameSceneL.position.rotation = 0;
                         gameSceneL.x = GRID_INDENTATION + defaultIndentation * 10;
-                        gameSceneL.y = gridHeight + defaultIndentation * 5;
+                        gameSceneL.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 5;
                         gameSceneL.filter = { name: "L", id: 3, x: gameSceneL.x, y: gameSceneL.y };
                         gameSceneL.rotation = 0;
                         gameSceneL.zIndex = 0;
@@ -335,7 +340,7 @@
                         gameSceneI.interactive = true;
                         gameSceneI.position.rotation = 0;
                         gameSceneI.x = GRID_INDENTATION + defaultIndentation * 18;
-                        gameSceneI.y = gridHeight + defaultIndentation * 2 + 5;
+                        gameSceneI.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 2 + 5;
                         gameSceneI.filter = { name: "I", id: 4, x: gameSceneI.x, y: gameSceneI.y };
                         gameSceneI.rotation = 0;
                         gameSceneI.zIndex = 0;
@@ -389,7 +394,7 @@
                         gameSceneN.interactive = true;
                         gameSceneN.position.rotation = 0;
                         gameSceneN.x = GRID_INDENTATION + defaultIndentation * 14 + 5;
-                        gameSceneN.y = gridHeight + defaultIndentation * 7 + 10;
+                        gameSceneN.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 7 + 10;
                         gameSceneN.filter = { name: "N", id: 5, x: gameSceneN.x, y: gameSceneN.y };
                         gameSceneN.rotation = 0;
                         gameSceneN.zIndex = 0;
@@ -443,7 +448,7 @@
                         gameSceneT.interactive = true;
                         gameSceneT.position.rotation = 0;
                         gameSceneT.x = GRID_INDENTATION + defaultIndentation * 20;
-                        gameSceneT.y = gridHeight + defaultIndentation * 8;
+                        gameSceneT.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 8;
                         gameSceneT.filter = { name: "T", id: 6, x: gameSceneT.x, y: gameSceneT.y };
                         gameSceneT.rotation = 0;
                         gameSceneT.zIndex = 0;
@@ -497,7 +502,7 @@
                         gameSceneX.interactive = true;
                         gameSceneX.position.rotation = 0;
                         gameSceneX.x = GRID_INDENTATION + defaultIndentation * 26;
-                        gameSceneX.y = gridHeight + defaultIndentation * 9;
+                        gameSceneX.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 9;
                         gameSceneX.filter = { name: "X", id: 7, x: gameSceneX.x, y: gameSceneX.y };
                         gameSceneX.rotation = 0;
                         gameSceneX.zIndex = 0;
@@ -550,7 +555,7 @@
                         gameSceneW.interactive = true;
                         gameSceneW.position.rotation = 0;
                         gameSceneW.x = GRID_INDENTATION + defaultIndentation * 27;
-                        gameSceneW.y = gridHeight + defaultIndentation * 4;
+                        gameSceneW.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 4;
                         gameSceneW.filter = { name: "W", id: 8, x: gameSceneW.x, y: gameSceneW.y };
                         gameSceneW.rotation = 0;
                         gameSceneW.zIndex = 0;
@@ -605,7 +610,7 @@
                         gameSceneF.interactive = true;
                         gameSceneF.position.rotation = 0;
                         gameSceneF.x = GRID_INDENTATION + defaultIndentation * 33;
-                        gameSceneF.y = gridHeight + defaultIndentation * 4;
+                        gameSceneF.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 4;
                         gameSceneF.filter = { name: "F", id: 9, x: gameSceneF.x, y: gameSceneF.y };
                         gameSceneF.rotation = 0;
                         gameSceneF.zIndex = 0;
@@ -660,7 +665,7 @@
                         gameSceneV.interactive = true;
                         gameSceneV.position.rotation = 0;
                         gameSceneV.x = GRID_INDENTATION + defaultIndentation * 33;
-                        gameSceneV.y = gridHeight + defaultIndentation * 10;
+                        gameSceneV.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 10;
                         gameSceneV.filter = { name: "V", id: 10, x: gameSceneV.x, y: gameSceneV.y };
                         gameSceneV.rotation = 0;
                         gameSceneV.zIndex = 0;
@@ -714,7 +719,7 @@
                         gameSceneU.interactive = true;
                         gameSceneU.position.rotation = 0;
                         gameSceneU.x = GRID_INDENTATION + defaultIndentation * 39;
-                        gameSceneU.y = gridHeight + defaultIndentation * 3;
+                        gameSceneU.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 3;
                         gameSceneU.filter = { name: "U", id: 11, x: gameSceneU.x, y: gameSceneU.y };
                         gameSceneU.rotation = 0;
                         gameSceneU.zIndex = 0;
@@ -767,7 +772,7 @@
                         gameSceneP = new Container();
                         gameSceneP.interactive = true;
                         gameSceneP.x = GRID_INDENTATION + defaultIndentation * 39;
-                        gameSceneP.y = gridHeight + defaultIndentation * 9;
+                        gameSceneP.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 9;
                         gameSceneP.filter = { name: "P", id: 12, x: gameSceneP.x, y: gameSceneP.y };
                         gameSceneP.rotation = 0;
                         gameSceneP.zIndex = 0;
