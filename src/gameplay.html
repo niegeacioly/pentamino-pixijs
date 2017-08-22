@@ -262,6 +262,7 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
+                            .on('tap', onClick)
                             .on('click', onClick);
 
                         stage.addChild(gameSceneZ);
@@ -316,6 +317,7 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
+                            .on('tap', onClick)
                             .on('click', onClick);
 
                         stage.addChild(gameSceneY);
@@ -370,6 +372,7 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
+                            .on('tap', onClick)
                             .on('click', onClick);
 
                         stage.addChild(gameSceneL);
@@ -424,6 +427,7 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
+                            .on('tap', onClick)
                             .on('click', onClick);
 
                         stage.addChild(gameSceneI);
@@ -478,6 +482,7 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
+                            .on('tap', onClick)
                             .on('click', onClick);
 
                         stage.addChild(gameSceneN);
@@ -532,6 +537,7 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
+                            .on('tap', onClick)
                             .on('click', onClick);
 
                         stage.addChild(gameSceneT);
@@ -639,8 +645,8 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
-                            .on('click', onClick)
-                            ;
+                            .on('tap', onClick)
+                            .on('click', onClick);
 
                         stage.addChild(gameSceneW);
                         gameSceneW.pivot.set(gameSceneW.width/2, gameSceneW.height/2);
@@ -694,7 +700,9 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
+                            .on('tap', onClick)
                             .on('click', onClick);
+
                         gameSceneF.pivot.set(gameSceneF.width/2, gameSceneF.height/2);
                         stage.addChild(gameSceneF);
                         gameSceneF.updateTransform();
@@ -747,6 +755,7 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
+                            .on('tap', onClick)
                             .on('click', onClick);
 
                         stage.addChild(gameSceneV);
@@ -801,6 +810,7 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
+                            .on('tap', onClick)
                             .on('click', onClick);
 
                         stage.addChild(gameSceneU);
@@ -855,6 +865,7 @@
                             .on('touchendoutside', onDragEnd)
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove)
+                            .on('tap', onClick)
                             .on('click', onClick);
                         
                         stage.addChild(gameSceneP);
