@@ -127,7 +127,6 @@
 
                         stage.addChild(miniGridContainer);
 
-
                     }
 
                     function setupGrid() {
@@ -951,6 +950,17 @@
                         columnSelected = filter.column;
                         drawAllRectGridBackground();
                         drawBackgroundRectMiniGrid(event.currentTarget.x, event.currentTarget.y, event.currentTarget.width, event.currentTarget.height);
+                        initAllPositions();
+                    }
+
+                    function initAllPositions() {
+                        for (var c = 0; c < stage.children.length; c ++){
+                            var child = stage.children[c];
+                            if (child.children.length == 5) {
+                                child.x = child.filter.x;
+                                child.y = child.filter.y;
+                            }
+                        }
                     }
 
                     function check(children, filter){
