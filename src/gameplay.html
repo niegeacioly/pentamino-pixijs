@@ -926,9 +926,17 @@
                         var points = check(event.currentTarget.children, this.filter);
 
                         if(points.x == 0){
-                            this.zIndex = -1;
-                            this.alpha = 0.5;
-                            this.filter.statusPosition = 2; // Position is not valid
+                            if(this.position.x >= MINI_GRID_INDENDATION && this.position.y >= (gridContainer.height + defaultIndentation) ){
+                                this.position.x = this.filter.x;
+                                this.position.y = this.filter.y;
+                                this.rotation = 0;
+                                this.filter.statusPosition = 0; // Default position
+                            }
+                            else{
+                                this.zIndex = -1;
+                                this.alpha = 0.5;
+                                this.filter.statusPosition = 2; // Position is not valid
+                            }
                         }
                         else{
                             this.position.x = points.x;
