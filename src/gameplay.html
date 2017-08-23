@@ -38,12 +38,19 @@
                     renderer.backgroundColor = 0x232325;
 
                     var matrixGrid = new Array();
+                    var KeyPress = 0;
 
                     var minPixel = 3, defaultIndentation = 20;
 
                     const GRID_INDENTATION = 200, MINI_GRID_INDENDATION = 50, GRID_INDENTATION_Y = 40, GRID_WIDTH = 890, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
 
-                    document.body.appendChild(renderer.view);
+                    document.body.appendChild(renderer.view);                  
+                    document.onkeypress = function(evt) {
+                        KeyPress = keyPressed(evt);
+                    };
+                    document.onkeyup = function(evt) {
+                        KeyPress = 0;
+                    };
 
                     var gridHeight = 0;
                     var rowSelected = 6, columnSelected = 10;
@@ -943,8 +950,16 @@
 
                     function onClick(event)
                     {
-                        unCheck(this.children, this.filter);
-                        this.rotation += Math.PI / 2;
+                        if(KeyPress == 0){
+                            unCheck(this.children, this.filter);
+                            this.rotation += Math.PI / 2;
+                            
+                        }
+                        else{
+                            unCheck(this.children, this.filter);
+                            this.scale.x *= -1;
+                        }
+
                         event.currentTarget.updateTransform();
                         event.currentTarget.calculateBounds();
                         var points = check(event.currentTarget.children, this.filter);
@@ -959,6 +974,7 @@
                             this.filter.statusPosition = 1; // Position is valid
                         }
                         countCheckGrid();
+
                     }
 
                     function onClickMiniGrid(event)
@@ -1119,6 +1135,12 @@
                                 
                             }
                         }
+                    }
+
+                    function keyPressed(evt){
+                        evt = evt || window.event;
+                        var key = evt.keyCode || evt.which;
+                        return key;
                     }
 
                     // run the render loop
