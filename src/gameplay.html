@@ -18,10 +18,6 @@
             <a class="navbar-brand" href="#">
               <img src="images/logo_pentamino.png" class="img-fluid" width="200" height="auto" class="d-inline-block align-top" alt="Pentaminó">
             </a>
-            <br>
-            <span id="teste">0</span>
-            <br>
-            <span id="teste1">0</span>
           </nav>    
 
           <script type="text/javascript">
@@ -39,6 +35,7 @@
 
                     var matrixGrid = new Array();
                     var KeyPress = 0;
+                    var currentGrid = null, gridWinner = null;
 
                     var minPixel = 3, defaultIndentation = 20;
 
@@ -67,6 +64,8 @@
 
                     loader
                         .add("images/grid.png")
+                        .add("images/grid_win_temp.png")
+                        .add("images/check.png")
                         .add("images/grid_6x10_normal.png")
                         .add("images/grid_5x12_normal.png")
                         .add("images/grid_4x15_normal.png")
@@ -108,9 +107,10 @@
                         grid6x10.interactive = true;
                         grid6x10.x = MINI_GRID_INDENDATION;
                         grid6x10.y = GRID_INDENTATION_Y;
-                        grid6x10.filter = { name: "grid6x10", row : 6 , column : 10 };
+                        grid6x10.filter = { name: "grid6x10", row : 6 , column : 10, status : "not_winner" };
                         miniGridContainer.addChild(grid6x10);
-                        grid6x10.on('click', onClickMiniGrid);
+                        grid6x10.on('click', onClickMiniGrid)
+                            .on('tap',onClickMiniGrid);
                         drawBackgroundRectMiniGrid(grid6x10.x, grid6x10.y, grid6x10.width, grid6x10.height);
 
                         resource = resources["images/grid_5x12_normal.png"].texture;
@@ -118,27 +118,30 @@
                         grid5X12.interactive = true;
                         grid5X12.x = MINI_GRID_INDENDATION;
                         grid5X12.y = grid6x10.y + grid6x10.height + defaultIndentation;
-                        grid5X12.filter = { name: "grid5X12", row : 5 , column : 12 };
+                        grid5X12.filter = { name: "grid5X12", row : 5 , column : 12, status : "not_winner" };
                         miniGridContainer.addChild(grid5X12);
-                        grid5X12.on('click', onClickMiniGrid);
+                        grid5X12.on('click', onClickMiniGrid)
+                            .on('tap',onClickMiniGrid);
 
                         resource = resources["images/grid_4x15_normal.png"].texture;
                         grid4x15 = new Sprite(resource);
                         grid4x15.interactive = true;
                         grid4x15.x = MINI_GRID_INDENDATION;
                         grid4x15.y = grid5X12.y + grid5X12.height + defaultIndentation;
-                        grid4x15.filter = { name: "grid4x15", row : 4 , column : 15 };
+                        grid4x15.filter = { name: "grid4x15", row : 4 , column : 15, status : "not_winner"};
                         miniGridContainer.addChild(grid4x15);
-                        grid4x15.on('click', onClickMiniGrid);
+                        grid4x15.on('click', onClickMiniGrid)
+                            .on('tap',onClickMiniGrid);
 
                         resource = resources["images/grid_3x20_normal.png"].texture;
                         grid3x20 = new Sprite(resource);
                         grid3x20.interactive = true;
                         grid3x20.x = MINI_GRID_INDENDATION;
                         grid3x20.y = grid4x15.y + grid4x15.height + defaultIndentation;
-                        grid3x20.filter = { name: "grid3x20", row : 3 , column : 20 };
+                        grid3x20.filter = { name: "grid3x20", row : 3 , column : 20, status : "not_winner"};
                         miniGridContainer.addChild(grid3x20);
-                        grid3x20.on('click', onClickMiniGrid);
+                        grid3x20.on('click', onClickMiniGrid)
+                            .on('tap',onClickMiniGrid);
 
                         stage.addChild(miniGridContainer);
 
@@ -982,17 +985,29 @@
                             this.filter.statusPosition = 1; // Position is valid
                         }
                         countCheckGrid();
-
                     }
 
                     function onClickMiniGrid(event)
                     {
-                        var filter = event.currentTarget.filter;
-                        rowSelected = filter.row;
-                        columnSelected = filter.column;
-                        drawAllRectGridBackground();
-                        drawBackgroundRectMiniGrid(event.currentTarget.x, event.currentTarget.y, event.currentTarget.width, event.currentTarget.height);
-                        initAllPositions();
+                        currentGrid = event.currentTarget;
+                        var filter = currentGrid.filter;
+                        stage.removeChild(gridWinner);
+                        if (filter.status == "not_winner") {
+                            rowSelected = filter.row;
+                            columnSelected = filter.column;
+                            drawAllRectGridBackground();
+                            drawBackgroundRectMiniGrid(currentGrid.x, currentGrid.y, currentGrid.width, currentGrid.height);
+                            initAllPositions();
+                        } else {
+                            gridWinner = new Container();
+                            resource = resources["images/grid_win_temp.png"].texture;
+                            var grid = new Sprite(resource);
+                            gridWinner.addChild(grid);
+                            stage.addChild(gridWinner);
+
+                            gridWinner.x = GRID_INDENTATION;
+                            gridWinner.y = GRID_INDENTATION_Y;
+                        }
                     }
 
                     function initAllPositions() {
@@ -1091,8 +1106,40 @@
                                 countFalse++;
                             }
                         }
-                        document.getElementById("teste").innerHTML = ""+count+" Preenchido";
-                        document.getElementById("teste1").innerHTML = ""+countFalse+" Vazio";
+
+                        if (count == 60 || (currentGrid != null && currentGrid.filter.status == "winner")) {
+                            currentGrid.filter.status = "winner";
+                            
+                            gridWinner = new Container();
+                            resource = resources["images/grid_win_temp.png"].texture;
+                            var grid = new Sprite(resource);
+                            gridWinner.addChild(grid);
+                            stage.addChild(gridWinner);
+
+                            gridWinner.x = GRID_INDENTATION;
+                            gridWinner.y = GRID_INDENTATION_Y;
+
+                            var checkContainer = new Container();
+                            resource = resources["images/check.png"].texture;
+                            var check = new Sprite(resource);
+                            check.width = 20;
+                            check.height = 20;
+                            checkContainer.addChild(check);
+                            checkContainer.x = currentGrid.x;
+                            checkContainer.y = currentGrid.y;
+                            stage.addChild(checkContainer);
+
+                            var winnerGridGraphics = new PIXI.Graphics();
+                            winnerGridGraphics.beginFill(0x5F9E5D);
+                            winnerGridGraphics.alpha = 0.6;
+                            // draw a rectangle
+                            winnerGridGraphics.drawRect(currentGrid.x, currentGrid.y, currentGrid.width,currentGrid.height);
+                            winnerGridGraphics.endFill();
+
+                            stage.addChild(winnerGridGraphics);
+                        } else {
+                            stage.removeChild(gridWinner);
+                        }
                     }
 
                     function findCenter(points) {
@@ -1206,8 +1253,8 @@
       <!-- </body> -->
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script> -->
 
 </html>
