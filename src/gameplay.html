@@ -50,6 +50,14 @@
 
                     var rectGridGraphics = null, rectMiniGridGraphics = null;
 
+                    stage.updateLayersOrder = function () {
+                        stage.children.sort(function(a,b) {
+                            a.zIndex = a.zIndex || 0;
+                            b.zIndex = b.zIndex || 0;
+                            return b.zIndex - a.zIndex
+                        });
+                    };
+
                     loader
                         .add("images/grid.png")
                         .add("images/grid_6x10_normal.png")
@@ -881,7 +889,8 @@
                         this.data = event.data;
                         this.alpha = 0.5;
                         this.dragging = true;
-                        this.zIndex = 999;
+                        this.zIndex = -1;
+                        stage.updateLayersOrder();
                         // event.currentTarget.calculateBounds();
                         unCheck(event.currentTarget.children, this.filter);
                         countCheckGrid();
@@ -910,9 +919,7 @@
                         var points = check(event.currentTarget.children, this.filter);
 
                         if(points.x == 0){
-                            // this.position.x = this.filter.x;
-                            // this.position.y = this.filter.y;
-                            // this.rotation = 0;
+                            this.zIndex = -1;
                             this.alpha = 0.5;
                             this.filter.statusPosition = 2; // Position is not valid
                         }
@@ -1039,6 +1046,7 @@
                             for(var i = 0; i < matrixGrid.length; i++){
                                 // console.log("BoundsGrid -> "+JSON.stringify(matrixGrid[i]));
                                 if( matrixGrid[i].minX <= centerX && centerX <= matrixGrid[i].maxX && matrixGrid[i].minY <= centerY && centerY <= matrixGrid[i].maxY && matrixGrid[i].idLetters == filter.id ) {
+                                    matrixGrid[i].idLetters = 0;
                                     matrixGrid[i].check = false;
                                     // console.log("achou -> "+JSON.stringify(matrixGrid[i]));    
                                 }
@@ -1101,7 +1109,7 @@
                                 if(letters[i].filter.statusPosition == 2){
                                     if(letters[i].filter.id != filter.id){
                                         console.log("Name Letter->" + letters[i].filter.name);
-                                        stage.children[i].filter.statusPosition = 0;
+                                        stage.children[i].filter.statusPosition = 0; // Position default
                                         stage.children[i].rotation = 0;
                                         stage.children[i].alpha = 1;
                                         stage.children[i].position.x = letters[i].filter.x;
