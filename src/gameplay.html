@@ -83,6 +83,7 @@
                         .add("images/about.png")
                         .add("images/howtouse.png")
                         .add("images/logo_pentamino.png")
+                        .add("images/reset.png")
                         .add("images/close.png")
                         .load(setupMiniGrids)
                         .load(setupGrid)
@@ -121,6 +122,7 @@
                         resource = resources["images/grid_5x12_normal.png"].texture;
                         grid5X12 = new Sprite(resource);
                         grid5X12.interactive = true;
+                        grid5X12.buttonMode = true;
                         grid5X12.x = MINI_GRID_INDENDATION;
                         grid5X12.y = grid6x10.y + grid6x10.height + defaultIndentation;
                         grid5X12.filter = { name: "grid5X12", row : 5 , column : 12, status : "not_winner" };
@@ -131,6 +133,7 @@
                         resource = resources["images/grid_4x15_normal.png"].texture;
                         grid4x15 = new Sprite(resource);
                         grid4x15.interactive = true;
+                        grid4x15.buttonMode = true;
                         grid4x15.x = MINI_GRID_INDENDATION;
                         grid4x15.y = grid5X12.y + grid5X12.height + defaultIndentation;
                         grid4x15.filter = { name: "grid4x15", row : 4 , column : 15, status : "not_winner"};
@@ -141,6 +144,7 @@
                         resource = resources["images/grid_3x20_normal.png"].texture;
                         grid3x20 = new Sprite(resource);
                         grid3x20.interactive = true;
+                        grid3x20.buttonMode = true;
                         grid3x20.x = MINI_GRID_INDENDATION;
                         grid3x20.y = grid4x15.y + grid4x15.height + defaultIndentation;
                         grid3x20.filter = { name: "grid3x20", row : 3 , column : 20, status : "not_winner"};
@@ -172,12 +176,36 @@
                     }
 
                     function setupMenuOption(){
+
+                        //add button reset
+                            buttonReset = new Container();
+                            buttonReset.interactive = true;
+                            buttonReset.x = GRID_WIDTH - 150;
+                            buttonReset.y = MINI_GRID_INDENDATION;
+                            buttonReset.zIndex = 0;
+                            buttonReset.filter = { click: false };
+                            buttonReset.buttonMode = true;
+
+                            resource = resources["images/reset.png"].texture;
+                            var btnReset = new Sprite(resource);
+                            buttonReset.addChild(btnReset);
+                            btnReset.position.y = 0;
+                            btnReset.position.x = 0;
+
+                            buttonReset.on('click', function(event){
+                                alert("reset");
+                                
+                            });
+
+                            stage.addChild(buttonReset);
+                            buttonReset.updateTransform();
+
                         //add button instruction
                             buttonInstruction = new Container();
                             buttonInstruction.interactive = true;
-                            buttonInstruction.x = 540;
+                            buttonInstruction.x = 500;
                             buttonInstruction.y = MINI_GRID_INDENDATION;
-                            buttonInstruction.zIndex = 0;
+                            buttonInstruction.zIndex = -2;
                             buttonInstruction.buttonMode = true;
                             buttonInstruction.visible = false;
 
@@ -196,9 +224,9 @@
                         //add button about
                             buttonAbout = new Container();
                             buttonAbout.interactive = true;
-                            buttonAbout.x = 540;
+                            buttonAbout.x = 500;
                             buttonAbout.y = MINI_GRID_INDENDATION * 3;
-                            buttonAbout.zIndex = 0;
+                            buttonAbout.zIndex = -2;
                             buttonAbout.buttonMode = true;
                             buttonAbout.visible = false;
 
@@ -214,9 +242,9 @@
                         //add button how to use
                             buttonHowToUse = new Container();
                             buttonHowToUse.interactive = true;
-                            buttonHowToUse.x = 540;
+                            buttonHowToUse.x = 500;
                             buttonHowToUse.y = MINI_GRID_INDENDATION * 5;
-                            buttonHowToUse.zIndex = 0;
+                            buttonHowToUse.zIndex = -2;
                             buttonHowToUse.buttonMode = true;
                             buttonHowToUse.visible = false;
 
@@ -232,9 +260,9 @@
                         //add button info
                             buttonInfo = new Container();
                             buttonInfo.interactive = true;
-                            buttonInfo.x = GRID_WIDTH;
+                            buttonInfo.x = GRID_WIDTH - 40;
                             buttonInfo.y = MINI_GRID_INDENDATION;
-                            buttonInfo.zIndex = 0;
+                            buttonInfo.zIndex = -2;
                             buttonInfo.filter = { click: false };
                             buttonInfo.buttonMode = true;
 
@@ -246,7 +274,6 @@
 
                             buttonInfo.on('click', function(event){
                                 if(buttonInfo.filter.click){
-                                    enableLetters();
                                     buttonInfo.filter.click = false;
                                     buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
                                     buttonInstruction.visible = false;
@@ -256,7 +283,6 @@
                                     stage.removeChild(rectModalBackground);
                                 }
                                 else{
-                                    disableLetters();
                                     buttonInfo.filter.click = true;
                                     buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_on.png');
                                     buttonInstruction.visible = true;
@@ -268,6 +294,8 @@
 
                             stage.addChild(buttonInfo);
                             buttonInfo.updateTransform();
+
+                        
                     }
 
                     function showBackgroundModal(){
@@ -283,6 +311,7 @@
                     }
 
                     function showModalInstruction(){
+                        disableLetters();
                         stage.removeChild(rectModalInstruction);
                         rectModalInstruction = new PIXI.Graphics();
                         rectModalInstruction.beginFill(0xFFFFFF);
@@ -302,6 +331,7 @@
                         buttonClose.width = 20;
                         buttonClose.height = 20;
                         buttonClose.on("click", function(event){
+                            enableLetters();
                             rectModalInstruction.interactive = false;
                             stage.removeChild(rectModalInstruction);
                             stage.removeChild(rectModalBackground);
@@ -318,6 +348,16 @@
                             .on('touchmove', touchModalMove);
 
                         stage.addChild(rectModalInstruction);
+                    }
+
+                    function closeMenuOption(){
+                        buttonInfo.filter.click = false;
+                        buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
+                        buttonInstruction.visible = false;
+                        buttonAbout.visible = false;
+                        buttonHowToUse.visible = false;
+                        stage.removeChild(rectModalInstruction);
+                        stage.removeChild(rectModalBackground);
                     }
 
                     function touchModalStart(event){
@@ -1139,6 +1179,7 @@
                     }
 
                     function onDragStart(event) {
+                        closeMenuOption();
                         // store a reference to the data the reason for this is because of multitouch we want to track the movement of this particular touch
                         this.start_data = {x: event.data.originalEvent.screenX, y: event.data.originalEvent.screenY};
                         this.data = event.data;
