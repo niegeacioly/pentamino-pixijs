@@ -1243,15 +1243,6 @@
                             drawAllRectGridBackground();
                             drawBackgroundRectMiniGrid(currentGrid.x, currentGrid.y, currentGrid.width, currentGrid.height);
                             initAllPositions();
-                        } else {
-                            gridWinner = new Container();
-                            resource = resources["images/grid_win_temp.png"].texture;
-                            var grid = new Sprite(resource);
-                            gridWinner.addChild(grid);
-                            stage.addChild(gridWinner);
-
-                            gridWinner.x = GRID_INDENTATION;
-                            gridWinner.y = GRID_INDENTATION_Y;
                         }
                     }
 
@@ -1375,7 +1366,6 @@
                             checkContainer.y = currentGrid.y;
                             stage.addChild(checkContainer);
 
-                            stage.removeChild(winnerGridGraphics);
                             winnerGridGraphics = new PIXI.Graphics();
                             winnerGridGraphics.beginFill(0x5F9E5D);
                             winnerGridGraphics.alpha = 0.6;
