@@ -35,7 +35,7 @@
 
                     var matrixGrid = new Array();
                     var KeyPress = 0;
-                    var currentGrid = null, gridWinner = null;
+                    var currentGrid = null, gridWinner = null, winnerGridGraphics = null;
                     
                     var minPixel = 3, defaultIndentation = 20;
 
@@ -1228,6 +1228,7 @@
                         if (count == 60 || (currentGrid != null && currentGrid.filter.status == "winner")) {
                             currentGrid.filter.status = "winner";
                             
+                            stage.removeChild(gridWinner);
                             gridWinner = new Container();
                             resource = resources["images/grid_win_temp.png"].texture;
                             var grid = new Sprite(resource);
@@ -1247,7 +1248,8 @@
                             checkContainer.y = currentGrid.y;
                             stage.addChild(checkContainer);
 
-                            var winnerGridGraphics = new PIXI.Graphics();
+                            stage.removeChild(winnerGridGraphics);
+                            winnerGridGraphics = new PIXI.Graphics();
                             winnerGridGraphics.beginFill(0x5F9E5D);
                             winnerGridGraphics.alpha = 0.6;
                             // draw a rectangle
@@ -1284,8 +1286,6 @@
 
                         var newX = (xMin + xInterval / 2);
                         var newY = (yMin + yInterval / 2);
-
-                        console.log("newX -> "+newX+" | newY -> "+newY);
 
                         return { x: newX, y: newY };
                     }
