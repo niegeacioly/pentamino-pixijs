@@ -14,11 +14,6 @@
       <title>Game Play</title>
       </head>
       <body>
-          <!-- <nav class="navbar navbar-light bg-faded">
-            <a class="navbar-brand" href="#">
-              <img src="images/logo_pentamino.png" class="img-fluid" width="200" height="auto" class="d-inline-block align-top" alt="Pentaminó">
-            </a>
-          </nav>     -->
 
           <script type="text/javascript">
                 
@@ -52,7 +47,7 @@
                     var gridHeight = 0;
                     var rowSelected = 6, columnSelected = 10;
 
-                    var rectGridGraphics = null, rectMiniGridGraphics = null;
+                    var rectGridGraphics = null, rectMiniGridGraphics = null, rectModalBackground = null, rectModalInstruction = null;
 
                     stage.updateLayersOrder = function () {
                         stage.children.sort(function(a,b) {
@@ -82,11 +77,13 @@
                         .add("images/blockv.png")
                         .add("images/blocku.png")
                         .add("images/blockp.png")
+                        .add("images/button_info_on.png")
                         .add("images/button_info_off.png")
                         .add("images/instruction.png")
                         .add("images/about.png")
                         .add("images/howtouse.png")
                         .add("images/logo_pentamino.png")
+                        .add("images/close.png")
                         .load(setupMiniGrids)
                         .load(setupGrid)
                         .load(setupMenuOption)
@@ -108,10 +105,11 @@
 
                         //Create the grid
                         miniGridContainer = new Container();
-
+                        miniGridContainer.filter = { name: "miniGridContainer" };
                         resource = resources["images/grid_6x10_normal.png"].texture;
                         grid6x10 = new Sprite(resource);
                         grid6x10.interactive = true;
+                        grid6x10.buttonMode = true;
                         grid6x10.x = MINI_GRID_INDENDATION;
                         grid6x10.y = GRID_INDENTATION_Y;
                         grid6x10.filter = { name: "grid6x10", row : 6 , column : 10, status : "not_winner" };
@@ -188,7 +186,10 @@
                             buttonInstruction.addChild(button1);
                             button1.position.y = 0;
                             button1.position.x = 0;
-
+                            buttonInstruction.on("click", function(event){
+                                showBackgroundModal();
+                                showModalInstruction();
+                            });
                             stage.addChild(buttonInstruction);
                             buttonInstruction.updateTransform();
 
@@ -245,13 +246,17 @@
 
                             buttonInfo.on('click', function(event){
                                 if(buttonInfo.filter.click){
+                                    enableLetters();
                                     buttonInfo.filter.click = false;
                                     buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
                                     buttonInstruction.visible = false;
                                     buttonAbout.visible = false;
                                     buttonHowToUse.visible = false;
+                                    stage.removeChild(rectModalInstruction);
+                                    stage.removeChild(rectModalBackground);
                                 }
                                 else{
+                                    disableLetters();
                                     buttonInfo.filter.click = true;
                                     buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_on.png');
                                     buttonInstruction.visible = true;
@@ -263,6 +268,130 @@
 
                             stage.addChild(buttonInfo);
                             buttonInfo.updateTransform();
+                    }
+
+                    function showBackgroundModal(){
+                        stage.removeChild(rectModalBackground);
+                        rectModalBackground = new PIXI.Graphics();
+                        rectModalBackground.beginFill(0x000000);
+                        rectModalBackground.alpha = 0.8;
+                        // draw a rectangle
+                        rectModalBackground.drawRect(0, 0, 1000,700);
+                        rectModalBackground.endFill();
+
+                        stage.addChild(rectModalBackground);
+                    }
+
+                    function showModalInstruction(){
+                        stage.removeChild(rectModalInstruction);
+                        rectModalInstruction = new PIXI.Graphics();
+                        rectModalInstruction.beginFill(0xFFFFFF);
+                        // draw a rectangle
+                        rectModalInstruction.drawRoundedRect(100, 100, 800, 600, 20);
+                        rectModalInstruction.endFill();
+
+                        rectModalInstruction.interactive = true;
+
+                        resource = resources["images/close.png"].texture;
+                        var buttonClose = new Sprite(resource);
+                        buttonInstruction.addChild(buttonClose);
+                        buttonClose.interactive = true;
+                        buttonClose.position.y = 130;
+                        buttonClose.position.x = 850;
+                        buttonClose.buttonMode = true;
+                        buttonClose.width = 20;
+                        buttonClose.height = 20;
+                        buttonClose.on("click", function(event){
+                            rectModalInstruction.interactive = false;
+                            stage.removeChild(rectModalInstruction);
+                            stage.removeChild(rectModalBackground);
+                        });
+                        rectModalInstruction.addChild(buttonClose);
+
+                        rectModalInstruction.on('mousedown', touchModalStart)
+                            .on('touchstart', touchModalStart)
+                            .on('mouseup', touchModalEnd)
+                            .on('mouseupoutside', touchModalEnd)
+                            .on('touchend', touchModalEnd)
+                            .on('touchendoutside', touchModalEnd)
+                            .on('mousemove', touchModalMove)
+                            .on('touchmove', touchModalMove)
+                            .on('tap', touchModalStart)
+                            .on('click', touchModalStart);
+
+                        stage.addChild(rectModalInstruction);
+                    }
+
+                    function touchModalStart(event){
+                        this.start_data = { x: event.data.originalEvent.screenX, y: event.data.originalEvent.screenY };
+                        this.data = event.data;
+                        this.dragging = true;
+                        // this.zIndex = -1;
+                        // stage.updateLayersOrder();
+                    }
+
+                    function touchModalEnd(event){
+                        var ev_data = event.data.originalEvent;
+
+                        this.alpha = 1;
+
+                        this.dragging = false;
+
+                        if (this.start_data) {
+                            if (Math.abs(this.start_data.x - ev_data.screenX) > 2 || Math.abs(this.start_data.y - ev_data.screenY) > 2) {
+                                event.stopPropagation();
+                            }
+                        }
+
+                        // set the interaction data to null
+                        this.data = null;
+
+                        this.zIndex = 0;
+
+                    }
+
+                    function touchModalMove(event){
+                        if (this.dragging)
+                        {
+                            this.position.y += this.data.originalEvent.movementY;
+                            event.currentTarget.calculateBounds();
+                            var bounds = event.currentTarget._bounds;
+
+                            //Top
+                            if (bounds.maxY < 650) {
+                                console.log("top -> "+this.position.y);
+                                this.y = this.position.y + 10;
+                            }
+
+                            //Bottom
+                            if (bounds.minY > 200) {
+                                this.y = 50;
+                            }
+                        }
+                    }
+
+                    function disableLetters(){
+                        var letters = stage.children;
+
+                        for(var i=0; i < letters.length; i++){
+                            if(letters[i].filter != undefined){
+                                if(letters[i].filter.name != undefined){
+                                    stage.children[i].interactive = false;
+                                }
+                            }
+                        }
+                    }
+
+                    function enableLetters(){
+                        var letters = stage.children;
+
+                        for(var i=0; i < letters.length; i++){
+                            if(letters[i].filter != undefined){
+                                if(letters[i].filter.name != undefined){
+                                    stage.children[i].interactive = true;
+                                }
+                            }
+                        }
                     }
 
                     function setupGrid() {
