@@ -14,11 +14,11 @@
       <title>Game Play</title>
       </head>
       <body>
-          <nav class="navbar navbar-light bg-faded">
+          <!-- <nav class="navbar navbar-light bg-faded">
             <a class="navbar-brand" href="#">
               <img src="images/logo_pentamino.png" class="img-fluid" width="200" height="auto" class="d-inline-block align-top" alt="Pentaminó">
             </a>
-          </nav>    
+          </nav>     -->
 
           <script type="text/javascript">
                 
@@ -29,17 +29,17 @@
                         resources = PIXI.loader.resources,
                         Sprite = PIXI.Sprite;
 
-                    var stage = new Container(), renderer = autoDetectRenderer(1000, 600, { antialias: true }, true);
+                    var stage = new Container(), renderer = autoDetectRenderer(1000, 700, { antialias: true }, true);
                     renderer.view.style.border = "1px dashed black";
                     renderer.backgroundColor = 0x232325;
 
                     var matrixGrid = new Array();
                     var KeyPress = 0;
                     var currentGrid = null, gridWinner = null;
-
+                    
                     var minPixel = 3, defaultIndentation = 20;
 
-                    const GRID_INDENTATION = 200, MINI_GRID_INDENDATION = 50, GRID_INDENTATION_Y = 40, GRID_WIDTH = 890, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
+                    const GRID_INDENTATION = 200, MINI_GRID_INDENDATION = 50, GRID_INDENTATION_Y = 140, GRID_WIDTH = 890, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
 
                     document.body.appendChild(renderer.view);                  
                     document.onkeypress = function(evt) {
@@ -82,8 +82,15 @@
                         .add("images/blockv.png")
                         .add("images/blocku.png")
                         .add("images/blockp.png")
+                        .add("images/button_info_off.png")
+                        .add("images/instruction.png")
+                        .add("images/about.png")
+                        .add("images/howtouse.png")
+                        .add("images/logo_pentamino.png")
                         .load(setupMiniGrids)
                         .load(setupGrid)
+                        .load(setupMenuOption)
+                        .load(drawLogoPentamino)
                         .load(setupLetterZ)
                         .load(setupLetterY)
                         .load(setupLetterL)
@@ -145,6 +152,117 @@
 
                         stage.addChild(miniGridContainer);
 
+                    }
+
+                    function drawLogoPentamino(){
+                        //add logo
+                        logoPentamino = new Container();
+                        logoPentamino.x = MINI_GRID_INDENDATION;
+                        logoPentamino.y = MINI_GRID_INDENDATION;
+                        // logo.buttonMode = true;
+
+                        resource = resources["images/logo_pentamino.png"].texture;
+                        var button = new Sprite(resource);
+                        logoPentamino.addChild(button);
+                        button.position.y = 0;
+                        button.position.x = 0;
+                        button.width = 200;
+                        button.height = 45;
+
+                        stage.addChild(logoPentamino);
+                        logoPentamino.updateTransform();
+                    }
+
+                    function setupMenuOption(){
+                        //add button instruction
+                            buttonInstruction = new Container();
+                            buttonInstruction.interactive = true;
+                            buttonInstruction.x = 540;
+                            buttonInstruction.y = MINI_GRID_INDENDATION;
+                            buttonInstruction.zIndex = 0;
+                            buttonInstruction.buttonMode = true;
+                            buttonInstruction.visible = false;
+
+                            resource = resources["images/instruction.png"].texture;
+                            var button1 = new Sprite(resource);
+                            buttonInstruction.addChild(button1);
+                            button1.position.y = 0;
+                            button1.position.x = 0;
+
+                            stage.addChild(buttonInstruction);
+                            buttonInstruction.updateTransform();
+
+                        //add button about
+                            buttonAbout = new Container();
+                            buttonAbout.interactive = true;
+                            buttonAbout.x = 540;
+                            buttonAbout.y = MINI_GRID_INDENDATION * 3;
+                            buttonAbout.zIndex = 0;
+                            buttonAbout.buttonMode = true;
+                            buttonAbout.visible = false;
+
+                            resource = resources["images/about.png"].texture;
+                            var button2 = new Sprite(resource);
+                            buttonAbout.addChild(button2);
+                            button2.position.y = 0;
+                            button2.position.x = 0;
+
+                            stage.addChild(buttonAbout);
+                            buttonAbout.updateTransform();
+
+                        //add button how to use
+                            buttonHowToUse = new Container();
+                            buttonHowToUse.interactive = true;
+                            buttonHowToUse.x = 540;
+                            buttonHowToUse.y = MINI_GRID_INDENDATION * 5;
+                            buttonHowToUse.zIndex = 0;
+                            buttonHowToUse.buttonMode = true;
+                            buttonHowToUse.visible = false;
+
+                            resource = resources["images/howtouse.png"].texture;
+                            var button3 = new Sprite(resource);
+                            buttonHowToUse.addChild(button3);
+                            button3.position.y = 0;
+                            button3.position.x = 0;
+
+                            stage.addChild(buttonHowToUse);
+                            buttonHowToUse.updateTransform();
+
+                        //add button info
+                            buttonInfo = new Container();
+                            buttonInfo.interactive = true;
+                            buttonInfo.x = GRID_WIDTH;
+                            buttonInfo.y = MINI_GRID_INDENDATION;
+                            buttonInfo.zIndex = 0;
+                            buttonInfo.filter = { click: false };
+                            buttonInfo.buttonMode = true;
+
+                            resource = resources["images/button_info_off.png"].texture;
+                            var button = new Sprite(resource);
+                            buttonInfo.addChild(button);
+                            button.position.y = 0;
+                            button.position.x = 0;
+
+                            buttonInfo.on('click', function(event){
+                                if(buttonInfo.filter.click){
+                                    buttonInfo.filter.click = false;
+                                    buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
+                                    buttonInstruction.visible = false;
+                                    buttonAbout.visible = false;
+                                    buttonHowToUse.visible = false;
+                                }
+                                else{
+                                    buttonInfo.filter.click = true;
+                                    buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_on.png');
+                                    buttonInstruction.visible = true;
+                                    buttonAbout.visible = true;
+                                    buttonHowToUse.visible = true;
+                                }
+                                
+                            });
+
+                            stage.addChild(buttonInfo);
+                            buttonInfo.updateTransform();
                     }
 
                     function setupGrid() {
