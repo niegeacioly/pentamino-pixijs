@@ -243,7 +243,7 @@
                         stage.removeChild(rectModalBackground);
                         rectModalBackground = new PIXI.Graphics();
                         rectModalBackground.beginFill(0xA9A9A9);
-                        // rectModalBackground.alpha = 0.8;
+                        rectModalBackground.alpha = 0.8;
                         // draw a rectangle
                         rectModalBackground.drawRect(0, 0, 1000,700);
                         rectModalBackground.endFill();
@@ -257,7 +257,7 @@
                         rectModalInstruction = new PIXI.Graphics();
                         rectModalInstruction.beginFill(0xFFFFFF);
                         // draw a rectangle
-                        rectModalInstruction.drawRoundedRect(100, 100, 800, 600, 20);
+                        rectModalInstruction.drawRoundedRect(100, 100, 800, 500, 20);
                         rectModalInstruction.endFill();
 
                         rectModalInstruction.interactive = true;
@@ -290,6 +290,7 @@
                     }
 
                     function closeMenuOption(){
+                        enableLetters();
                         rectModalInstruction.interactive = false;
                         buttonInfo.filter.click = false;
                         buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
@@ -323,8 +324,7 @@
                             var bounds = event.currentTarget._bounds;
 
                             //Top
-                            if (bounds.maxY < 650) {
-                                console.log("top -> "+this.position.y);
+                            if (bounds.maxY < 600) {
                                 this.y = this.position.y + 10;
                             }
 
