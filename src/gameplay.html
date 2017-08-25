@@ -39,7 +39,6 @@
                     // Drag is the best layer, dragged element is above everything else
                     var dragLayer = new PIXI.DisplayGroup(2, false);
 
-
                     renderer.view.style.border = "1px dashed black";
                     renderer.backgroundColor = 0x232325;
 
@@ -204,66 +203,7 @@
                             };
 
                             stage.addChild(buttonReset);
-                            buttonReset.updateTransform();
-
-                        //add button instruction
-                            buttonInstruction = new Container();
-                            buttonInstruction.interactive = true;
-                            buttonInstruction.x = 500;
-                            buttonInstruction.y = MINI_GRID_INDENDATION;
-                            buttonInstruction.zIndex = 0;
-                            buttonInstruction.buttonMode = true;
-                            buttonInstruction.visible = false;
-
-                            resource = resources["images/instruction.png"].texture;
-                            var button1 = new Sprite(resource);
-                            buttonInstruction.addChild(button1);
-                            button1.position.y = 0;
-                            button1.position.x = 0;
-
-                            buttonInstruction.click = buttonInstruction.tap = function(event){
-                                showBackgroundModal();
-                                showModalInstruction();
-                            };
-
-                            stage.addChild(buttonInstruction);
-                            buttonInstruction.updateTransform();
-
-                        //add button about
-                            buttonAbout = new Container();
-                            buttonAbout.interactive = true;
-                            buttonAbout.x = 500;
-                            buttonAbout.y = MINI_GRID_INDENDATION * 3;
-                            buttonAbout.zIndex = 0;
-                            buttonAbout.buttonMode = true;
-                            buttonAbout.visible = false;
-
-                            resource = resources["images/about.png"].texture;
-                            var button2 = new Sprite(resource);
-                            buttonAbout.addChild(button2);
-                            button2.position.y = 0;
-                            button2.position.x = 0;
-
-                            stage.addChild(buttonAbout);
-                            buttonAbout.updateTransform();
-
-                        //add button how to use
-                            buttonHowToUse = new Container();
-                            buttonHowToUse.interactive = true;
-                            buttonHowToUse.x = 500;
-                            buttonHowToUse.y = MINI_GRID_INDENDATION * 5;
-                            buttonHowToUse.zIndex = 0;
-                            buttonHowToUse.buttonMode = true;
-                            buttonHowToUse.visible = false;
-
-                            resource = resources["images/howtouse.png"].texture;
-                            var button3 = new Sprite(resource);
-                            buttonHowToUse.addChild(button3);
-                            button3.position.y = 0;
-                            button3.position.x = 0;
-
-                            stage.addChild(buttonHowToUse);
-                            buttonHowToUse.updateTransform();
+                            buttonReset.updateTransform();                       
 
                         //add button info
                             buttonInfo = new Container();
@@ -282,20 +222,13 @@
 
                             buttonInfo.click = buttonInfo.tap = function(event){
                                 if(buttonInfo.filter.click){
-                                    buttonInfo.filter.click = false;
-                                    buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
-                                    buttonInstruction.visible = false;
-                                    buttonAbout.visible = false;
-                                    buttonHowToUse.visible = false;
-                                    stage.removeChild(rectModalInstruction);
-                                    stage.removeChild(rectModalBackground);
+                                    closeMenuOption();
                                 }
                                 else{
+                                    showBackgroundModal();
+                                    showModalInstruction();
                                     buttonInfo.filter.click = true;
                                     buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_on.png');
-                                    buttonInstruction.visible = true;
-                                    buttonAbout.visible = true;
-                                    buttonHowToUse.visible = true;
                                 }
                                 
                             };
@@ -309,12 +242,12 @@
                     function showBackgroundModal(){
                         stage.removeChild(rectModalBackground);
                         rectModalBackground = new PIXI.Graphics();
-                        rectModalBackground.beginFill(0x000000);
-                        rectModalBackground.alpha = 0.8;
+                        rectModalBackground.beginFill(0xA9A9A9);
+                        // rectModalBackground.alpha = 0.8;
                         // draw a rectangle
                         rectModalBackground.drawRect(0, 0, 1000,700);
                         rectModalBackground.endFill();
-
+                        
                         stage.addChild(rectModalBackground);
                     }
 
@@ -328,10 +261,10 @@
                         rectModalInstruction.endFill();
 
                         rectModalInstruction.interactive = true;
-
+                        
                         resource = resources["images/close.png"].texture;
                         var buttonClose = new Sprite(resource);
-                        buttonInstruction.addChild(buttonClose);
+                        rectModalInstruction.addChild(buttonClose);
                         buttonClose.interactive = true;
                         buttonClose.position.y = 130;
                         buttonClose.position.x = 850;
@@ -340,9 +273,7 @@
                         buttonClose.height = 20;
                         buttonClose.click = buttonClose.tap = function(event){
                             enableLetters();
-                            rectModalInstruction.interactive = false;
-                            stage.removeChild(rectModalInstruction);
-                            stage.removeChild(rectModalBackground);
+                            closeMenuOption();
                         };
                         rectModalInstruction.addChild(buttonClose);
 
@@ -354,16 +285,14 @@
                             .on('touchendoutside', touchModalEnd)
                             .on('mousemove', touchModalMove)
                             .on('touchmove', touchModalMove);
-
+                        rectModalInstruction.displayGroup = letterLayer;
                         stage.addChild(rectModalInstruction);
                     }
 
                     function closeMenuOption(){
+                        rectModalInstruction.interactive = false;
                         buttonInfo.filter.click = false;
                         buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
-                        buttonInstruction.visible = false;
-                        buttonAbout.visible = false;
-                        buttonHowToUse.visible = false;
                         stage.removeChild(rectModalInstruction);
                         stage.removeChild(rectModalBackground);
                     }
@@ -376,9 +305,7 @@
 
                     function touchModalEnd(event){
                         var ev_data = event.data.originalEvent;
-
                         this.alpha = 1;
-
                         this.dragging = false;
 
                         if (this.start_data) {
@@ -386,12 +313,6 @@
                                 event.stopPropagation();
                             }
                         }
-
-                        // set the interaction data to null
-                        this.data = null;
-
-                        this.zIndex = 0;
-
                     }
 
                     function touchModalMove(event){
@@ -420,6 +341,7 @@
                         for(var i=0; i < letters.length; i++){
                             if(letters[i].filter != undefined){
                                 if(letters[i].filter.name != undefined){
+                                    stage.children[i].visible = false;
                                     stage.children[i].interactive = false;
                                 }
                             }
@@ -432,6 +354,7 @@
                         for(var i=0; i < letters.length; i++){
                             if(letters[i].filter != undefined){
                                 if(letters[i].filter.name != undefined){
+                                    stage.children[i].visible = true;
                                     stage.children[i].interactive = true;
                                 }
                             }
