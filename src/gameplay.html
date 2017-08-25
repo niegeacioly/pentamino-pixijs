@@ -12,12 +12,36 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
       <script src="../bin/scaleToWindow.js"></script>
       <script src="../bin/pixi-display.js"></script>
+      <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet"> 
       <title>Game Play</title>
       </head>
       <body>
 
           <script type="text/javascript">
-                
+                // // Load them google fonts before starting...!
+                // window.WebFontConfig = {
+                //     google: {
+                //         families: ['Snippet', 'Arvo:700italic', 'Podkova:700']
+                //     },
+
+                //     active: function() {
+                //         // do something
+                //         // init();
+                //     }
+                // };
+
+                // include the web-font loader script
+                /* jshint ignore:start */
+                // (function() {
+                //     var wf = document.createElement('script');
+                //     wf.src = ('https:' === document.location.protocol ? 'https' : 'http') +
+                //         '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+                //     wf.type = 'text/javascript';
+                //     wf.async = 'true';
+                //     var s = document.getElementsByTagName('script')[0];
+                //     s.parentNode.insertBefore(wf, s);
+                // })();
+
                 //Aliases
                     var Container = PIXI.Container,
                         autoDetectRenderer = PIXI.autoDetectRenderer,
@@ -91,6 +115,7 @@
                         .add("images/logo_pentamino.png")
                         .add("images/reset.png")
                         .add("images/close.png")
+                        .add('desyrel', 'required/assets/desyrel.xml')
                         .load(setupMiniGrids)
                         .load(setupGrid)
                         .load(setupLetterZ)
@@ -222,6 +247,7 @@
 
                             buttonInfo.click = buttonInfo.tap = function(event){
                                 if(buttonInfo.filter.click){
+                                    enableLetters();
                                     closeMenuOption();
                                 }
                                 else{
@@ -243,7 +269,7 @@
                         stage.removeChild(rectModalBackground);
                         rectModalBackground = new PIXI.Graphics();
                         rectModalBackground.beginFill(0xA9A9A9);
-                        rectModalBackground.alpha = 0.8;
+                        // rectModalBackground.alpha = 0.8;
                         // draw a rectangle
                         rectModalBackground.drawRect(0, 0, 1000,700);
                         rectModalBackground.endFill();
@@ -277,6 +303,44 @@
                         };
                         rectModalInstruction.addChild(buttonClose);
 
+                        var titleModal = new PIXI.Text('Instruções', {
+                            fontWeight: 'bold',
+                            fontStyle: 'normal',
+                            fontSize: 25,
+                            // fontFamily: 'Exo+2',
+                            fill: '#2F4F4F', 
+                            align: 'left'
+                            // ,
+                            // stroke: '#a4410e',
+                            // strokeThickness: 7
+                        });
+                        titleModal.x = 150;
+                        titleModal.y = 130;
+                        rectModalInstruction.addChild(titleModal);
+
+                        var text = "Para jogar, escolha uma das opções de tabuleiro indicadas á esquerda.\n"+
+                                    "Depois, selecione a peça desejada e arraste-a para cima do tabuleiro.\n"+
+                                    "Ele mudará de cor. Nessa situação, ela pode ser girada - utilizando-se as\n"+
+                                    "setas direcionadas do teclado ou dando um duplo clique nela - ou espelhada\n"+
+                                    "pressionando-se a tecla de espaço.\n\n"+
+                                    "Quando a peça for colocada sobre um espaço onde pode ser encaixada,\n"+
+                                    "ficará verde.";
+
+                        var bodytModal = new PIXI.Text(text, {
+                            // fontWeight: 'bold',
+                            // fontStyle: 'normal',
+                            fontSize: 21,
+                            // fontFamily: 'Exo+2',
+                            fill: '#808080', 
+                            // align: 'left'
+                            // ,
+                            // stroke: '#a4410e',
+                            // strokeThickness: 7
+                        });
+                        bodytModal.x = 150;
+                        bodytModal.y = 180;
+                        rectModalInstruction.addChild(bodytModal);
+
                         rectModalInstruction.on('mousedown', touchModalStart)
                             .on('touchstart', touchModalStart)
                             .on('mouseup', touchModalEnd)
@@ -290,12 +354,13 @@
                     }
 
                     function closeMenuOption(){
-                        enableLetters();
-                        rectModalInstruction.interactive = false;
-                        buttonInfo.filter.click = false;
-                        buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
-                        stage.removeChild(rectModalInstruction);
-                        stage.removeChild(rectModalBackground);
+                        if(rectModalInstruction != null){
+                            rectModalInstruction.interactive = false;
+                            buttonInfo.filter.click = false;
+                            buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
+                            stage.removeChild(rectModalInstruction);
+                            stage.removeChild(rectModalBackground);
+                        }
                     }
 
                     function touchModalStart(event){
