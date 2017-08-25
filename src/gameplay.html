@@ -11,6 +11,7 @@
       <link rel="stylesheet" href="gameplay.css">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
       <script src="../bin/scaleToWindow.js"></script>
+      <script src="../bin/pixi-display.js"></script>
       <title>Game Play</title>
       </head>
       <body>
@@ -25,6 +26,20 @@
                         Sprite = PIXI.Sprite;
 
                     var stage = new Container(), renderer = autoDetectRenderer(1000, 700, { antialias: true }, true);
+
+                    //specify display list component
+                    stage.displayList = new PIXI.DisplayList();
+                    
+                    // z-index = 0, sorting = true;
+                    var letterLayer = new PIXI.DisplayGroup(0, true);
+                    letterLayer.on('add', function (sprite) {
+                        //green bunnies go down
+                        sprite.zOrder = -sprite.position.y;
+                    });
+                    // Drag is the best layer, dragged element is above everything else
+                    var dragLayer = new PIXI.DisplayGroup(2, false);
+
+
                     renderer.view.style.border = "1px dashed black";
                     renderer.backgroundColor = 0x232325;
 
@@ -48,14 +63,6 @@
                     var rowSelected = 6, columnSelected = 10;
 
                     var rectGridGraphics = null, rectMiniGridGraphics = null, rectModalBackground = null, rectModalInstruction = null;
-
-                    stage.updateLayersOrder = function () {
-                        stage.children.sort(function(a,b) {
-                            a.zIndex = a.zIndex || 0;
-                            b.zIndex = b.zIndex || 0;
-                            return b.zIndex - a.zIndex
-                        });
-                    };
 
                     loader
                         .add("images/grid.png")
@@ -87,8 +94,6 @@
                         .add("images/close.png")
                         .load(setupMiniGrids)
                         .load(setupGrid)
-                        .load(setupMenuOption)
-                        .load(drawLogoPentamino)
                         .load(setupLetterZ)
                         .load(setupLetterY)
                         .load(setupLetterL)
@@ -100,7 +105,9 @@
                         .load(setupLetterF)
                         .load(setupLetterV)
                         .load(setupLetterU)
-                        .load(setupLetterP);
+                        .load(setupLetterP)
+                        .load(setupMenuOption)
+                        .load(drawLogoPentamino);
 
                     function setupMiniGrids() {
 
@@ -192,10 +199,9 @@
                             btnReset.position.y = 0;
                             btnReset.position.x = 0;
 
-                            buttonReset.on('click', function(event){
-                                alert("reset");
-                                
-                            });
+                            buttonReset.click = buttonReset.tap = function(event){
+                                alert("reset");                                
+                            };
 
                             stage.addChild(buttonReset);
                             buttonReset.updateTransform();
@@ -205,7 +211,7 @@
                             buttonInstruction.interactive = true;
                             buttonInstruction.x = 500;
                             buttonInstruction.y = MINI_GRID_INDENDATION;
-                            buttonInstruction.zIndex = -2;
+                            buttonInstruction.zIndex = 0;
                             buttonInstruction.buttonMode = true;
                             buttonInstruction.visible = false;
 
@@ -214,10 +220,12 @@
                             buttonInstruction.addChild(button1);
                             button1.position.y = 0;
                             button1.position.x = 0;
-                            buttonInstruction.on("click", function(event){
+
+                            buttonInstruction.click = buttonInstruction.tap = function(event){
                                 showBackgroundModal();
                                 showModalInstruction();
-                            });
+                            };
+
                             stage.addChild(buttonInstruction);
                             buttonInstruction.updateTransform();
 
@@ -226,7 +234,7 @@
                             buttonAbout.interactive = true;
                             buttonAbout.x = 500;
                             buttonAbout.y = MINI_GRID_INDENDATION * 3;
-                            buttonAbout.zIndex = -2;
+                            buttonAbout.zIndex = 0;
                             buttonAbout.buttonMode = true;
                             buttonAbout.visible = false;
 
@@ -244,7 +252,7 @@
                             buttonHowToUse.interactive = true;
                             buttonHowToUse.x = 500;
                             buttonHowToUse.y = MINI_GRID_INDENDATION * 5;
-                            buttonHowToUse.zIndex = -2;
+                            buttonHowToUse.zIndex = 0;
                             buttonHowToUse.buttonMode = true;
                             buttonHowToUse.visible = false;
 
@@ -262,7 +270,7 @@
                             buttonInfo.interactive = true;
                             buttonInfo.x = GRID_WIDTH - 40;
                             buttonInfo.y = MINI_GRID_INDENDATION;
-                            buttonInfo.zIndex = -2;
+                            buttonInfo.zIndex = 0;
                             buttonInfo.filter = { click: false };
                             buttonInfo.buttonMode = true;
 
@@ -272,7 +280,7 @@
                             button.position.y = 0;
                             button.position.x = 0;
 
-                            buttonInfo.on('click', function(event){
+                            buttonInfo.click = buttonInfo.tap = function(event){
                                 if(buttonInfo.filter.click){
                                     buttonInfo.filter.click = false;
                                     buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
@@ -290,7 +298,7 @@
                                     buttonHowToUse.visible = true;
                                 }
                                 
-                            });
+                            };
 
                             stage.addChild(buttonInfo);
                             buttonInfo.updateTransform();
@@ -330,12 +338,12 @@
                         buttonClose.buttonMode = true;
                         buttonClose.width = 20;
                         buttonClose.height = 20;
-                        buttonClose.on("click", function(event){
+                        buttonClose.click = buttonClose.tap = function(event){
                             enableLetters();
                             rectModalInstruction.interactive = false;
                             stage.removeChild(rectModalInstruction);
                             stage.removeChild(rectModalBackground);
-                        });
+                        };
                         rectModalInstruction.addChild(buttonClose);
 
                         rectModalInstruction.on('mousedown', touchModalStart)
@@ -364,8 +372,6 @@
                         this.start_data = { x: event.data.originalEvent.screenX, y: event.data.originalEvent.screenY };
                         this.data = event.data;
                         this.dragging = true;
-                        // this.zIndex = -1;
-                        // stage.updateLayersOrder();
                     }
 
                     function touchModalEnd(event){
@@ -568,6 +574,7 @@
                             .on('tap', onClick)
                             .on('click', onClick);
 
+                        gameSceneZ.displayGroup = letterLayer;
                         stage.addChild(gameSceneZ);
                         gameSceneZ.pivot.set(gameSceneZ.width/2, gameSceneZ.height/2);
                         gameSceneZ.updateTransform();
@@ -622,7 +629,8 @@
                             .on('touchmove', onDragMove)
                             .on('tap', onClick)
                             .on('click', onClick);
-
+                        
+                        gameSceneY.displayGroup = letterLayer;
                         stage.addChild(gameSceneY);
                         gameSceneY.pivot.set(gameSceneY.width/2, gameSceneY.height/2);
                         gameSceneY.updateTransform();
@@ -678,6 +686,7 @@
                             .on('tap', onClick)
                             .on('click', onClick);
 
+                        gameSceneL.displayGroup = letterLayer;
                         stage.addChild(gameSceneL);
                         gameSceneL.pivot.set(gameSceneL.width/2, gameSceneL.height/2);
                         gameSceneL.updateTransform();
@@ -733,6 +742,7 @@
                             .on('tap', onClick)
                             .on('click', onClick);
 
+                        gameSceneI.displayGroup = letterLayer;
                         stage.addChild(gameSceneI);
                         gameSceneI.pivot.set(gameSceneI.width/2, gameSceneI.height/2);
                         gameSceneI.updateTransform();
@@ -788,6 +798,7 @@
                             .on('tap', onClick)
                             .on('click', onClick);
 
+                        gameSceneN.displayGroup = letterLayer;
                         stage.addChild(gameSceneN);
                         gameSceneN.pivot.set(gameSceneN.width/2, gameSceneN.height/2);
                         gameSceneN.updateTransform();
@@ -843,6 +854,7 @@
                             .on('tap', onClick)
                             .on('click', onClick);
 
+                        gameSceneT.displayGroup = letterLayer;
                         stage.addChild(gameSceneT);
                         gameSceneT.pivot.set(gameSceneT.width/2, gameSceneT.height/2);
                         gameSceneT.updateTransform();
@@ -896,6 +908,7 @@
                             .on('mousemove', onDragMove)
                             .on('touchmove', onDragMove);
 
+                        gameSceneX.displayGroup = letterLayer;
                         stage.addChild(gameSceneX);
                         gameSceneX.pivot.set(gameSceneX.width/2, gameSceneX.height/2);
                         gameSceneX.updateTransform();
@@ -951,6 +964,7 @@
                             .on('tap', onClick)
                             .on('click', onClick);
 
+                        gameSceneW.displayGroup = letterLayer;
                         stage.addChild(gameSceneW);
                         gameSceneW.pivot.set(gameSceneW.width/2, gameSceneW.height/2);
                         gameSceneW.updateTransform();
@@ -1006,6 +1020,7 @@
                             .on('tap', onClick)
                             .on('click', onClick);
 
+                        gameSceneF.displayGroup = letterLayer;
                         gameSceneF.pivot.set(gameSceneF.width/2, gameSceneF.height/2);
                         stage.addChild(gameSceneF);
                         gameSceneF.updateTransform();
@@ -1061,6 +1076,7 @@
                             .on('tap', onClick)
                             .on('click', onClick);
 
+                        gameSceneV.displayGroup = letterLayer;
                         stage.addChild(gameSceneV);
                         gameSceneV.pivot.set(gameSceneV.width/2, gameSceneV.height/2);
                         gameSceneV.updateTransform();
@@ -1116,6 +1132,7 @@
                             .on('tap', onClick)
                             .on('click', onClick);
 
+                        gameSceneU.displayGroup = letterLayer;
                         stage.addChild(gameSceneU);
                         gameSceneU.pivot.set(gameSceneU.width/2, gameSceneU.height/2);
                         gameSceneU.updateTransform();
@@ -1171,6 +1188,7 @@
                             .on('tap', onClick)
                             .on('click', onClick);
                         
+                        gameSceneP.displayGroup = letterLayer;
                         stage.addChild(gameSceneP);
 
                         gameSceneP.pivot.set(gameSceneP.width/2, gameSceneP.height/2);
@@ -1184,10 +1202,10 @@
                         this.start_data = {x: event.data.originalEvent.screenX, y: event.data.originalEvent.screenY};
                         this.data = event.data;
                         this.alpha = 0.5;
+                        this.oldGroup = this.displayGroup;
+                        this.displayGroup = dragLayer;
                         this.dragging = true;
-                        this.zIndex = -1;
-                        stage.updateLayersOrder();
-                        // event.currentTarget.calculateBounds();
+                        // this.zIndex = 1;
                         unCheck(event.currentTarget.children, this.filter);
                         countCheckGrid();
                     }   
@@ -1199,6 +1217,7 @@
                         this.alpha = 1;
 
                         this.dragging = false;
+                        this.displayGroup = this.oldGroup;
 
                         if (this.start_data) {
                             if (Math.abs(this.start_data.x - ev_data.screenX) > 2 || Math.abs(this.start_data.y - ev_data.screenY) > 2) {
@@ -1209,23 +1228,14 @@
                         // set the interaction data to null
                         this.data = null;
 
-                        this.zIndex = 0;
+                        // this.zIndex = 0;
 
                         event.currentTarget.calculateBounds();
                         var points = check(event.currentTarget.children, this.filter);
 
                         if(points.x == 0){
-                            // if(this.position.x >= MINI_GRID_INDENDATION && this.position.y >= (gridContainer.height + defaultIndentation) ){
-                            //     this.position.x = this.filter.x;
-                            //     this.position.y = this.filter.y;
-                            //     this.rotation = 0;
-                            //     this.filter.statusPosition = 0; // Default position
-                            // }
-                            // else{
-                                this.zIndex = -1;
-                                this.alpha = 0.5;
-                                this.filter.statusPosition = 2; // Position is not valid
-                            //}
+                            this.alpha = 0.5;
+                            this.filter.statusPosition = 2; // Position is not valid
                         }
                         else{
                             this.position.x = points.x;
