@@ -144,7 +144,7 @@
                         grid6x10.buttonMode = true;
                         grid6x10.x = MINI_GRID_INDENDATION;
                         grid6x10.y = GRID_INDENTATION_Y;
-                        grid6x10.filter = { name: "grid6x10", row : 6 , column : 10, status : "not_winner" };
+                        grid6x10.filter = { name: "grid6x10", row : 6 , column : 10, status : "not_winner", selected: true };
                         miniGridContainer.addChild(grid6x10);
                         grid6x10.on('click', onClickMiniGrid)
                             .on('tap',onClickMiniGrid);
@@ -156,7 +156,7 @@
                         grid5X12.buttonMode = true;
                         grid5X12.x = MINI_GRID_INDENDATION;
                         grid5X12.y = grid6x10.y + grid6x10.height + defaultIndentation;
-                        grid5X12.filter = { name: "grid5X12", row : 5 , column : 12, status : "not_winner" };
+                        grid5X12.filter = { name: "grid5X12", row : 5 , column : 12, status : "not_winner", selected: false };
                         miniGridContainer.addChild(grid5X12);
                         grid5X12.on('click', onClickMiniGrid)
                             .on('tap',onClickMiniGrid);
@@ -167,7 +167,7 @@
                         grid4x15.buttonMode = true;
                         grid4x15.x = MINI_GRID_INDENDATION;
                         grid4x15.y = grid5X12.y + grid5X12.height + defaultIndentation;
-                        grid4x15.filter = { name: "grid4x15", row : 4 , column : 15, status : "not_winner"};
+                        grid4x15.filter = { name: "grid4x15", row : 4 , column : 15, status : "not_winner", selected: false };
                         miniGridContainer.addChild(grid4x15);
                         grid4x15.on('click', onClickMiniGrid)
                             .on('tap',onClickMiniGrid);
@@ -178,7 +178,7 @@
                         grid3x20.buttonMode = true;
                         grid3x20.x = MINI_GRID_INDENDATION;
                         grid3x20.y = grid4x15.y + grid4x15.height + defaultIndentation;
-                        grid3x20.filter = { name: "grid3x20", row : 3 , column : 20, status : "not_winner"};
+                        grid3x20.filter = { name: "grid3x20", row : 3 , column : 20, status : "not_winner", selected: false };
                         miniGridContainer.addChild(grid3x20);
                         grid3x20.on('click', onClickMiniGrid)
                             .on('tap',onClickMiniGrid);
@@ -222,10 +222,7 @@
                             buttonReset.addChild(btnReset);
                             btnReset.position.y = 0;
                             btnReset.position.x = 0;
-
-                            buttonReset.click = buttonReset.tap = function(event){
-                                alert("reset");                                
-                            };
+                            buttonReset.on("click", resetGameGridSelected).on("tap", resetGameGridSelected);
 
                             stage.addChild(buttonReset);
                             buttonReset.updateTransform();                       
@@ -1273,6 +1270,13 @@
 
                     function onClickMiniGrid(event)
                     {
+                        //clear selected grid
+                        for(var i = 0; i < miniGridContainer.children.length; i++){
+                            miniGridContainer.children[i].filter.selected = false;
+                        }
+
+                        //selected grid
+                        this.filter.selected = true;
                         currentGrid = event.currentTarget;
                         var filter = currentGrid.filter;
                         stage.removeChild(gridWinner);
@@ -1283,6 +1287,7 @@
                             drawBackgroundRectMiniGrid(currentGrid.x, currentGrid.y, currentGrid.width, currentGrid.height);
                             initAllPositions();
                         }
+                        
                     }
 
                     function initAllPositions() {
@@ -1470,6 +1475,28 @@
                         evt = evt || window.event;
                         var key = evt.keyCode || evt.which;
                         return key;
+                    }
+
+                    function resetGameGridSelected(event){
+                        
+                        for(var i = 0; i < miniGridContainer.children.length; i++){
+                            if(miniGridContainer.children[i].filter.selected == true){
+                                console.log("grid -> "+JSON.stringify(miniGridContainer.children[i].filter));
+                                currentGrid = miniGridContainer.children[i];
+                                var filter = currentGrid.filter;
+                                stage.removeChild(gridWinner);
+                                if (filter.status == "not_winner") {
+                                    rowSelected = filter.row;
+                                    columnSelected = filter.column;
+                                    drawAllRectGridBackground();
+                                    drawBackgroundRectMiniGrid(currentGrid.x, currentGrid.y, currentGrid.width, currentGrid.height);
+                                    initAllPositions();
+                                }
+                                else{
+                                    
+                                }
+                            }
+                        }
                     }
 
                     // run the render loop
