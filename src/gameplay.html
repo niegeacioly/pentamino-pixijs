@@ -85,7 +85,7 @@
                     var gridHeight = 0;
                     var rowSelected = 6, columnSelected = 10;
 
-                    var rectGridGraphics = null, rectMiniGridGraphics = null, rectModalBackground = null, rectModalInstruction = null;
+                    var rectGridGraphics = null, rectMiniGridGraphics = null, rectModalBackground = null, rectModalInstruction = null, rectModalQuestionResetGame = null;
 
                     loader
                         .add("images/grid.png")
@@ -115,6 +115,8 @@
                         .add("images/logo_pentamino.png")
                         .add("images/reset.png")
                         .add("images/close.png")
+                        .add("images/button_cancel.png")
+                        .add("images/button_ok.png")
                         .add('desyrel', 'required/assets/desyrel.xml')
                         .load(setupMiniGrids)
                         .load(setupGrid)
@@ -351,6 +353,91 @@
                             .on('touchmove', touchModalMove);
                         rectModalInstruction.displayGroup = letterLayer;
                         stage.addChild(rectModalInstruction);
+                    }
+
+                    function showModalQuestionResetGame(){
+                        disableLetters();
+                        stage.removeChild(rectModalQuestionResetGame);
+                        rectModalQuestionResetGame = new PIXI.Graphics();
+                        rectModalQuestionResetGame.beginFill(0xFFFFFF);
+                        // draw a rectangle
+                        rectModalQuestionResetGame.drawRoundedRect(290, 250, 450, 210, 20);
+                        rectModalQuestionResetGame.endFill();  
+
+                        // button close modal                      
+                        resource = resources["images/close.png"].texture;
+                        var buttonClose = new Sprite(resource);
+                        rectModalQuestionResetGame.addChild(buttonClose);
+                        buttonClose.interactive = true;
+                        buttonClose.position.y = 275;
+                        buttonClose.position.x = 700;
+                        buttonClose.buttonMode = true;
+                        buttonClose.width = 20;
+                        buttonClose.height = 20;
+                        buttonClose.click = buttonClose.tap = function(event){
+                            enableLetters();
+                            if(rectModalQuestionResetGame != null){
+                                stage.removeChild(rectModalQuestionResetGame);
+                                stage.removeChild(rectModalBackground);
+                            }
+                        };
+                        rectModalQuestionResetGame.addChild(buttonClose);
+
+                        //button ok confirm reset game
+                        resource = resources["images/button_ok.png"].texture;
+                        var buttonYes = new Sprite(resource);
+                        rectModalQuestionResetGame.addChild(buttonYes);
+                        buttonYes.interactive = true;
+                        buttonYes.position.y = 400;
+                        buttonYes.position.x = 430;
+                        buttonYes.buttonMode = true;
+                        buttonYes.click = buttonYes.tap = function(event){
+                            enableLetters();
+                            if(rectModalQuestionResetGame != null){
+                                stage.removeChild(rectModalQuestionResetGame);
+                                stage.removeChild(rectModalBackground);
+                            }
+                        };
+                        rectModalQuestionResetGame.addChild(buttonYes);
+
+                        // button cancel
+                        resource = resources["images/button_cancel.png"].texture;
+                        var buttonCancel = new Sprite(resource);
+                        rectModalQuestionResetGame.addChild(buttonCancel);
+                        buttonCancel.interactive = true;
+                        buttonCancel.position.y = 400;
+                        buttonCancel.position.x = 530;
+                        buttonCancel.buttonMode = true;
+                        buttonCancel.click = buttonCancel.tap = function(event){
+                            enableLetters();
+                            if(rectModalQuestionResetGame != null){
+                                stage.removeChild(rectModalQuestionResetGame);
+                                stage.removeChild(rectModalBackground);
+                            }
+                        };
+                        rectModalQuestionResetGame.addChild(buttonCancel);
+
+                        var titleModal = new PIXI.Text('Reiniciar Jogo', {
+                            fontWeight: 'bold',
+                            fontStyle: 'normal',
+                            fontSize: 25,
+                            fill: '#2F4F4F', 
+                            align: 'left'
+                        });
+                        titleModal.x = 310;
+                        titleModal.y = 270;
+                        rectModalQuestionResetGame.addChild(titleModal);
+
+                        var text = "Você já completou esse jogo,\nTem certeza que deseja reiniciar? ";
+                        var bodytModal = new PIXI.Text(text, {
+                            fontSize: 21,
+                            fill: '#808080'
+                        });
+                        bodytModal.x = 310;
+                        bodytModal.y = 320;
+                        rectModalQuestionResetGame.addChild(bodytModal);
+
+                        stage.addChild(rectModalQuestionResetGame);
                     }
 
                     function closeMenuOption(){
@@ -1482,13 +1569,12 @@
                     }
 
                     function resetGameGridSelected(event){
-                        
+
                         for(var i = 0; i < miniGridContainer.children.length; i++){
                             if(miniGridContainer.children[i].filter.selected == true){
                                 console.log("grid -> "+JSON.stringify(miniGridContainer.children[i].filter));
                                 currentGrid = miniGridContainer.children[i];
                                 var filter = currentGrid.filter;
-                                stage.removeChild(gridWinner);
                                 if (filter.status == "not_winner") {
                                     rowSelected = filter.row;
                                     columnSelected = filter.column;
@@ -1497,7 +1583,9 @@
                                     initAllPositions();
                                 }
                                 else{
-                                    
+                                    showBackgroundModal();
+                                    showModalQuestionResetGame();
+                                    // stage.removeChild(gridWinner);
                                 }
                             }
                         }
