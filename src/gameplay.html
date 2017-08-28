@@ -185,6 +185,9 @@
 
                         stage.addChild(miniGridContainer);
 
+                        // seta o primeiro GRID como padrão ao iniciar o game
+                        currentGrid = miniGridContainer.children[0];
+
                     }
 
                     function drawLogoPentamino(){
@@ -1389,8 +1392,9 @@
 
                         if (count == 60 || (currentGrid != null && currentGrid.filter.status == "winner")) {
                             currentGrid.filter.status = "winner";
-                            
-                            stage.removeChild(gridWinner);
+                            if(gridWinner != null){
+                                stage.removeChild(gridWinner);
+                            }
                             gridWinner = new Container();
                             resource = resources["images/grid_win_temp.png"].texture;
                             var grid = new Sprite(resource);
