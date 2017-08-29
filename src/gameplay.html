@@ -1627,12 +1627,13 @@
                                 }
                                 
                                 // reset grid
-                                // currentGrid = miniGridContainer.children[i];
-                                // var filter = currentGrid.filter;
-                                // rowSelected = filter.row;
-                                // columnSelected = filter.column;
-                                // drawAllRectGridBackground();
-                                // initAllPositions();
+                                currentGrid = miniGridContainer.children[i];
+                                currentGrid.filter.status = "not_winner";
+                                var filter = currentGrid.filter;
+                                rowSelected = filter.row;
+                                columnSelected = filter.column;
+                                drawAllRectGridBackground();
+                                initAllPositions();
                                 break;
                             }
                         }
