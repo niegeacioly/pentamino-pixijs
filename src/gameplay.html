@@ -1449,8 +1449,6 @@
                             }
                         }
 
-                        // countCheckGrid();
-                        console.log("point len -> "+points.length);
                         if(points.length == 5){
                             for(var i = 0; i < points.length; i++){
                                 matrixGrid[points[i].indexMatrix].check = true;
@@ -1459,7 +1457,6 @@
                             return findCenter(points);
                         }  
                         else{
-                            console.log("position failed");
                             return { x: 0, y: 0 };
                         }
                         
@@ -1468,8 +1465,7 @@
                     function unCheck(children, filter){
                         for(var c = 0; c < children.length; c++){
                             var boundsChild = children[c]._bounds;
-                            // console.log("BoundsElement -> "+JSON.stringify(boundsChild));
-
+                            
                             var xmin = boundsChild.minX;
                             var xmax = boundsChild.maxX;
                             var ymin = boundsChild.minY;
@@ -1478,11 +1474,9 @@
                             var centerY = ymin + defaultIndentation;
                             
                             for(var i = 0; i < matrixGrid.length; i++){
-                                // console.log("BoundsGrid -> "+JSON.stringify(matrixGrid[i]));
                                 if( matrixGrid[i].minX <= centerX && centerX <= matrixGrid[i].maxX && matrixGrid[i].minY <= centerY && centerY <= matrixGrid[i].maxY && matrixGrid[i].idLetters == filter.id ) {
                                     matrixGrid[i].idLetters = 0;
                                     matrixGrid[i].check = false;
-                                    // console.log("achou -> "+JSON.stringify(matrixGrid[i]));    
                                 }
                             }
                         }
@@ -1568,7 +1562,6 @@
                             if(letters[i].filter != undefined){
                                 if(letters[i].filter.statusPosition == 2){
                                     if(letters[i].filter.id != filter.id){
-                                        console.log("Name Letter->" + letters[i].filter.name);
                                         stage.children[i].filter.statusPosition = 0; // Position default
                                         stage.children[i].rotation = 0;
                                         stage.children[i].alpha = 1;
@@ -1591,7 +1584,6 @@
 
                         for(var i = 0; i < miniGridContainer.children.length; i++){
                             if(miniGridContainer.children[i].filter.selected == true){
-                                console.log("grid -> "+JSON.stringify(miniGridContainer.children[i].filter));
                                 currentGrid = miniGridContainer.children[i];
                                 var filter = currentGrid.filter;
                                 if (filter.status == "not_winner") {
@@ -1604,7 +1596,6 @@
                                 else{
                                     showBackgroundModal();
                                     showModalQuestionResetGame();
-                                    // stage.removeChild(gridWinner);
                                 }
                             }
                         }
@@ -1618,7 +1609,6 @@
                                     if(stage.children[j].filter != undefined){
                                         if(stage.children[j].filter.type != undefined){
                                             if(stage.children[j].filter.grid == miniGridContainer.children[i].filter.name && stage.children[j].filter.type == "check"){
-                                                console.log("name -> "+stage.children[j].filter.grid+" | obj ->"+JSON.stringify(stage.children[j].filter));
                                                 var checkFind = stage.children[j];
                                                 stage.removeChild(checkFind);
                                             }
@@ -1627,12 +1617,14 @@
                                 }
                                 
                                 // reset grid
+                                stage.removeChild(winnerGridGraphics);
                                 currentGrid = miniGridContainer.children[i];
                                 currentGrid.filter.status = "not_winner";
                                 var filter = currentGrid.filter;
                                 rowSelected = filter.row;
                                 columnSelected = filter.column;
                                 drawAllRectGridBackground();
+                                drawBackgroundRectMiniGrid(currentGrid.x, currentGrid.y, currentGrid.width, currentGrid.height);
                                 initAllPositions();
                                 break;
                             }
@@ -1645,7 +1637,6 @@
                         for(var i=0; i < letters.length; i++){
                             if(letters[i].filter != undefined){
                                 if (letters[i].children.length == 5) {
-                                // if(letters[i].filter.name != undefined){
                                     stage.children[i].visible = false;
                                 }
                             }
