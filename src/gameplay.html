@@ -49,7 +49,7 @@
                         resources = PIXI.loader.resources,
                         Sprite = PIXI.Sprite;
 
-                    var stage = new Container(), renderer = autoDetectRenderer(1000, 700, { antialias: true }, true);
+                    var stage = new Container(), renderer = autoDetectRenderer(1100, 760, { antialias: true }, true);
 
                     //specify display list component
                     stage.displayList = new PIXI.DisplayList();
@@ -64,7 +64,7 @@
                     var dragLayer = new PIXI.DisplayGroup(2, false);
 
                     renderer.view.style.border = "1px dashed black";
-                    renderer.backgroundColor = 0x232325;
+                    renderer.backgroundColor = 0xe0dace;
 
                     var matrixGrid = new Array();
                     var KeyPress = 0;
@@ -72,7 +72,7 @@
                     
                     var minPixel = 3, defaultIndentation = 20;
 
-                    const GRID_INDENTATION = 200, MINI_GRID_INDENDATION = 50, GRID_INDENTATION_Y = 140, GRID_WIDTH = 890, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
+                    const GRID_INDENTATION = 250, MINI_GRID_INDENDATION = 80, GRID_INDENTATION_Y = 160, GRID_WIDTH = 944, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
 
                     document.body.appendChild(renderer.view);                  
                     document.onkeypress = function(evt) {
@@ -85,7 +85,7 @@
                     var gridHeight = 0;
                     var rowSelected = 6, columnSelected = 10;
 
-                    var rectGridGraphics = null, rectMiniGridGraphics = null, rectModalBackground = null, rectModalInstruction = null, rectModalQuestionResetGame = null;
+                    var rectGridGraphics = null, rectMiniGridGraphics = null, rectModalBackground = null, rectModalInstruction = null, rectModalQuestionResetGame = null, rectGridBlack = null;
 
                     loader
                         .add("images/grid.png")
@@ -118,6 +118,7 @@
                         .add("images/button_cancel.png")
                         .add("images/button_ok.png")
                         .add('desyrel', 'required/assets/desyrel.xml')
+                        .load(drawGridBlack)
                         .load(setupGridWinner)
                         .load(setupMiniGrids)
                         .load(setupGrid)
@@ -145,7 +146,7 @@
                         grid6x10 = new Sprite(resource);
                         grid6x10.interactive = true;
                         grid6x10.buttonMode = true;
-                        grid6x10.x = MINI_GRID_INDENDATION;
+                        grid6x10.x = MINI_GRID_INDENDATION + 20;
                         grid6x10.y = GRID_INDENTATION_Y;
                         grid6x10.filter = { name: "grid6x10", row : 6 , column : 10, status : "not_winner", selected: true };
                         miniGridContainer.addChild(grid6x10);
@@ -157,7 +158,7 @@
                         grid5X12 = new Sprite(resource);
                         grid5X12.interactive = true;
                         grid5X12.buttonMode = true;
-                        grid5X12.x = MINI_GRID_INDENDATION;
+                        grid5X12.x = MINI_GRID_INDENDATION + 20;
                         grid5X12.y = grid6x10.y + grid6x10.height + defaultIndentation;
                         grid5X12.filter = { name: "grid5X12", row : 5 , column : 12, status : "not_winner", selected: false };
                         miniGridContainer.addChild(grid5X12);
@@ -168,7 +169,7 @@
                         grid4x15 = new Sprite(resource);
                         grid4x15.interactive = true;
                         grid4x15.buttonMode = true;
-                        grid4x15.x = MINI_GRID_INDENDATION;
+                        grid4x15.x = MINI_GRID_INDENDATION + 20;
                         grid4x15.y = grid5X12.y + grid5X12.height + defaultIndentation;
                         grid4x15.filter = { name: "grid4x15", row : 4 , column : 15, status : "not_winner", selected: false };
                         miniGridContainer.addChild(grid4x15);
@@ -179,7 +180,7 @@
                         grid3x20 = new Sprite(resource);
                         grid3x20.interactive = true;
                         grid3x20.buttonMode = true;
-                        grid3x20.x = MINI_GRID_INDENDATION;
+                        grid3x20.x = MINI_GRID_INDENDATION + 20;
                         grid3x20.y = grid4x15.y + grid4x15.height + defaultIndentation;
                         grid3x20.filter = { name: "grid3x20", row : 3 , column : 20, status : "not_winner", selected: false };
                         miniGridContainer.addChild(grid3x20);
@@ -197,7 +198,7 @@
                         //add logo
                         logoPentamino = new Container();
                         logoPentamino.x = MINI_GRID_INDENDATION;
-                        logoPentamino.y = MINI_GRID_INDENDATION;
+                        logoPentamino.y = 30;
                         // logo.buttonMode = true;
 
                         resource = resources["images/logo_pentamino.png"].texture;
@@ -205,8 +206,8 @@
                         logoPentamino.addChild(button);
                         button.position.y = 0;
                         button.position.x = 0;
-                        button.width = 200;
-                        button.height = 45;
+                        button.width = 325;
+                        button.height = 85;
 
                         stage.addChild(logoPentamino);
                         logoPentamino.updateTransform();
@@ -217,8 +218,8 @@
                         //add button reset
                             buttonReset = new Container();
                             buttonReset.interactive = true;
-                            buttonReset.x = GRID_WIDTH - 150;
-                            buttonReset.y = MINI_GRID_INDENDATION;
+                            buttonReset.x = GRID_WIDTH - 90;
+                            buttonReset.y = 30;
                             buttonReset.zIndex = 0;
                             buttonReset.filter = { click: false };
                             buttonReset.buttonMode = true;
@@ -236,8 +237,8 @@
                         //add button info
                             buttonInfo = new Container();
                             buttonInfo.interactive = true;
-                            buttonInfo.x = GRID_WIDTH - 40;
-                            buttonInfo.y = MINI_GRID_INDENDATION;
+                            buttonInfo.x = GRID_WIDTH;
+                            buttonInfo.y = 30;
                             buttonInfo.zIndex = 0;
                             buttonInfo.filter = { click: false };
                             buttonInfo.buttonMode = true;
@@ -282,10 +283,10 @@
                     function showBackgroundModal(){
                         stage.removeChild(rectModalBackground);
                         rectModalBackground = new PIXI.Graphics();
-                        rectModalBackground.beginFill(0xA9A9A9);
-                        // rectModalBackground.alpha = 0.8;
+                        rectModalBackground.beginFill(0x000000);
+                        rectModalBackground.alpha = 0.6;
                         // draw a rectangle
-                        rectModalBackground.drawRect(0, 0, 1000,700);
+                        rectModalBackground.drawRect(0, 0, 1100, 760);
                         rectModalBackground.endFill();
                         
                         stage.addChild(rectModalBackground);
@@ -297,17 +298,17 @@
                         rectModalInstruction = new PIXI.Graphics();
                         rectModalInstruction.beginFill(0xFFFFFF);
                         // draw a rectangle
-                        rectModalInstruction.drawRoundedRect(100, 100, 800, 500, 20);
+                        rectModalInstruction.drawRoundedRect(150, 120, 800, 500, 20);
                         rectModalInstruction.endFill();
 
-                        rectModalInstruction.interactive = true;
+                        rectModalInstruction.interactive = false;
                         
                         resource = resources["images/close.png"].texture;
                         var buttonClose = new Sprite(resource);
                         rectModalInstruction.addChild(buttonClose);
                         buttonClose.interactive = true;
-                        buttonClose.position.y = 130;
-                        buttonClose.position.x = 850;
+                        buttonClose.position.y = 150;
+                        buttonClose.position.x = 900;
                         buttonClose.buttonMode = true;
                         buttonClose.width = 20;
                         buttonClose.height = 20;
@@ -328,8 +329,8 @@
                             // stroke: '#a4410e',
                             // strokeThickness: 7
                         });
-                        titleModal.x = 150;
-                        titleModal.y = 130;
+                        titleModal.x = 200;
+                        titleModal.y = 150;
                         rectModalInstruction.addChild(titleModal);
 
                         var text = "Para jogar, escolha uma das opções de tabuleiro indicadas á esquerda.\n"+
@@ -351,8 +352,8 @@
                             // stroke: '#a4410e',
                             // strokeThickness: 7
                         });
-                        bodytModal.x = 150;
-                        bodytModal.y = 180;
+                        bodytModal.x = 200;
+                        bodytModal.y = 200;
                         rectModalInstruction.addChild(bodytModal);
 
                         rectModalInstruction.on('mousedown', touchModalStart)
@@ -441,7 +442,7 @@
                         titleModal.y = 270;
                         rectModalQuestionResetGame.addChild(titleModal);
 
-                        var text = "Você já completou esse jogo,\nTem certeza que deseja reiniciar? ";
+                        var text = "Você já completou essa fase,\nTem certeza que deseja reiniciar? ";
                         var bodytModal = new PIXI.Text(text, {
                             fontSize: 21,
                             fill: '#808080'
@@ -539,12 +540,12 @@
                         var grid = new Sprite(resource);
                         gridContainer.addChild(grid);
                         stage.addChild(gridContainer);
-
+                        gridContainer.alpha = 0.5;
                         gridContainer.x = GRID_INDENTATION;
                         gridContainer.y = GRID_INDENTATION_Y;
 
                         drawAllRectGridBackground();
-                        gridHeight = grid.height + defaultIndentation;
+                        gridHeight = grid.height + defaultIndentation + 35;
                         drawBackgroundRectForLetters(gridHeight);
                     }
 
@@ -584,8 +585,8 @@
                     function drawBackgroundRectGrid(bgWidth,bgHeight) {
                         stage.removeChild(rectGridGraphics);
                         rectGridGraphics = new PIXI.Graphics();
-                        rectGridGraphics.beginFill(0xFDFDFF);
-                        rectGridGraphics.alpha = 0.1;
+                        rectGridGraphics.beginFill(0xFFFFFF);
+                        rectGridGraphics.alpha = 0.3;
                         // draw a rectangle
                         rectGridGraphics.drawRect(GRID_INDENTATION, GRID_INDENTATION_Y, bgWidth,bgHeight);
                         rectGridGraphics.endFill();
@@ -596,13 +597,25 @@
                     function drawBackgroundRectMiniGrid(x, y, bgWidth,bgHeight) {
                         stage.removeChild(rectMiniGridGraphics);
                         rectMiniGridGraphics = new PIXI.Graphics();
-                        rectMiniGridGraphics.beginFill(0x5F9E5D);
+                        rectMiniGridGraphics.beginFill(0xFFFFFF);
                         rectMiniGridGraphics.alpha = 0.4;
                         // draw a rectangle
                         rectMiniGridGraphics.drawRect(x, y, bgWidth,bgHeight);
                         rectMiniGridGraphics.endFill();
 
                         stage.addChild(rectMiniGridGraphics);
+                    }
+
+                    function drawGridBlack(){
+                        stage.removeChild(rectGridBlack);
+                        rectGridBlack = new PIXI.Graphics();
+                        rectGridBlack.beginFill(0x252329);
+                        // rectGridBlack.alpha = 0.2;
+                        // draw a rectangle
+                        rectGridBlack.drawRect(MINI_GRID_INDENDATION, GRID_INDENTATION_Y - 20, GRID_WIDTH, GRID_HEIGHT - 5);
+                        rectGridBlack.endFill();
+                        
+                        stage.addChild(rectGridBlack);
                     }
 
                     function drawBackgroundRectForLetters(gridHeight) {
@@ -1582,7 +1595,6 @@
                     }
 
                     function resetGameGridSelected(event){
-
                         for(var i = 0; i < miniGridContainer.children.length; i++){
                             if(miniGridContainer.children[i].filter.selected == true){
                                 currentGrid = miniGridContainer.children[i];
