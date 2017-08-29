@@ -118,6 +118,7 @@
                         .add("images/button_cancel.png")
                         .add("images/button_ok.png")
                         .add('desyrel', 'required/assets/desyrel.xml')
+                        .load(setupGridWinner)
                         .load(setupMiniGrids)
                         .load(setupGrid)
                         .load(setupLetterZ)
@@ -265,6 +266,17 @@
                             buttonInfo.updateTransform();
 
                         
+                    }
+
+                    function setupGridWinner(){
+                        gridWinner = new Container();
+                        resource = resources["images/grid_win_temp.png"].texture;
+                        var grid = new Sprite(resource);
+                        gridWinner.addChild(grid);
+                        stage.addChild(gridWinner);
+                        gridWinner.visible = false;
+                        gridWinner.x = GRID_INDENTATION;
+                        gridWinner.y = GRID_INDENTATION_Y;
                     }
 
                     function showBackgroundModal(){
@@ -489,12 +501,16 @@
 
                     function disableLetters(){
                         var letters = stage.children;
-
-                        for(var i=0; i < letters.length; i++){
-                            if(letters[i].filter != undefined){
-                                if(letters[i].filter.name != undefined){
-                                    stage.children[i].visible = false;
-                                    stage.children[i].interactive = false;
+                        if(gridWinner.visible == true){
+                            hideLetters();
+                        }
+                        else{
+                            for(var i=0; i < letters.length; i++){
+                                if(letters[i].filter != undefined){
+                                    if(letters[i].filter.name != undefined){
+                                        stage.children[i].visible = false;
+                                        stage.children[i].interactive = false;
+                                    }
                                 }
                             }
                         }
@@ -502,12 +518,13 @@
 
                     function enableLetters(){
                         var letters = stage.children;
-
-                        for(var i=0; i < letters.length; i++){
-                            if(letters[i].filter != undefined){
-                                if(letters[i].filter.name != undefined){
-                                    stage.children[i].visible = true;
-                                    stage.children[i].interactive = true;
+                        if(gridWinner.visible == false){
+                            for(var i=0; i < letters.length; i++){
+                                if(letters[i].filter != undefined){
+                                    if(letters[i].filter.name != undefined){
+                                        stage.children[i].visible = true;
+                                        stage.children[i].interactive = true;
+                                    }
                                 }
                             }
                         }
@@ -1369,7 +1386,6 @@
                         this.filter.selected = true;
                         currentGrid = event.currentTarget;
                         var filter = currentGrid.filter;
-                        stage.removeChild(gridWinner);
                         if (filter.status == "not_winner") {
                             rowSelected = filter.row;
                             columnSelected = filter.column;
@@ -1377,16 +1393,23 @@
                             drawBackgroundRectMiniGrid(currentGrid.x, currentGrid.y, currentGrid.width, currentGrid.height);
                             initAllPositions();
                         }
+                        else{
+                            hideLetters();
+                            gridWinner.visible = true;
+                        }
                         
                     }
 
                     function initAllPositions() {
+                        gridWinner.visible = false;
                         for (var c = 0; c < stage.children.length; c ++){
                             var child = stage.children[c];
                             if (child.children.length == 5) {
                                 child.x = child.filter.x;
                                 child.y = child.filter.y;
                                 child.rotation = 0;
+                                child.visible = true;
+                                child.interactive = true;
                             }
                         }
                     }
@@ -1479,17 +1502,10 @@
 
                         if (count == 60 || (currentGrid != null && currentGrid.filter.status == "winner")) {
                             currentGrid.filter.status = "winner";
-                            if(gridWinner != null){
-                                stage.removeChild(gridWinner);
-                            }
-                            gridWinner = new Container();
-                            resource = resources["images/grid_win_temp.png"].texture;
-                            var grid = new Sprite(resource);
-                            gridWinner.addChild(grid);
-                            stage.addChild(gridWinner);
 
-                            gridWinner.x = GRID_INDENTATION;
-                            gridWinner.y = GRID_INDENTATION_Y;
+                            // Winner
+                            gridWinner.visible = true;
+                            hideLetters();
 
                             var checkContainer = new Container();
                             resource = resources["images/check.png"].texture;
@@ -1510,7 +1526,7 @@
 
                             stage.addChild(winnerGridGraphics);
                         } else {
-                            stage.removeChild(gridWinner);
+                            gridWinner.visible = false;
                         }
                     }
 
@@ -1586,6 +1602,31 @@
                                     showBackgroundModal();
                                     showModalQuestionResetGame();
                                     // stage.removeChild(gridWinner);
+                                }
+                            }
+                        }
+                    }
+
+                    function hideLetters(){
+                        var letters = stage.children;
+
+                        for(var i=0; i < letters.length; i++){
+                            if(letters[i].filter != undefined){
+                                if (letters[i].children.length == 5) {
+                                // if(letters[i].filter.name != undefined){
+                                    stage.children[i].visible = false;
+                                }
+                            }
+                        }
+                    }
+
+                    function showLetters(){
+                        var letters = stage.children;
+
+                        for(var i=0; i < letters.length; i++){
+                            if(letters[i].filter != undefined){
+                                if (letters[i].children.length == 5) {
+                                    stage.children[i].visible = true;
                                 }
                             }
                         }
