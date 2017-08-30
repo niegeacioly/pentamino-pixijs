@@ -1421,6 +1421,7 @@
                             initAllPositions();
                         }
                         else{
+                            stage.removeChild(rectGridGraphics);
                             stage.removeChild(rectMiniGridGraphics);
                             hideLetters();
                             gridWinner.visible = true;
@@ -1531,6 +1532,7 @@
                             // Winner
                             gridWinner.visible = true;
                             gridContainer.visible = false;
+                            stage.removeChild(rectGridGraphics);
                             hideLetters();
 
                             var checkContainer = new Container();
