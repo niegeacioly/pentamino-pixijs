@@ -72,7 +72,7 @@
                     
                     var minPixel = 3, defaultIndentation = 20;
 
-                    const GRID_INDENTATION = 250, MINI_GRID_INDENDATION = 80, GRID_INDENTATION_Y = 160, GRID_WIDTH = 944, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
+                    const GRID_INDENTATION = 260, MINI_GRID_INDENDATION = 80, GRID_INDENTATION_Y = 160, GRID_WIDTH = 944, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
 
                     document.body.appendChild(renderer.view);                  
                     document.onkeypress = function(evt) {
@@ -294,6 +294,7 @@
 
                     function showModalInstruction(){
                         disableLetters();
+                        buttonReset.interactive = false;
                         stage.removeChild(rectModalInstruction);
                         rectModalInstruction = new PIXI.Graphics();
                         rectModalInstruction.beginFill(0xFFFFFF);
@@ -370,6 +371,7 @@
 
                     function showModalQuestionResetGame(){
                         disableLetters();
+                        buttonInfo.interactive = false;
                         stage.removeChild(rectModalQuestionResetGame);
                         rectModalQuestionResetGame = new PIXI.Graphics();
                         rectModalQuestionResetGame.beginFill(0xFFFFFF);
@@ -389,6 +391,7 @@
                         buttonClose.height = 20;
                         buttonClose.click = buttonClose.tap = function(event){
                             enableLetters();
+                            buttonInfo.interactive = true;
                             if(rectModalQuestionResetGame != null){
                                 stage.removeChild(rectModalQuestionResetGame);
                                 stage.removeChild(rectModalBackground);
@@ -406,6 +409,7 @@
                         buttonYes.buttonMode = true;
                         buttonYes.click = buttonYes.tap = function(event){
                             enableLetters();
+                            buttonInfo.interactive = true;
                             if(rectModalQuestionResetGame != null){
                                 stage.removeChild(rectModalQuestionResetGame);
                                 stage.removeChild(rectModalBackground);
@@ -424,6 +428,7 @@
                         buttonCancel.buttonMode = true;
                         buttonCancel.click = buttonCancel.tap = function(event){
                             enableLetters();
+                            buttonInfo.interactive = true;
                             if(rectModalQuestionResetGame != null){
                                 stage.removeChild(rectModalQuestionResetGame);
                                 stage.removeChild(rectModalBackground);
@@ -455,11 +460,18 @@
                     }
 
                     function closeMenuOption(){
+                        buttonReset.interactive = true;
+                        buttonInfo.interactive = true;
                         if(rectModalInstruction != null){
                             rectModalInstruction.interactive = false;
                             buttonInfo.filter.click = false;
                             buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
                             stage.removeChild(rectModalInstruction);
+                            stage.removeChild(rectModalBackground);
+                        }
+
+                        if(rectModalQuestionResetGame != null){
+                            stage.removeChild(rectModalQuestionResetGame);
                             stage.removeChild(rectModalBackground);
                         }
                     }
@@ -586,7 +598,7 @@
                         stage.removeChild(rectGridGraphics);
                         rectGridGraphics = new PIXI.Graphics();
                         rectGridGraphics.beginFill(0xFFFFFF);
-                        rectGridGraphics.alpha = 0.3;
+                        rectGridGraphics.alpha = 0.2;
                         // draw a rectangle
                         rectGridGraphics.drawRect(GRID_INDENTATION, GRID_INDENTATION_Y, bgWidth,bgHeight);
                         rectGridGraphics.endFill();
@@ -1391,6 +1403,7 @@
 
                     function onClickMiniGrid(event)
                     {
+                        closeMenuOption();
                         //clear selected grid
                         for(var i = 0; i < miniGridContainer.children.length; i++){
                             miniGridContainer.children[i].filter.selected = false;
