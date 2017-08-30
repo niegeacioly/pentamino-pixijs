@@ -118,6 +118,10 @@
                         .add("images/close.png")
                         .add("images/button_cancel.png")
                         .add("images/button_ok.png")
+                        .add("images/button_cancel_hover.png")
+                        .add("images/button_ok_hover.png")
+                        .add("images/button_exit.png")
+                        .add("images/button_exit_hover.png")
                         .load(drawGridBlack)
                         .load(setupGridWinner)
                         .load(setupMiniGrids)
@@ -340,6 +344,29 @@
                         };
                         rectModalInstruction.addChild(buttonClose);
 
+                        //button exit
+                        resource = resources["images/button_exit.png"].texture;
+                        var buttonExit = new Sprite(resource);
+                        rectModalInstruction.addChild(buttonExit);
+                        buttonExit.interactive = true;
+                        buttonExit.position.y = 530;
+                        buttonExit.position.x = 815;
+                        buttonExit.buttonMode = true;
+                        buttonExit.click = buttonExit.tap = function(event){
+                            enableLetters();
+                            closeMenuOption();
+                        };
+
+                        buttonExit
+                        .on('pointerover', function(event){
+                            buttonExit.texture = PIXI.Texture.fromImage('images/button_exit_hover.png');
+                        })
+                        .on('pointerout', function(event){
+                            buttonExit.texture = PIXI.Texture.fromImage('images/button_exit.png');
+                        });
+                        
+                        rectModalInstruction.addChild(buttonExit);
+
                         var titleModal = new PIXI.Text('Instruções', {
                             fontWeight: 'bold',
                             fontStyle: 'normal',
@@ -427,7 +454,7 @@
                         rectModalQuestionResetGame.addChild(buttonYes);
                         buttonYes.interactive = true;
                         buttonYes.position.y = 400;
-                        buttonYes.position.x = 430;
+                        buttonYes.position.x = 630;
                         buttonYes.buttonMode = true;
                         buttonYes.click = buttonYes.tap = function(event){
                             enableLetters();
@@ -438,6 +465,14 @@
                             }
                             resetGridAndMinGrid();
                         };
+
+                        buttonYes
+                        .on('pointerover', function(event){
+                            buttonYes.texture = PIXI.Texture.fromImage('images/button_ok_hover.png');
+                        })
+                        .on('pointerout', function(event){
+                            buttonYes.texture = PIXI.Texture.fromImage('images/button_ok.png');
+                        });
                         rectModalQuestionResetGame.addChild(buttonYes);
 
                         // button cancel
@@ -456,6 +491,15 @@
                                 stage.removeChild(rectModalBackground);
                             }
                         };
+
+                        buttonCancel
+                        .on('pointerover', function(event){
+                            buttonCancel.texture = PIXI.Texture.fromImage('images/button_cancel_hover.png');
+                        })
+                        .on('pointerout', function(event){
+                            buttonCancel.texture = PIXI.Texture.fromImage('images/button_cancel.png');
+                        });
+
                         rectModalQuestionResetGame.addChild(buttonCancel);
 
                         var titleModal = new PIXI.Text('Reiniciar Jogo', {
@@ -1406,10 +1450,22 @@
                             
                         }
                         else{
-                            unCheck(this.children, this.filter);
-                            this.scale.x *= -1;
+                            // right
+                            if(KeyPress == 39){
+                                unCheck(this.children, this.filter);
+                                this.rotation += Math.PI / 2;
+                            }
+                            else if(KeyPress == 37){ // left
+                                unCheck(this.children, this.filter);
+                                this.rotation -= Math.PI / 2;
+                            }
+                            else if(KeyPress == 32){ // space
+                                // mirror letters
+                                unCheck(this.children, this.filter);
+                                this.scale.x *= -1;
+                            }
                         }
-
+                        
                         event.currentTarget.updateTransform();
                         event.currentTarget.calculateBounds();
                         var points = check(event.currentTarget.children, this.filter);
