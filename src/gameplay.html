@@ -206,8 +206,8 @@
                         logoPentamino.addChild(button);
                         button.position.y = 0;
                         button.position.x = 0;
-                        button.width = 325;
-                        button.height = 85;
+                        button.width = 400;
+                        button.height = 88;
 
                         stage.addChild(logoPentamino);
                         logoPentamino.updateTransform();
@@ -357,11 +357,12 @@
 
                         var text = "Para jogar, escolha uma das opções de tabuleiro indicadas á esquerda.\n"+
                                     "Depois, selecione a peça desejada e arraste-a para cima do tabuleiro.\n"+
-                                    "Ele mudará de cor. Nessa situação, ela pode ser girada - utilizando-se as\n"+
-                                    "setas direcionadas do teclado ou dando um duplo clique nela - ou espelhada\n"+
-                                    "pressionando-se a tecla de espaço.\n\n"+
-                                    "Quando a peça for colocada sobre um espaço onde pode ser encaixada,\n"+
-                                    "ficará verde.";
+                                    "Ela mudará o estado de sua cor. As peças podem ser giradas –\n"+
+                                    "utilizando-se as setas direcionadas do teclado ou dando um clique\n"+
+                                    "Para espelhar matenha a tecla de espaço pressionada e dê um\n"+
+                                    "clique na peça.\n\n"+
+                                    "Quando a peça for colocada sobre um espaço do tabuleiro onde possa ser \n"+
+                                    "encaixada, a peça voltará ao estado inicial de sua cor.";
 
                         var bodytModal = new PIXI.Text(text, {
                             // fontWeight: 'bold',
@@ -468,7 +469,7 @@
                         titleModal.y = 270;
                         rectModalQuestionResetGame.addChild(titleModal);
 
-                        var text = "Você já completou essa fase,\nTem certeza que deseja reiniciar? ";
+                        var text = "Você já completou este tabuleiro.Tem\ncerteza que deseja reiniciá-lo? ";
                         var bodytModal = new PIXI.Text(text, {
                             fontSize: 21,
                             fill: '#808080'
