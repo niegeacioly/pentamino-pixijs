@@ -114,6 +114,7 @@
                         .add("images/howtouse.png")
                         .add("images/logo_pentamino.png")
                         .add("images/reset.png")
+                        .add("images/reset_hover.png")
                         .add("images/close.png")
                         .add("images/button_cancel.png")
                         .add("images/button_ok.png")
@@ -229,6 +230,8 @@
                             btnReset.position.y = 0;
                             btnReset.position.x = 0;
                             buttonReset.on("click", resetGameGridSelected).on("tap", resetGameGridSelected);
+                            buttonReset.on('pointerover', buttonResetActive)
+                            .on('pointerout', buttonResetHover);
 
                             stage.addChild(buttonReset);
                             buttonReset.updateTransform();                       
@@ -262,10 +265,29 @@
                                 
                             };
 
+                            buttonInfo.on('pointerover', buttonInfoActive)
+                            .on('pointerout', buttonInfoHover);
+                            
                             stage.addChild(buttonInfo);
                             buttonInfo.updateTransform();
 
                         
+                    }
+
+                    function buttonInfoActive(event){
+                        buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_on.png');
+                    }
+
+                    function buttonInfoHover(event){
+                        buttonInfo.children[0].texture = PIXI.Texture.fromImage('images/button_info_off.png');
+                    }
+
+                    function buttonResetActive(event){
+                        buttonReset.children[0].texture = PIXI.Texture.fromImage('images/reset_hover.png');
+                    }
+
+                    function buttonResetHover(event){
+                        buttonReset.children[0].texture = PIXI.Texture.fromImage('images/reset.png');
                     }
 
                     function setupGridWinner(){
