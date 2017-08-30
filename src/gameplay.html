@@ -68,7 +68,7 @@
 
                     var matrixGrid = new Array();
                     var KeyPress = 0;
-                    var currentGrid = null, gridWinner = null, winnerGridGraphics = null;
+                    var currentGrid = null, gridWinner = null;//, winnerGridGraphics = null;
                     
                     var minPixel = 3, defaultIndentation = 20;
 
@@ -1563,6 +1563,15 @@
                             stage.removeChild(rectGridGraphics);
                             hideLetters();
 
+                            var winnerGridGraphics = new PIXI.Graphics();
+                            winnerGridGraphics.filter = { type: "rect", grid: currentGrid.filter.name };
+                            winnerGridGraphics.beginFill(0x5F9E5D);
+                            winnerGridGraphics.alpha = 0.6;
+                            // draw a rectangle
+                            winnerGridGraphics.drawRect(currentGrid.x, currentGrid.y, currentGrid.width,currentGrid.height);
+                            winnerGridGraphics.endFill();
+                            stage.addChild(winnerGridGraphics);
+
                             var checkContainer = new Container();
                             resource = resources["images/check.png"].texture;
                             var check = new Sprite(resource);
@@ -1573,15 +1582,6 @@
                             checkContainer.x = currentGrid.x;
                             checkContainer.y = currentGrid.y;
                             stage.addChild(checkContainer);
-
-                            winnerGridGraphics = new PIXI.Graphics();
-                            winnerGridGraphics.beginFill(0x5F9E5D);
-                            winnerGridGraphics.alpha = 0.6;
-                            // draw a rectangle
-                            winnerGridGraphics.drawRect(currentGrid.x, currentGrid.y, currentGrid.width,currentGrid.height);
-                            winnerGridGraphics.endFill();
-
-                            stage.addChild(winnerGridGraphics);
                         } else {
                             gridWinner.visible = false;
                         }
@@ -1667,16 +1667,18 @@
                                 for(var j = 0; j < stage.children.length; j++){
                                     if(stage.children[j].filter != undefined){
                                         if(stage.children[j].filter.type != undefined){
+                                            if(stage.children[j].filter.grid == miniGridContainer.children[i].filter.name && stage.children[j].filter.type == "rect"){
+                                                stage.removeChild(stage.children[j]);
+                                            }
+                                            
                                             if(stage.children[j].filter.grid == miniGridContainer.children[i].filter.name && stage.children[j].filter.type == "check"){
-                                                var checkFind = stage.children[j];
-                                                stage.removeChild(checkFind);
+                                                stage.removeChild(stage.children[j]);
                                             }
                                         }
                                     }
                                 }
                                 
                                 // reset grid
-                                stage.removeChild(winnerGridGraphics);
                                 currentGrid = miniGridContainer.children[i];
                                 currentGrid.filter.status = "not_winner";
                                 var filter = currentGrid.filter;
