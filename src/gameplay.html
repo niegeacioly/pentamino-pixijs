@@ -1424,12 +1424,14 @@
                             stage.removeChild(rectMiniGridGraphics);
                             hideLetters();
                             gridWinner.visible = true;
+                            gridContainer.visible = false;
                         }
                         
                     }
 
                     function initAllPositions() {
                         gridWinner.visible = false;
+                        gridContainer.visible = true;
                         for (var c = 0; c < stage.children.length; c ++){
                             var child = stage.children[c];
                             if (child.children.length == 5) {
@@ -1528,6 +1530,7 @@
 
                             // Winner
                             gridWinner.visible = true;
+                            gridContainer.visible = false;
                             hideLetters();
 
                             var checkContainer = new Container();
