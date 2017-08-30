@@ -1444,6 +1444,7 @@
 
                     function onClick(event)
                     {
+                        verifyStatusPosition(this.filter);
                         if(KeyPress == 0){
                             unCheck(this.children, this.filter);
                             this.rotation += Math.PI / 2;
@@ -1801,27 +1802,41 @@
                         var bounds = sprite._bounds;
                         var yInterval = bounds.maxY - bounds.minY;
                         var xInterval = bounds.maxX - bounds.minX; 
+                        
+                        // area game to letters
+                        var minAreaGameY = 142;
+                        var maxAreaGameY = 710;
+                        var minAreaGameX = 80;
+                        var maxAreaGameX = 1021;
                     
                         //Left
-                        if (bounds.minX < 0.5) {
-                            sprite.x = 0.5 + xInterval/2;
+                        //if (bounds.minX < 0.5) {
+                        if (bounds.minX < minAreaGameX) {
+                            // sprite.x = 0.5 + xInterval/2;
+                            sprite.x = minAreaGameX + xInterval/2;
                             collision = "left";
                         }
 
                         //Top
-                        if (bounds.minY < 0.5) {
-                            sprite.y = 0.5 + yInterval/2;
+                        // if (bounds.minY < 0.5) {
+                        if (bounds.minY < minAreaGameY) {
+                            // sprite.y = 0.5 + yInterval/2;
+                            sprite.y = minAreaGameY + yInterval/2;
                             collision = "top";
                         }
 
                         //Right
-                        if (bounds.maxX > container.width) {
-                            sprite.x = container.width - xInterval/2;
+                        // if (bounds.maxX > container.width) {
+                        if (bounds.maxX > maxAreaGameX) {
+                            // sprite.x = container.width - xInterval/2;
+                            sprite.x = maxAreaGameX - xInterval/2;
                             collision = "right";
                         }
                         //Bottom
-                        if (bounds.maxY > container.height) {
-                            sprite.y = container.height - yInterval/2;
+                        // if (bounds.maxY > container.height) {
+                        if (bounds.maxY > maxAreaGameY) {
+                            // sprite.y = container.height - yInterval/2;
+                            sprite.y = maxAreaGameY - yInterval/2;
                             collision = "bottom";
                         }
 
