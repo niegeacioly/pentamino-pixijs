@@ -75,15 +75,19 @@
                     const GRID_INDENTATION = 260, MINI_GRID_INDENDATION = 80, GRID_INDENTATION_Y = 160, GRID_WIDTH = 944, GRID_HEIGHT = 270, DEFAULT_SIZE_BLOCK = 40;
 
                     document.body.appendChild(renderer.view);                  
-                    document.onkeypress = function(evt) {
+
+                    document.onkeypress = document.onkeydown = function(evt) {
                         KeyPress = keyPressed(evt);
                     };
+
                     document.onkeyup = function(evt) {
                         KeyPress = 0;
                     };
 
                     var gridHeight = 0;
                     var rowSelected = 6, columnSelected = 10;
+                    var loopHolding = null;
+                    var DELAY = 200, clicks = 0, timer = null;
 
                     var rectGridGraphics = null, rectMiniGridGraphics = null, rectModalBackground = null, rectModalInstruction = null, rectModalQuestionResetGame = null, rectGridBlack = null;
 
@@ -1392,10 +1396,13 @@
                         // this.zIndex = 1;
                         unCheck(event.currentTarget.children, this.filter);
                         countCheckGrid();
+
+                        // letters holding
+                        loopHolding = setInterval(onHolding.bind(this, event), 100);
                     }   
 
                     function onDragEnd(event) {
-
+                        clearInterval(loopHolding);
                         var ev_data = event.data.originalEvent;
 
                         this.alpha = 1;
@@ -1432,18 +1439,128 @@
                         countCheckGrid();
                     }
 
+                    function onHolding(event) {
+                        //right
+                        if(KeyPress == 39){
+                            this.rotation += Math.PI / 2;
+                        }
+                        
+                        //left
+                        if(KeyPress == 37){ 
+                            this.rotation -= Math.PI / 2;
+                        }
+
+                        // mirror letters
+                        if(KeyPress == 32){ // space
+                            this.scale.x *= -1;
+                        }
+                    }
+
                     function onDragMove(event) {
                         if (this.dragging)
                         {
+                            var scaleX = window.innerWidth / renderer.view.offsetWidth;
+                            // var scaleY = window.innerHeight / renderer.view.offsetHeight;
+                            // var scaleMin = Math.min(scaleX, scaleY);
+                            // var scaleMax = Math.max(scaleX, scaleY);
+                            // console.log("scaleX -> "+Math.ceil(scaleX)+" | scaleY -> "+Math.ceil(scaleY));
+                            
                             verifyStatusPosition(this.filter);
-                            this.position.x += this.data.originalEvent.movementX;
-                            this.position.y += this.data.originalEvent.movementY;
+                            // this.position.x += this.data.originalEvent.movementX * (2 / Math.ceil(scaleX));
+                            // this.position.y += this.data.originalEvent.movementY * (2 / Math.ceil(scaleX));
+                            var newPosition = this.data.getLocalPosition(this.parent);
+                            this.x = newPosition.x + (2 / Math.ceil(scaleX));
+                            this.y = newPosition.y + (2 / Math.ceil(scaleX));
                             contain(event.currentTarget, {x : defaultIndentation, y : defaultIndentation, width : renderer.width, height: renderer.height});
                         }
                     }
 
                     function onClick(event)
                     {
+                        // verifyStatusPosition(this.filter);
+                        // if(KeyPress == 0){
+                        //     unCheck(this.children, this.filter);
+                        //     this.rotation += Math.PI / 2;
+                            
+                        // }
+                        // else{
+                        //     // right
+                        //     if(KeyPress == 39){
+                        //         unCheck(this.children, this.filter);
+                        //         this.rotation += Math.PI / 2;
+                        //     }
+                        //     else if(KeyPress == 37){ // left
+                        //         unCheck(this.children, this.filter);
+                        //         this.rotation -= Math.PI / 2;
+                        //     }
+                        //     else if(KeyPress == 32){ // space
+                        //         // mirror letters
+                        //         unCheck(this.children, this.filter);
+                        //         this.scale.x *= -1;
+                        //     }
+                        //     else{
+                        //         unCheck(this.children, this.filter);
+                        //         this.rotation += Math.PI / 2;
+                        //     }
+                        // }
+                        
+                        // event.currentTarget.updateTransform();
+                        // event.currentTarget.calculateBounds();
+                        // var points = check(event.currentTarget.children, this.filter);
+                        // if(points.x == 0){
+                        //     this.alpha = 0.5;
+                        //     this.filter.statusPosition = 2; // Position is not valid
+                        //     if((this.position.y >= 440 && this.position.y <= 700) && (this.position.x <= 1000 && this.position.x >= 100)){
+                        //         this.alpha = 1;
+                        //     }
+                        // }
+                        // else{
+                        //     this.alpha = 1;
+                        //     this.position.x = points.x;
+                        //     this.position.y = points.y;
+                        //     this.filter.statusPosition = 1; // Position is valid
+                        // }
+                        // countCheckGrid();
+                        
+                        clicks++;  //count clicks
+                        if(clicks === 1) {
+                            // one click
+                            timer = setTimeout(oneClick.bind(this, event), DELAY);
+
+                        } else {
+                            //Double Click
+                            clearTimeout(timer);    //prevent single-click action
+                            clicks = 0;             //after action performed, reset counter
+
+                            verifyStatusPosition(this.filter);
+
+                            // mirror letters
+                            unCheck(this.children, this.filter);
+                            this.scale.x *= -1;
+
+                            event.currentTarget.updateTransform();
+                            event.currentTarget.calculateBounds();
+                            var points = check(event.currentTarget.children, this.filter);
+                            if(points.x == 0){
+                                this.alpha = 0.5;
+                                this.filter.statusPosition = 2; // Position is not valid
+                                if((this.position.y >= 440 && this.position.y <= 700) && (this.position.x <= 1000 && this.position.x >= 100)){
+                                    this.alpha = 1;
+                                }
+                            }
+                            else{
+                                this.alpha = 1;
+                                this.position.x = points.x;
+                                this.position.y = points.y;
+                                this.filter.statusPosition = 1; // Position is valid
+                            }
+                            countCheckGrid();
+                        }
+                    }
+
+                    function oneClick(event){
+                        clicks = 0;
+
                         verifyStatusPosition(this.filter);
                         if(KeyPress == 0){
                             unCheck(this.children, this.filter);
@@ -1471,9 +1588,19 @@
                             }
                         }
                         
-                        event.currentTarget.updateTransform();
-                        event.currentTarget.calculateBounds();
-                        var points = check(event.currentTarget.children, this.filter);
+                        // event.currentTarget.updateTransform();
+                        // event.currentTarget.calculateBounds();
+                        if(event.target != undefined){
+                            event.target.updateTransform();
+                            event.target.calculateBounds();
+                        }
+
+                        if(event.currentTarget != undefined){
+                            event.currentTarget.updateTransform();
+                            event.currentTarget.calculateBounds();
+                        }
+                        
+                        var points = check(event.target.children, this.filter);
                         if(points.x == 0){
                             this.alpha = 0.5;
                             this.filter.statusPosition = 2; // Position is not valid
