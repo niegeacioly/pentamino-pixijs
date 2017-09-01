@@ -61,7 +61,8 @@
                         sprite.zOrder = -sprite.position.y;
                     });
                     // Drag is the best layer, dragged element is above everything else
-                    var dragLayer = new PIXI.DisplayGroup(2, false);
+                    var countClickAndDrag = 1;
+                    // var dragLayer = new PIXI.DisplayGroup(2, false);
 
                     renderer.view.style.border = "1px dashed black";
                     renderer.backgroundColor = 0xe0dace;
@@ -1386,6 +1387,8 @@
 
                     function onDragStart(event) {
                         closeMenuOption();
+                        countClickAndDrag++;
+                        var dragLayer = new PIXI.DisplayGroup(countClickAndDrag, false);
                         // store a reference to the data the reason for this is because of multitouch we want to track the movement of this particular touch
                         this.start_data = {x: event.data.originalEvent.screenX, y: event.data.originalEvent.screenY};
                         this.data = event.data;
@@ -1408,7 +1411,10 @@
                         this.alpha = 1;
 
                         this.dragging = false;
-                        this.displayGroup = this.oldGroup;
+                        countClickAndDrag++;
+                        var dragLayer = new PIXI.DisplayGroup(countClickAndDrag, false);
+                        // this.displayGroup = this.oldGroup;
+                        this.displayGroup = dragLayer;
 
                         if (this.start_data) {
                             if (Math.abs(this.start_data.x - ev_data.screenX) > 2 || Math.abs(this.start_data.y - ev_data.screenY) > 2) {
@@ -1469,8 +1475,8 @@
                             // this.position.x += this.data.originalEvent.movementX * (2 / Math.ceil(scaleX));
                             // this.position.y += this.data.originalEvent.movementY * (2 / Math.ceil(scaleX));
                             var newPosition = this.data.getLocalPosition(this.parent);
-                            this.x = newPosition.x + (2 / Math.ceil(scaleX));
-                            this.y = newPosition.y + (2 / Math.ceil(scaleX));
+                            this.position.x = newPosition.x + (2 / Math.ceil(scaleX));
+                            this.position.y = newPosition.y + (2 / Math.ceil(scaleX));
                             contain(event.currentTarget, {x : defaultIndentation, y : defaultIndentation, width : renderer.width, height: renderer.height});
                         }
                     }
@@ -1656,6 +1662,7 @@
                                 child.x = child.filter.x;
                                 child.y = child.filter.y;
                                 child.rotation = 0;
+                                child.scale.x = 1;
                                 child.visible = true;
                                 child.alpha = 1;
                                 child.interactive = true;
