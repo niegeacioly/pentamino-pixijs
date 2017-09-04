@@ -29,7 +29,7 @@
                 //         // init();
                 //     }
                 // };
-                // teste
+                
                 // include the web-font loader script
                 /* jshint ignore:start */
                 // (function() {
@@ -127,6 +127,7 @@
                         .add("images/button_ok_hover.png")
                         .add("images/button_exit.png")
                         .add("images/button_exit_hover.png")
+                        .add("images/block_invalid.png")
                         .load(drawGridBlack)
                         .load(setupGridWinner)
                         .load(setupMiniGrids)
@@ -227,8 +228,8 @@
                         //add button reset
                             buttonReset = new Container();
                             buttonReset.interactive = true;
-                            buttonReset.x = GRID_WIDTH - 110;
-                            buttonReset.y = 40;
+                            buttonReset.x = GRID_WIDTH - 78;
+                            buttonReset.y = 56;
                             buttonReset.zIndex = 0;
                             buttonReset.filter = { click: false };
                             buttonReset.buttonMode = true;
@@ -248,8 +249,8 @@
                         //add button info
                             buttonInfo = new Container();
                             buttonInfo.interactive = true;
-                            buttonInfo.x = GRID_WIDTH - 11;
-                            buttonInfo.y = 40;
+                            buttonInfo.x = GRID_WIDTH + 9;
+                            buttonInfo.y = 56;
                             buttonInfo.zIndex = 0;
                             buttonInfo.filter = { click: false };
                             buttonInfo.buttonMode = true;
@@ -387,14 +388,13 @@
                         titleModal.y = 150;
                         rectModalInstruction.addChild(titleModal);
 
-                        var text = "Para jogar, escolha uma das opções de tabuleiro indicadas á esquerda.\n"+
-                                    "Depois, selecione a peça desejada e arraste-a para cima do tabuleiro.\n"+
-                                    "Ela mudará o estado de sua cor. As peças podem ser giradas –\n"+
-                                    "utilizando-se as setas direcionadas do teclado ou dando um clique\n"+
-                                    "Para espelhar matenha a tecla de espaço pressionada e dê um\n"+
-                                    "clique na peça.\n\n"+
-                                    "Quando a peça for colocada sobre um espaço do tabuleiro onde possa ser \n"+
-                                    "encaixada, a peça voltará ao estado inicial de sua cor.";
+                        var text =  "O objetivo do jogo é preencher totalmente um tabuleiro retangular usando\n"+
+                                    "as 12 peças disponíveis.\n\n"+
+                                    "Para jogar, escolha uma das opções de tabuleiro indicadas á esquerda.\n"+
+                                    "Depois, selecione a peça desejada e arraste-a para cima do tabuleiro.\n\n"+
+                                    "Clicando em uma peça, ela é girada. Um clique duplo faz com que\nela seja espelhada.\n\n"+
+                                    "Ao mudar a opção de tabuleiro o jogo é reiniciado e todas as peças\n"+
+                                    "voltam para posição inicial.";
 
                         var bodytModal = new PIXI.Text(text, {
                             // fontWeight: 'bold',
@@ -721,7 +721,7 @@
                         gameSceneZ.position.rotation = 0;
                         gameSceneZ.x = MINI_GRID_INDENDATION + defaultIndentation * 4;
                         gameSceneZ.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 4;
-                        gameSceneZ.filter = { name: "Z", id: 1, x: gameSceneZ.x, y: gameSceneZ.y, statusPosition: 0 };
+                        gameSceneZ.filter = { name: "Z", id: 1, x: gameSceneZ.x, y: gameSceneZ.y, statusPosition: 0, texture: "images/blockz.png" };
                         gameSceneZ.rotation = 0;
                         gameSceneZ.zIndex = 0;
 
@@ -777,7 +777,7 @@
                         gameSceneY.position.rotation = 0;
                         gameSceneY.x = MINI_GRID_INDENDATION + defaultIndentation * 5;
                         gameSceneY.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 9;
-                        gameSceneY.filter = { name: "Y", id: 2, x: gameSceneY.x, y: gameSceneY.y, statusPosition: 0 };
+                        gameSceneY.filter = { name: "Y", id: 2, x: gameSceneY.x, y: gameSceneY.y, statusPosition: 0, texture: "images/blocky.png" };
                         gameSceneY.rotation = 0;
                         gameSceneY.zIndex = 0;
 
@@ -833,7 +833,7 @@
                         gameSceneL.position.rotation = 0;
                         gameSceneL.x = MINI_GRID_INDENDATION + defaultIndentation * 10;
                         gameSceneL.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 5;
-                        gameSceneL.filter = { name: "L", id: 3, x: gameSceneL.x, y: gameSceneL.y, statusPosition: 0 };
+                        gameSceneL.filter = { name: "L", id: 3, x: gameSceneL.x, y: gameSceneL.y, statusPosition: 0, texture: "images/blockl.png" };
                         gameSceneL.rotation = 0;
                         gameSceneL.zIndex = 0;
 
@@ -889,7 +889,7 @@
                         gameSceneI.position.rotation = 0;
                         gameSceneI.x = MINI_GRID_INDENDATION + defaultIndentation * 19;
                         gameSceneI.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 2 + 5;
-                        gameSceneI.filter = { name: "I", id: 4, x: gameSceneI.x, y: gameSceneI.y, statusPosition: 0 };
+                        gameSceneI.filter = { name: "I", id: 4, x: gameSceneI.x, y: gameSceneI.y, statusPosition: 0, texture: "images/blocki.png" };
                         gameSceneI.rotation = 0;
                         gameSceneI.zIndex = 0;
                         
@@ -945,7 +945,7 @@
                         gameSceneN.position.rotation = 0;
                         gameSceneN.x = MINI_GRID_INDENDATION + defaultIndentation * 14.5 + 5;
                         gameSceneN.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 7 + 10;
-                        gameSceneN.filter = { name: "N", id: 5, x: gameSceneN.x, y: gameSceneN.y, statusPosition: 0 };
+                        gameSceneN.filter = { name: "N", id: 5, x: gameSceneN.x, y: gameSceneN.y, statusPosition: 0, texture: "images/blockn.png" };
                         gameSceneN.rotation = 0;
                         gameSceneN.zIndex = 0;
 
@@ -1001,7 +1001,7 @@
                         gameSceneT.position.rotation = 0;
                         gameSceneT.x = MINI_GRID_INDENDATION + defaultIndentation * 20.4;
                         gameSceneT.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 8;
-                        gameSceneT.filter = { name: "T", id: 6, x: gameSceneT.x, y: gameSceneT.y, statusPosition: 0 };
+                        gameSceneT.filter = { name: "T", id: 6, x: gameSceneT.x, y: gameSceneT.y, statusPosition: 0, texture: "images/blockt.png" };
                         gameSceneT.rotation = 0;
                         gameSceneT.zIndex = 0;
 
@@ -1057,7 +1057,7 @@
                         gameSceneX.position.rotation = 0;
                         gameSceneX.x = MINI_GRID_INDENDATION + defaultIndentation * 27;
                         gameSceneX.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 9;
-                        gameSceneX.filter = { name: "X", id: 7, x: gameSceneX.x, y: gameSceneX.y, statusPosition: 0 };
+                        gameSceneX.filter = { name: "X", id: 7, x: gameSceneX.x, y: gameSceneX.y, statusPosition: 0, texture: "images/blockx.png" };
                         gameSceneX.rotation = 0;
                         gameSceneX.zIndex = 0;
 
@@ -1111,7 +1111,7 @@
                         gameSceneW.position.rotation = 0;
                         gameSceneW.x = MINI_GRID_INDENDATION + defaultIndentation * 28;
                         gameSceneW.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 4;
-                        gameSceneW.filter = { name: "W", id: 8, x: gameSceneW.x, y: gameSceneW.y, statusPosition: 0 };
+                        gameSceneW.filter = { name: "W", id: 8, x: gameSceneW.x, y: gameSceneW.y, statusPosition: 0, texture: "images/blockw.png" };
                         gameSceneW.rotation = 0;
                         gameSceneW.zIndex = 0;
                         
@@ -1167,7 +1167,7 @@
                         gameSceneF.position.rotation = 0;
                         gameSceneF.x = MINI_GRID_INDENDATION + defaultIndentation * 35;
                         gameSceneF.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 4;
-                        gameSceneF.filter = { name: "F", id: 9, x: gameSceneF.x, y: gameSceneF.y, statusPosition: 0 };
+                        gameSceneF.filter = { name: "F", id: 9, x: gameSceneF.x, y: gameSceneF.y, statusPosition: 0, texture: "images/blockf.png" };
                         gameSceneF.rotation = 0;
                         gameSceneF.zIndex = 0;
 
@@ -1223,7 +1223,7 @@
                         gameSceneV.position.rotation = 0;
                         gameSceneV.x = MINI_GRID_INDENDATION + defaultIndentation * 35;
                         gameSceneV.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 10;
-                        gameSceneV.filter = { name: "V", id: 10, x: gameSceneV.x, y: gameSceneV.y, statusPosition: 0 };
+                        gameSceneV.filter = { name: "V", id: 10, x: gameSceneV.x, y: gameSceneV.y, statusPosition: 0, texture: "images/blockv.png" };
                         gameSceneV.rotation = 0;
                         gameSceneV.zIndex = 0;
 
@@ -1279,7 +1279,7 @@
                         gameSceneU.position.rotation = 0;
                         gameSceneU.x = MINI_GRID_INDENDATION + defaultIndentation * 42;
                         gameSceneU.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 3;
-                        gameSceneU.filter = { name: "U", id: 11, x: gameSceneU.x, y: gameSceneU.y, statusPosition: 0 };
+                        gameSceneU.filter = { name: "U", id: 11, x: gameSceneU.x, y: gameSceneU.y, statusPosition: 0, texture: "images/blocku.png" };
                         gameSceneU.rotation = 0;
                         gameSceneU.zIndex = 0;
 
@@ -1334,7 +1334,7 @@
                         gameSceneP.interactive = true;
                         gameSceneP.x = MINI_GRID_INDENDATION + defaultIndentation * 42;
                         gameSceneP.y = gridHeight + GRID_INDENTATION_Y + defaultIndentation * 9;
-                        gameSceneP.filter = { name: "P", id: 12, x: gameSceneP.x, y: gameSceneP.y, statusPosition: 0 };
+                        gameSceneP.filter = { name: "P", id: 12, x: gameSceneP.x, y: gameSceneP.y, statusPosition: 0, texture: "images/blockp.png" };
                         gameSceneP.rotation = 0;
                         gameSceneP.zIndex = 0;
 
@@ -1392,7 +1392,8 @@
                         // store a reference to the data the reason for this is because of multitouch we want to track the movement of this particular touch
                         this.start_data = {x: event.data.originalEvent.screenX, y: event.data.originalEvent.screenY};
                         this.data = event.data;
-                        this.alpha = 0.5;
+                        // this.alpha = 0.5;
+                        editTexture(this, false);
                         this.oldGroup = this.displayGroup;
                         this.displayGroup = dragLayer;
                         this.dragging = true;
@@ -1408,7 +1409,7 @@
                         clearInterval(loopHolding);
                         var ev_data = event.data.originalEvent;
 
-                        this.alpha = 1;
+                        // this.alpha = 1;
 
                         this.dragging = false;
                         countClickAndDrag++;
@@ -1431,13 +1432,15 @@
                         var points = check(event.currentTarget.children, this.filter);
 
                         if(points.x == 0){
-                            this.alpha = 0.5;
+                            // this.alpha = 0.5;
                             this.filter.statusPosition = 2; // Position is not valid
                             if((this.position.y >= 440 && this.position.y <= 700) && (this.position.x <= 1000 && this.position.x >= 100)){
-                                this.alpha = 1;
+                                // this.alpha = 1;
+                                editTexture(this, true);
                             }
                         }
                         else{
+                            editTexture(this, true);
                             this.position.x = points.x;
                             this.position.y = points.y;
                             this.filter.statusPosition = 1; // Position is valid
@@ -1457,9 +1460,9 @@
                         }
 
                         // mirror letters
-                        if(KeyPress == 32){ // space
-                            this.scale.x *= -1;
-                        }
+                        // if(KeyPress == 32){ // space
+                        //     this.scale.x *= -1;
+                        // }
                     }
 
                     function onDragMove(event) {
@@ -1548,14 +1551,17 @@
                             event.currentTarget.calculateBounds();
                             var points = check(event.currentTarget.children, this.filter);
                             if(points.x == 0){
-                                this.alpha = 0.5;
+                                // this.alpha = 0.5;
+                                editTexture(this, false);
                                 this.filter.statusPosition = 2; // Position is not valid
                                 if((this.position.y >= 440 && this.position.y <= 700) && (this.position.x <= 1000 && this.position.x >= 100)){
-                                    this.alpha = 1;
+                                    // this.alpha = 1;
+                                    editTexture(this, true);
                                 }
                             }
                             else{
-                                this.alpha = 1;
+                                // this.alpha = 1;
+                                editTexture(this, true);
                                 this.position.x = points.x;
                                 this.position.y = points.y;
                                 this.filter.statusPosition = 1; // Position is valid
@@ -1583,11 +1589,11 @@
                                 unCheck(this.children, this.filter);
                                 this.rotation -= Math.PI / 2;
                             }
-                            else if(KeyPress == 32){ // space
-                                // mirror letters
-                                unCheck(this.children, this.filter);
-                                this.scale.x *= -1;
-                            }
+                            // else if(KeyPress == 32){ // space
+                            //     // mirror letters
+                            //     unCheck(this.children, this.filter);
+                            //     this.scale.x *= -1;
+                            // }
                             else{
                                 unCheck(this.children, this.filter);
                                 this.rotation += Math.PI / 2;
@@ -1596,26 +1602,32 @@
                         
                         // event.currentTarget.updateTransform();
                         // event.currentTarget.calculateBounds();
+                        var points;
                         if(event.target != undefined){
                             event.target.updateTransform();
                             event.target.calculateBounds();
+                            points = check(event.target.children, this.filter);
                         }
-
+                        
                         if(event.currentTarget != undefined){
                             event.currentTarget.updateTransform();
                             event.currentTarget.calculateBounds();
+                            points = check(event.currentTarget.children, this.filter);
                         }
                         
-                        var points = check(event.target.children, this.filter);
+                        // var points = check(event.target.children, this.filter);
                         if(points.x == 0){
-                            this.alpha = 0.5;
+                            // this.alpha = 0.5;
+                            editTexture(this, false);
                             this.filter.statusPosition = 2; // Position is not valid
                             if((this.position.y >= 440 && this.position.y <= 700) && (this.position.x <= 1000 && this.position.x >= 100)){
-                                this.alpha = 1;
+                                // this.alpha = 1;
+                                editTexture(this, true);
                             }
                         }
                         else{
-                            this.alpha = 1;
+                            // this.alpha = 1;
+                            editTexture(this, true);
                             this.position.x = points.x;
                             this.position.y = points.y;
                             this.filter.statusPosition = 1; // Position is valid
@@ -1666,6 +1678,7 @@
                                 child.visible = true;
                                 child.alpha = 1;
                                 child.interactive = true;
+                                editTexture(child, true);
                             }
                         }
                     }
@@ -1823,6 +1836,7 @@
                                         stage.children[i].alpha = 1;
                                         stage.children[i].position.x = letters[i].filter.x;
                                         stage.children[i].position.y = letters[i].filter.y;
+                                        editTexture(stage.children[i], true);
                                     }
                                 }
                                 
@@ -1908,6 +1922,19 @@
                                 if (letters[i].children.length == 5) {
                                     stage.children[i].visible = true;
                                 }
+                            }
+                        }
+                    }
+
+                    function editTexture(letter, flag){
+                        if(flag){
+                            for(var i = 0; i < letter.children.length; i++){
+                                letter.children[i].texture = PIXI.Texture.fromImage(letter.filter.texture);
+                            }
+                        }
+                        else{
+                            for(var i = 0; i < letter.children.length; i++){
+                                letter.children[i].texture = PIXI.Texture.fromImage('images/block_invalid.png');
                             }
                         }
                     }
