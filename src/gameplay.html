@@ -1469,14 +1469,7 @@
                         if (this.dragging)
                         {
                             var scaleX = window.innerWidth / renderer.view.offsetWidth;
-                            // var scaleY = window.innerHeight / renderer.view.offsetHeight;
-                            // var scaleMin = Math.min(scaleX, scaleY);
-                            // var scaleMax = Math.max(scaleX, scaleY);
-                            // console.log("scaleX -> "+Math.ceil(scaleX)+" | scaleY -> "+Math.ceil(scaleY));
-                            
                             verifyStatusPosition(this.filter);
-                            // this.position.x += this.data.originalEvent.movementX * (2 / Math.ceil(scaleX));
-                            // this.position.y += this.data.originalEvent.movementY * (2 / Math.ceil(scaleX));
                             var newPosition = this.data.getLocalPosition(this.parent);
                             this.position.x = newPosition.x + (2 / Math.ceil(scaleX));
                             this.position.y = newPosition.y + (2 / Math.ceil(scaleX));
@@ -1486,51 +1479,6 @@
 
                     function onClick(event)
                     {
-                        // verifyStatusPosition(this.filter);
-                        // if(KeyPress == 0){
-                        //     unCheck(this.children, this.filter);
-                        //     this.rotation += Math.PI / 2;
-                            
-                        // }
-                        // else{
-                        //     // right
-                        //     if(KeyPress == 39){
-                        //         unCheck(this.children, this.filter);
-                        //         this.rotation += Math.PI / 2;
-                        //     }
-                        //     else if(KeyPress == 37){ // left
-                        //         unCheck(this.children, this.filter);
-                        //         this.rotation -= Math.PI / 2;
-                        //     }
-                        //     else if(KeyPress == 32){ // space
-                        //         // mirror letters
-                        //         unCheck(this.children, this.filter);
-                        //         this.scale.x *= -1;
-                        //     }
-                        //     else{
-                        //         unCheck(this.children, this.filter);
-                        //         this.rotation += Math.PI / 2;
-                        //     }
-                        // }
-                        
-                        // event.currentTarget.updateTransform();
-                        // event.currentTarget.calculateBounds();
-                        // var points = check(event.currentTarget.children, this.filter);
-                        // if(points.x == 0){
-                        //     this.alpha = 0.5;
-                        //     this.filter.statusPosition = 2; // Position is not valid
-                        //     if((this.position.y >= 440 && this.position.y <= 700) && (this.position.x <= 1000 && this.position.x >= 100)){
-                        //         this.alpha = 1;
-                        //     }
-                        // }
-                        // else{
-                        //     this.alpha = 1;
-                        //     this.position.x = points.x;
-                        //     this.position.y = points.y;
-                        //     this.filter.statusPosition = 1; // Position is valid
-                        // }
-                        // countCheckGrid();
-                        
                         clicks++;  //count clicks
                         if(clicks === 1) {
                             // one click
@@ -1589,19 +1537,12 @@
                                 unCheck(this.children, this.filter);
                                 this.rotation -= Math.PI / 2;
                             }
-                            // else if(KeyPress == 32){ // space
-                            //     // mirror letters
-                            //     unCheck(this.children, this.filter);
-                            //     this.scale.x *= -1;
-                            // }
                             else{
                                 unCheck(this.children, this.filter);
                                 this.rotation += Math.PI / 2;
                             }
                         }
                         
-                        // event.currentTarget.updateTransform();
-                        // event.currentTarget.calculateBounds();
                         var points;
                         if(event.target != undefined){
                             event.target.updateTransform();
@@ -1615,7 +1556,6 @@
                             points = check(event.currentTarget.children, this.filter);
                         }
                         
-                        // var points = check(event.target.children, this.filter);
                         if(points.x == 0){
                             // this.alpha = 0.5;
                             editTexture(this, false);
