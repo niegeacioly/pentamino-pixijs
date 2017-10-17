@@ -90,7 +90,15 @@
                     var loopHolding = null;
                     var DELAY = 200, clicks = 0, timer = null;
 
-                    var rectGridGraphics = null, rectMiniGridGraphics = null, rectModalBackground = null, rectModalInstruction = null, rectModalQuestionResetGame = null, rectGridBlack = null;
+                    var rectGridGraphics = null,
+                        rectMiniGridGraphics = null,
+                        rectModalBackground = null,
+                        rectModalInstruction = null,
+                        rectModalQuestionResetGame = null,
+                        rectGridBlack = null,
+                        closeWinContainer = null;
+
+                    var  stageGrid6x10 = [], stageGrid5x12 = [], stageGrid4x15 = [], stageGrid3x20 = [];
 
                     loader
                         .add("images/grid.png")
@@ -128,9 +136,11 @@
                         .add("images/button_exit.png")
                         .add("images/button_exit_hover.png")
                         .add("images/block_invalid.png")
+                        .add("images/close_win.png")
                         .load(drawGridBlack)
                         .load(setupGridWinner)
                         .load(setupMiniGrids)
+                        .load(setupCloseWin)
                         .load(setupGrid)
                         .load(setupLetterZ)
                         .load(setupLetterY)
@@ -202,6 +212,22 @@
                         // seta o primeiro GRID como padrão ao iniciar o game
                         currentGrid = miniGridContainer.children[0];
 
+                    }
+
+                    function setupCloseWin() {
+                        closeWinContainer = new Container();
+                        resource = resources["images/close_win.png"].texture;
+                        var closeWin = new Sprite(resource);
+                        // closeWinContainer.filter = { type: "closeWin", grid: currentGrid.filter.name };
+                        closeWinContainer.addChild(closeWin);
+                        closeWinContainer.interactive = true;
+                        closeWinContainer.buttonMode = true;
+                        closeWinContainer.x = 980;
+                        closeWinContainer.y = 155;
+                        closeWinContainer.on('tap', onClickCloseWin)
+                            .on('click', onClickCloseWin);
+                        stage.addChild(closeWinContainer);
+                        closeWinContainer.visible = false;
                     }
 
                     function drawLogoPentamino(){
@@ -1650,8 +1676,7 @@
                                              maxY: matrixGrid[i].maxY, 
                                              indexMatrix: i, 
                                              idLetters: filter.id  
-                                        }
-                                        );
+                                        });
                                 }
                             }
                         }
@@ -1706,6 +1731,24 @@
                         if (count == 60 || (currentGrid != null && currentGrid.filter.status == "winner")) {
                             currentGrid.filter.status = "winner";
 
+                            for(var i = 0; i < stage.children.length; i++){
+                                var child = stage.children[i];
+                                if (child.filter != undefined && child.filter.name != undefined && child.filter.id != undefined)
+                                {
+                                    if (currentGrid.filter.name == "grid3x20"){
+                                        stageGrid3x20[i] = child;
+                                    } else if (currentGrid.filter.name == "grid4x15"){
+                                        stageGrid4x15[i] = child;
+                                    } else if (currentGrid.filter.name == "grid5x12"){
+                                        stageGrid5x12[i] = child;
+                                    } else if (currentGrid.filter.name == "grid6x10"){
+                                        stageGrid6x10[i] = child;
+                                    }
+                                }
+                            }
+
+                            closeWinContainer.visible = true;
+
                             // Winner
                             gridWinner.visible = true;
                             gridContainer.visible = false;
@@ -1734,6 +1777,12 @@
                         } else {
                             gridWinner.visible = false;
                         }
+                    }
+
+                    function onClickCloseWin(event)
+                    {
+                        gridWinner.visible = false;
+                        showLetters();
                     }
 
                     function findCenter(points) {
