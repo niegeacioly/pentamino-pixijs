@@ -18,29 +18,6 @@
       <body>
 
           <script type="text/javascript">
-                // // Load them google fonts before starting...!
-                // window.WebFontConfig = {
-                //     google: {
-                //         families: ['Snippet', 'Arvo:700italic', 'Podkova:700']
-                //     },
-
-                //     active: function() {
-                //         // do something
-                //         // init();
-                //     }
-                // };
-                
-                // include the web-font loader script
-                /* jshint ignore:start */
-                // (function() {
-                //     var wf = document.createElement('script');
-                //     wf.src = ('https:' === document.location.protocol ? 'https' : 'http') +
-                //         '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-                //     wf.type = 'text/javascript';
-                //     wf.async = 'true';
-                //     var s = document.getElementsByTagName('script')[0];
-                //     s.parentNode.insertBefore(wf, s);
-                // })();
 
                 //Aliases
                     var Container = PIXI.Container,
@@ -98,7 +75,7 @@
                         rectGridBlack = null,
                         closeWinContainer = null;
 
-                    var  stageGrid6x10 = [], stageGrid5x12 = [], stageGrid4x15 = [], stageGrid3x20 = [];
+                    var  stageGrid6x10 = new Array(), stageGrid5x12 = new Array(), stageGrid4x15 = new Array(), stageGrid3x20 = new Array();
 
                     loader
                         .add("images/grid.png")
@@ -230,7 +207,7 @@
                         closeWinContainer.visible = false;
                     }
 
-                    function drawLogoPentamino(){
+                    function drawLogoPentamino() {
                         //add logo
                         logoPentamino = new Container();
                         logoPentamino.x = MINI_GRID_INDENDATION;
@@ -249,7 +226,7 @@
                         logoPentamino.updateTransform();
                     }
 
-                    function setupMenuOption(){
+                    function setupMenuOption() {
 
                         //add button reset
                             buttonReset = new Container();
@@ -610,20 +587,18 @@
                         }
                     }
 
-                    function disableLetters(){
+                    function disableLetters() {
                         var letters = stage.children;
                         if(gridWinner.visible == true){
                             hideLetters();
                         }
                         else{
                             for(var i=0; i < letters.length; i++){
-                                if(letters[i].filter != undefined){
-                                    if(letters[i].filter.name != undefined){
+                                if(letters[i].filter != undefined && letters[i].filter.name != undefined){
                                         stage.children[i].visible = false;
                                         stage.children[i].interactive = false;
                                     }
                                 }
-                            }
                         }
                     }
 
@@ -631,11 +606,9 @@
                         var letters = stage.children;
                         if(gridWinner.visible == false){
                             for(var i=0; i < letters.length; i++){
-                                if(letters[i].filter != undefined){
-                                    if(letters[i].filter.name != undefined){
+                                if(letters[i].filter != undefined && letters[i].filter.name != undefined) {
                                         stage.children[i].visible = true;
                                         stage.children[i].interactive = true;
-                                    }
                                 }
                             }
                         }
@@ -1503,8 +1476,7 @@
                         }
                     }
 
-                    function onClick(event)
-                    {
+                    function onClick(event) {
                         clicks++;  //count clicks
                         if(clicks === 1) {
                             // one click
@@ -1601,8 +1573,7 @@
                         countCheckGrid();
                     }
 
-                    function onClickMiniGrid(event)
-                    {
+                    function onClickMiniGrid(event) {
                         closeMenuOption();
                         //clear selected grid
                         for(var i = 0; i < miniGridContainer.children.length; i++){
@@ -1613,7 +1584,8 @@
                         this.filter.selected = true;
                         currentGrid = event.currentTarget;
                         var filter = currentGrid.filter;
-                        if (filter.status == "not_winner") {
+                        if (filter. status == "not_winner") {
+                            closeWinContainer.visible = false;
                             rowSelected = filter.row;
                             columnSelected = filter.column;
                             drawAllRectGridBackground();
@@ -1626,6 +1598,7 @@
                             drawBackgroundRectMiniGrid(currentGrid.x, currentGrid.y, currentGrid.width, currentGrid.height);
                             hideLetters();
                             gridWinner.visible = true;
+                            closeWinContainer.visible = true;
                             gridContainer.visible = false;
                         }
                         
@@ -1735,14 +1708,16 @@
                                 var child = stage.children[i];
                                 if (child.filter != undefined && child.filter.name != undefined && child.filter.id != undefined)
                                 {
+                                    var model = {name : child.filter.name, x : child.x, y : child.y, rotation: child.rotation, 
+                                        scale : child.scale, statusPosition : child.filter.statusPosition, alpha : child.alpha};
                                     if (currentGrid.filter.name == "grid3x20"){
-                                        stageGrid3x20[i] = child;
+                                        stageGrid3x20.push(model);
                                     } else if (currentGrid.filter.name == "grid4x15"){
-                                        stageGrid4x15[i] = child;
-                                    } else if (currentGrid.filter.name == "grid5x12"){
-                                        stageGrid5x12[i] = child;
+                                        stageGrid4x15.push(model);
+                                    } else if (currentGrid.filter.name == "grid5X12"){
+                                        stageGrid5x12.push(model);
                                     } else if (currentGrid.filter.name == "grid6x10"){
-                                        stageGrid6x10[i] = child;
+                                        stageGrid6x10.push(model);
                                     }
                                 }
                             }
@@ -1782,7 +1757,53 @@
                     function onClickCloseWin(event)
                     {
                         gridWinner.visible = false;
-                        showLetters();
+                        showAfterCloseLetters();                    
+                        closeWinContainer.visible = false;
+                    }
+
+                    function showAfterCloseLetters() 
+                    {
+                        var letters = [];
+                        if (currentGrid.filter.name == "grid3x20"){
+                            letters = stageGrid3x20;
+                        } else if (currentGrid.filter.name == "grid4x15"){
+                            letters = stageGrid4x15;
+                        } else if (currentGrid.filter.name == "grid5X12"){
+                            letters = stageGrid5x12;
+                        } else if (currentGrid.filter.name == "grid6x10"){
+                            letters = stageGrid6x10;
+                        }
+
+                        for (var i=0; i < letters.length; i++){
+                            var letter = letters[i];
+
+                            var index = 0;
+                            for (var j = 0, len = stage.children.length; j < len; j++) {
+                                if (stage.children[j].filter != undefined && stage.children[j].filter.name === letter.name){
+                                    index = j;
+                                    break;  
+                                }
+                            }
+
+                            stage.children[index].visible = true;
+                            stage.children[index].texture = PIXI.Texture.fromImage(stage.children[index].filter.texture);
+                            stage.children[index].x = 0 ;
+                            stage.children[index].y = 0;
+                            // stage.children[index].scale.x = 1;
+                            stage.children[index].rotation = 0;
+                            stage.children[index].alpha = 1;
+
+                            stage.children[index].x = letter.x;
+                            stage.children[index].y = letter.y;
+                            stage.children[index].scale.x *= letter.scale.x;
+                            stage.children[index].rotation = letter.rotation;
+                            stage.children[index].alpha = letter.alpha;
+                            stage.children[index].filter.statusPosition = letter.statusPosition;
+                            stage.children[index].interactive = false;
+
+                            stage.children[index].updateTransform();
+                            stage.children[index].calculateBounds();
+                        }
                     }
 
                     function findCenter(points) {
